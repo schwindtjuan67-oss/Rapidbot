@@ -143,6 +143,8 @@ def resolve_effective_params(args: Any) -> Dict[str, Any]:
         "delta_threshold": args.delta_threshold,
         "delta_rolling_sec": args.delta_rolling_sec,
         "vwap_range_filter": args.vwap_range_filter,
+        "spot_bias_score_threshold": args.spot_bias_score_threshold,
+        "spot_touch_atr_mult": args.spot_touch_atr_mult,
     }
     for key, value in explicit_overrides.items():
         if value is not None:
@@ -193,6 +195,12 @@ class StrategyConfig:
 
     # Pullback zone thresholds (in ATR units on 5m)
     touch_atr_mult: float = 0.25
+    # === CODEX_PATCH_BEGIN: RELAXED_SPOT_LOGIC (2026-02-10) ===
+    # SPOT profile: permite pullbacks menos profundos y sesgo HTF menos rígido.
+    spot_logic_profile: str = "relaxed-spot"
+    spot_touch_atr_mult: float = 0.45
+    spot_bias_score_threshold: float = 0.45
+    # === CODEX_PATCH_END: RELAXED_SPOT_LOGIC (2026-02-10) ===
 
     # Stop padding and minimum stop distance (ATR units on 5m)
     stop_atr_pad: float = 0.25
@@ -248,7 +256,7 @@ class StrategyConfig:
     # Runtime tunables (CLI overrides)
     cooldown_sec: float = 0.0
     max_trades_day: int = 10_000
-    rr_min: float = 0.0
+    rr_min: float = 0.7
     use_time_filter: int = 0
     hour_start: int = 0
     hour_end: int = 24
@@ -413,7 +421,7 @@ def pivots(df: pd.DataFrame, n: int) -> Tuple[pd.Series, pd.Series]:
     return ph, pl
 
 
-def determine_context_bias_1h(df1h: pd.DataFrame, cfg: StrategyConfig) -> pd.Series:
+def determine_context_bias_1h(df1h: pd.DataFrame, cfg: StrategyConfig) -> pd.DataFrame:
     df = df1h.copy()
     df["ema"] = ema(df["close"], cfg.ema_len)
     df["atr"] = atr(df, cfg.atr_len)
@@ -436,7 +444,18 @@ def determine_context_bias_1h(df1h: pd.DataFrame, cfg: StrategyConfig) -> pd.Ser
     bias = pd.Series("NO_TRADE", index=df.index)
     bias[long_score >= 2] = "LONG"
     bias[short_score >= 2] = "SHORT"
-    return bias
+
+    score_denom = 3.0
+    long_score_norm = (long_score / score_denom).astype(float)
+    short_score_norm = (short_score / score_denom).astype(float)
+    bias_score = (long_score_norm - short_score_norm).astype(float)
+
+    return pd.DataFrame({
+        "bias_1h": bias,
+        "long_score_1h": long_score_norm,
+        "short_score_1h": short_score_norm,
+        "bias_score_1h": bias_score,
+    })
 
 
 def structure_ok_15m(df15m: pd.DataFrame, cfg: StrategyConfig) -> pd.Series:
@@ -498,22 +517,34 @@ def generate_signals(df5m: pd.DataFrame, cfg: StrategyConfig) -> pd.DataFrame:
     df15 = resample_ohlcv(df, "15m")
     df1h = resample_ohlcv(df, "1h")
 
-    bias_1h = determine_context_bias_1h(df1h, cfg).set_axis(df1h["ts"]).reindex(df["ts"], method="ffill")
+    bias_ctx = determine_context_bias_1h(df1h, cfg)
+    bias_ctx.index = df1h["ts"]
+    bias_ctx = bias_ctx.reindex(df["ts"], method="ffill")
     struct_15 = structure_ok_15m(df15, cfg).set_axis(df15["ts"]).reindex(df["ts"], method="ffill")
 
-    df["bias_1h"] = bias_1h.values
+    df["bias_1h"] = bias_ctx["bias_1h"].values
+    df["bias_score_1h"] = bias_ctx["bias_score_1h"].values
+    df["long_score_1h"] = bias_ctx["long_score_1h"].values
+    df["short_score_1h"] = bias_ctx["short_score_1h"].values
     df["struct_15m"] = struct_15.values
 
     # touch value zone
-    touch_vwap = (df["close"] - df["vwap5"]).abs() <= cfg.touch_atr_mult * df["atr5"]
+    # === CODEX_PATCH_BEGIN: RELAXED_SPOT_LOGIC (2026-02-10) ===
+    # SPOT: acercamos el criterio de proximity a VWAP para no exigir overshoot profundo.
+    touch_mult = max(float(cfg.touch_atr_mult), float(cfg.spot_touch_atr_mult))
+    touch_vwap = (df["close"] - df["vwap5"]).abs() <= touch_mult * df["atr5"]
     touch_ema = (df["close"] - df["ema5"]).abs() <= cfg.touch_atr_mult * df["atr5"]
     df["touch_value"] = touch_vwap | touch_ema
 
     # triggers (confirmation)
     df["prev_high"] = df["high"].shift(1)
     df["prev_low"] = df["low"].shift(1)
-    df["long_trigger"] = df["touch_value"] & (df["close"] > df["prev_high"])
+    df["prev_close"] = df["close"].shift(1)
+    # SPOT: confirmación mínima (vela verde o micro-momentum) además del breakout clásico.
+    long_confirm_min = (df["close"] > df["open"]) | (df["close"] > df["prev_close"])
+    df["long_trigger"] = df["touch_value"] & ((df["close"] > df["prev_high"]) | long_confirm_min)
     df["short_trigger"] = df["touch_value"] & (df["close"] < df["prev_low"])
+    # === CODEX_PATCH_END: RELAXED_SPOT_LOGIC (2026-02-10) ===
 
     # filters
     df["ok_vol"] = df["atr_pct"] >= cfg.min_atr_pct_5m
@@ -564,12 +595,18 @@ def generate_signals(df5m: pd.DataFrame, cfg: StrategyConfig) -> pd.DataFrame:
 
     # === CODEX_PATCH_BEGIN: VOL_FILTER_MONTHLY_ATR (2026-02-02) ===
     # final gating (base logic unchanged)
+    # === CODEX_PATCH_BEGIN: RELAXED_SPOT_LOGIC (2026-02-10) ===
+    # SPOT: permitir LONG con bias neutral si el score HTF acompaña.
+    bias_long_ok = (df["bias_1h"] == "LONG") | (
+        (df["bias_1h"] == "NO_TRADE") & (df["bias_score_1h"] >= float(cfg.spot_bias_score_threshold))
+    )
     long_ok = (
-        (df["bias_1h"] == "LONG") &
+        bias_long_ok &
         (df["struct_15m"] == "LONG_OK") &
         df["long_trigger"] &
         df["ok_vol"] & df["ok_chop"]
     )
+    # === CODEX_PATCH_END: RELAXED_SPOT_LOGIC (2026-02-10) ===
     short_ok = (
         (df["bias_1h"] == "SHORT") &
         (df["struct_15m"] == "SHORT_OK") &
@@ -624,7 +661,7 @@ def get_last_signal_snapshot(df: pd.DataFrame) -> Dict[str, Any]:
         "close": _pick("close"),
         "signal": _pick("signal") or "",
     }
-    for col in ("bias_1h", "struct_15m", "ok_vol", "ok_chop", "vol_ok", "atr_pct"):
+    for col in ("bias_1h", "bias_score_1h", "struct_15m", "ok_vol", "ok_chop", "vol_ok", "atr_pct"):
         val = _pick(col)
         if val is not None:
             snapshot[col] = val
@@ -1938,6 +1975,14 @@ def backtest_from_signals(
             print(f"[NO_TRADE] reason=insufficient_equity ts={row['ts']} signal={sig} notional={qty * entry:.6f} equity={equity:.6f}")
             return None
 
+        rr_to_tp2 = (tp2 - entry) / stop_distance if stop_distance > 0 else 0.0
+        if rr_to_tp2 < float(strat_cfg.rr_min):
+            print(
+                f"[DEBUG][SIGNAL_DISCARDED] reason=rr_min ts={row['ts']} rr={rr_to_tp2:.4f} "
+                f"rr_min={float(strat_cfg.rr_min):.4f}"
+            )
+            return None
+
         return {
             "side": sig,
             "signal_ts": row["ts"],
@@ -2187,6 +2232,32 @@ def backtest_from_signals(
             allow_new_entries = allow_new_entries and not max_stops_kill_active
         if allow_new_entries and pos is None and pending is None:
         # === CODEX_PATCH_END: MAX_STOPS_PER_DAY_KILL (2026-02-02) ===
+            prev_sig = str(prev.get("signal", "")).upper().strip()
+            if prev_sig == "" and bool(prev.get("long_trigger", False)):
+                debug_reasons: List[str] = []
+                bias_value = str(prev.get("bias_1h", ""))
+                bias_score = float(prev.get("bias_score_1h", 0.0) or 0.0)
+                bias_ok = (
+                    bias_value == "LONG"
+                    or (bias_value == "NO_TRADE" and bias_score >= float(strat_cfg.spot_bias_score_threshold))
+                )
+                if not bias_ok:
+                    debug_reasons.append(
+                        f"bias_1h={bias_value} bias_score_1h={bias_score:.3f} threshold={float(strat_cfg.spot_bias_score_threshold):.3f}"
+                    )
+                if str(prev.get("struct_15m", "")) != "LONG_OK":
+                    debug_reasons.append(f"struct_15m={prev.get('struct_15m')}")
+                if not bool(prev.get("ok_vol", False)):
+                    debug_reasons.append("ok_vol=0")
+                if not bool(prev.get("ok_chop", False)):
+                    debug_reasons.append("ok_chop=0")
+                if strat_cfg.enable_monthly_vol_filter and not bool(prev.get("vol_ok", False)):
+                    debug_reasons.append("vol_ok=0")
+                if debug_reasons:
+                    print(
+                        f"[DEBUG][SIGNAL_DISCARDED] ts={prev['ts']} reason=" + "; ".join(debug_reasons)
+                    )
+
             p = build_pending(prev)
             if p is not None:
                 pending = p
@@ -2773,6 +2844,10 @@ def run_backtest(
         # === CODEX_PATCH_END: MAX_STOPS_PER_DAY_KILL (2026-02-02) ===
     )
     apply_overrides(strat_cfg, params or {})
+    print("MODE: SPOT")
+    print(f"LOGIC PROFILE: {strat_cfg.spot_logic_profile}")
+    print(f"rr_min: {float(strat_cfg.rr_min):.4f}")
+    print(f"bias_threshold: {float(strat_cfg.spot_bias_score_threshold):.4f}")
     # === CODEX_PATCH_END: VOL_FILTER_MONTHLY_ATR (2026-02-02) ===
     df = load_ohlcv_csv(csv_path, strict)
     if df.empty:
@@ -3016,7 +3091,7 @@ if __name__ == "__main__":
     ap.add_argument("--fee_taker", type=str, default="0.0")
     ap.add_argument("--fee_maker", type=str, default="0.0")
     ap.add_argument("--fee_units", type=str, default="rate", choices=["rate", "percent", "string"])
-    ap.add_argument("--slip_bps", type=float, default=1.0)
+    ap.add_argument("--slip_bps", type=float, default=0.5)
     ap.add_argument("--slip_bps_entry", type=float, default=None)
     ap.add_argument("--slip_bps_tp", type=float, default=None)
     ap.add_argument("--slip_bps_stop", type=float, default=None)
@@ -3041,7 +3116,7 @@ if __name__ == "__main__":
     ap.add_argument("--enable_funding_cost", type=int, default=0)
     ap.add_argument("--funding_rate_8h", type=float, default=0.0001)
     ap.add_argument("--enable_tp_bidask", type=int, default=1)
-    ap.add_argument("--tp_bidask_half_spread_bps", type=float, default=1.0)
+    ap.add_argument("--tp_bidask_half_spread_bps", type=float, default=0.5)
     # === CODEX_PATCH_END: FUNDING_AND_TP_BIDASK (2026-02-02) ===
     # === CODEX_PATCH_BEGIN: DAILY_DD_KILL_SWITCH (2026-02-02) ===
     ap.add_argument("--daily_dd_kill", type=int, default=1)
@@ -3065,6 +3140,8 @@ if __name__ == "__main__":
     ap.add_argument("--cooldown_sec", type=float, default=None)
     ap.add_argument("--max_trades_day", type=int, default=None)
     ap.add_argument("--rr_min", type=float, default=None)
+    ap.add_argument("--spot_bias_score_threshold", type=float, default=None)
+    ap.add_argument("--spot_touch_atr_mult", type=float, default=None)
     ap.add_argument("--use_time_filter", type=int, default=None)
     ap.add_argument("--hour_start", type=int, default=None)
     ap.add_argument("--hour_end", type=int, default=None)
@@ -3077,6 +3154,8 @@ if __name__ == "__main__":
     args = ap.parse_args()
 
     params = resolve_effective_params(args)
+    effective_cfg = StrategyConfig()
+    apply_overrides(effective_cfg, params or {})
 
     slip_bps_entry = args.slip_bps if args.slip_bps_entry is None else args.slip_bps_entry
     slip_bps_tp = slip_bps_entry if args.slip_bps_tp is None else args.slip_bps_tp
@@ -3090,6 +3169,9 @@ if __name__ == "__main__":
         print("[INFO] Ignoring futures-only flags in SPOT mode (leverage/margin/reduce_only).")
 
     print("MODE: SPOT")
+    print(f"LOGIC PROFILE: {effective_cfg.spot_logic_profile}")
+    print(f"rr_min: {float(effective_cfg.rr_min):.4f}")
+    print(f"bias_threshold: {float(effective_cfg.spot_bias_score_threshold):.4f}")
     print("FEES: maker=0.0, taker=0.0")
     print("FUNDING: disabled")
     print("DIRECTION: LONG-only")
@@ -3097,7 +3179,9 @@ if __name__ == "__main__":
         "[CONFIG] "
         f"fee_taker_rate={fee_taker} fee_maker_rate={fee_maker} fee_units={args.fee_units} "
         f"risk_per_trade={args.risk_per_trade} max_notional_usdt={args.max_notional_usdt} "
-        f"max_notional_mult={args.max_notional_mult}"
+        f"max_notional_mult={args.max_notional_mult} "
+        f"slip_bps_entry={slip_bps_entry} slip_bps_stop={slip_bps_stop} "
+        f"tp_bidask_half_spread_bps={args.tp_bidask_half_spread_bps}"
     )
 
     if args.live:
