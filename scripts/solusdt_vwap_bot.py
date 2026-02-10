@@ -152,6 +152,33 @@ def resolve_effective_params(args: Any) -> Dict[str, Any]:
     return params
 
 
+def parse_fee_rate(value: Any, units: str, fee_name: str) -> float:
+    raw = str(value).strip()
+    units_norm = str(units or "rate").strip().lower()
+    if units_norm not in {"rate", "percent", "string"}:
+        raise ValueError(f"fee_units inválido: {units}")
+
+    if units_norm == "string":
+        if not raw.endswith("%"):
+            raise ValueError(f"{fee_name} con fee_units=string debe incluir % (ej: 0.02%)")
+        pct = float(raw[:-1].strip())
+        return pct / 100.0
+
+    numeric = float(raw)
+    if units_norm == "percent":
+        return numeric / 100.0
+
+    if numeric > 0.005 and fee_name == "fee_taker":
+        raise ValueError(
+            "fee_taker parece porcentaje. Para 0.02% use 0.0002 o pase --fee_units percent"
+        )
+    return numeric
+
+
+def compute_risk_usd(equity: float, risk_per_trade: float) -> float:
+    return float(equity) * float(risk_per_trade)
+
+
 # =============================================================================
 # 1) ESTRATEGIA (SOLUSDT) - VWAP Trend Pullback (1H/15m/5m)
 # =============================================================================
@@ -618,7 +645,7 @@ class RouterConfig:
 
     # Risk sizing
     account_equity_usdt: float = 1000.0
-    risk_pct_per_trade: float = 0.0025
+    risk_pct_per_trade: float = 0.03
     # === CODEX_PATCH_BEGIN: MAX_NOTIONAL_CAP (2026-02-02) ===
     max_notional_usdt: float = 0.0
     # === CODEX_PATCH_END: MAX_NOTIONAL_CAP (2026-02-02) ===
@@ -1317,7 +1344,7 @@ def run_csv_plug_and_play(csv_path: str) -> None:
         symbol="SOL/USDT:USDT",
         dry_run=True,
         account_equity_usdt=1000.0,
-        risk_pct_per_trade=0.0025,
+        risk_pct_per_trade=0.03,
         leverage=3,
         margin_mode="isolated",
         log_path="./logs/bot.jsonl",
@@ -1389,7 +1416,7 @@ def live_loop_skeleton(
         symbol="SOL/USDT:USDT",
         dry_run=False,
         account_equity_usdt=float(os.getenv("EQUITY_USDT", "1000")),
-        risk_pct_per_trade=float(os.getenv("RISK_PCT", "0.0025")),
+        risk_pct_per_trade=float(os.getenv("RISK_PER_TRADE", os.getenv("RISK_PCT", "0.03"))),
         leverage=int(os.getenv("LEVERAGE", "3")),
         margin_mode=os.getenv("MARGIN_MODE", "isolated"),  # "isolated" or "cross"
         log_path="./logs/bot.jsonl",
@@ -1472,8 +1499,8 @@ BTSide = Literal["LONG", "SHORT"]
 
 @dataclass
 class BTConfig:
-    fee_taker: float = 0.0004         # 0.04% taker as baseline (ajustá)
-    fee_maker: float = 0.0002         # 0.02% maker default
+    fee_taker: float = 0.0002         # 0.02% taker por defecto
+    fee_maker: float = 0.0            # 0% maker por defecto
     slippage_bps_entry: float = 1.0   # 1 bp por fill (entry)
     slippage_bps_tp: float = 0.0      # TP slippage (0 si limit maker)
     slippage_bps_stop: float = 2.0    # 2 bp por fill (STOP)
@@ -1488,10 +1515,11 @@ class BTConfig:
     # === CODEX_PATCH_END: DYNAMIC_SLIPPAGE_MODEL (2026-02-02) ===
     tp_is_maker: bool = True
     initial_equity_usdt: float = 1000.0
-    risk_pct_per_trade: float = 0.0025  # 0.25%
+    risk_pct_per_trade: float = 0.03  # 3%
     # === CODEX_PATCH_BEGIN: MAX_NOTIONAL_CAP (2026-02-02) ===
     # si querés cap por notional como en router:
     max_notional_usdt: float = 0.0
+    max_notional_mult: float = 0.0
     # === CODEX_PATCH_END: MAX_NOTIONAL_CAP (2026-02-02) ===
 
     # comportamiento:
@@ -1555,6 +1583,12 @@ class TradeRec:
     holding_hours: float
     tp_fill_price: Optional[float]
     tp_bidask_half_spread_bps: Optional[float]
+    fee_taker_rate_applied: float
+    fee_maker_rate_applied: float
+    fee_paid_usd: float
+    notional_usd: float
+    risk_per_trade: float
+    risk_usd: float
     # === CODEX_PATCH_END: FUNDING_AND_TP_BIDASK (2026-02-02) ===
 
 
@@ -1581,6 +1615,12 @@ TRADE_COLUMNS: List[str] = [
     "holding_hours",
     "tp_fill_price",
     "tp_bidask_half_spread_bps",
+    "fee_taker_rate_applied",
+    "fee_maker_rate_applied",
+    "fee_paid_usd",
+    "notional_usd",
+    "risk_per_trade",
+    "risk_usd",
 ]
 
 EQUITY_COLUMNS: List[str] = ["ts", "equity_usdt", "note"]
@@ -1774,20 +1814,23 @@ def backtest_from_signals(
     tp_half_spread_count = 0
     # === CODEX_PATCH_END: DYNAMIC_SLIPPAGE_MODEL (2026-02-02) ===
 
-    def size_qty(entry: float, stop: float) -> float:
+    def size_qty(entry: float, stop: float) -> Tuple[float, float, float, float]:
         nonlocal equity
-        R_usdt = equity * bt.risk_pct_per_trade
+        risk_usd = compute_risk_usd(equity, bt.risk_pct_per_trade)
         dist = abs(entry - stop)
-        if dist <= 0:
-            return 0.0
-        qty = R_usdt / dist
+        if not np.isfinite(dist) or dist <= 0:
+            return 0.0, risk_usd, dist, 0.0
+        qty = risk_usd / dist
         # === CODEX_PATCH_BEGIN: MAX_NOTIONAL_CAP (2026-02-02) ===
+        notional_cap = float(bt.max_notional_usdt)
+        if bt.max_notional_mult > 0:
+            notional_cap = max(notional_cap, float(equity) * float(bt.max_notional_mult))
         notional = qty * entry
-        if bt.max_notional_usdt > 0 and notional > bt.max_notional_usdt:
-            qty = bt.max_notional_usdt / entry
+        if notional_cap > 0 and notional > notional_cap:
+            qty = notional_cap / entry
         notional = qty * entry
         # === CODEX_PATCH_END: MAX_NOTIONAL_CAP (2026-02-02) ===
-        return qty
+        return qty, risk_usd, dist, notional
 
     def record_equity(ts: pd.Timestamp, note: str = ""):
         equity_curve.append({"ts": ts, "equity_usdt": equity, "note": note})
@@ -1896,8 +1939,12 @@ def backtest_from_signals(
         if any(np.isnan([entry, stop, tp1, tp2])):
             return None
 
-        qty = size_qty(entry, stop)
+        qty, risk_usd, stop_distance, notional_usd = size_qty(entry, stop)
+        if (not np.isfinite(stop_distance)) or stop_distance <= 0:
+            print(f"[NO_TRADE] reason=invalid_stop_distance ts={row['ts']} signal={sig} stop_distance={stop_distance}")
+            return None
         if qty <= 0:
+            print(f"[NO_TRADE] reason=zero_qty ts={row['ts']} signal={sig} risk_usd={risk_usd}")
             return None
 
         return {
@@ -1913,6 +1960,9 @@ def backtest_from_signals(
             "entry_ts": None,
             "entry_fill": None,
             "stop_active": stop,
+            "risk_usd": float(risk_usd),
+            "risk_per_trade": float(bt.risk_pct_per_trade),
+            "notional_usd": float(notional_usd),
             "realized_pnl": 0.0,
             "fees_usdt": 0.0,
             "tp1_fee_usdt": 0.0,
@@ -2021,8 +2071,19 @@ def backtest_from_signals(
                         holding_hours=holding_hours,
                         tp_fill_price=tp_fill_price,
                         tp_bidask_half_spread_bps=tp_bidask_half_spread_bps,
+                        fee_taker_rate_applied=float(bt.fee_taker),
+                        fee_maker_rate_applied=float(bt.fee_maker),
+                        fee_paid_usd=float(total_fees),
+                        notional_usd=float(abs(qty_total * entry_fill)),
+                        risk_per_trade=float(pos.get("risk_per_trade", bt.risk_pct_per_trade)),
+                        risk_usd=float(pos.get("risk_usd", bt.initial_equity_usdt * bt.risk_pct_per_trade)),
                         # === CODEX_PATCH_END: FUNDING_AND_TP_BIDASK (2026-02-02) ===
                     ))
+                    print(
+                        f"[TRADE] ts={ts} side={side} qty={qty_total:.6f} notional_usd={abs(qty_total * entry_fill):.4f} "
+                        f"fee_paid_usd={total_fees:.6f} fee_taker_rate_applied={bt.fee_taker} fee_maker_rate_applied={bt.fee_maker} "
+                        f"risk_per_trade={pos.get('risk_per_trade', bt.risk_pct_per_trade)} risk_usd={pos.get('risk_usd', bt.initial_equity_usdt * bt.risk_pct_per_trade):.6f}"
+                    )
                     record_equity(ts, "DAILY_DD_KILL")
                     pos = None
                     pending = None
@@ -2106,8 +2167,19 @@ def backtest_from_signals(
                     holding_hours=holding_hours,
                     tp_fill_price=tp_fill_price,
                     tp_bidask_half_spread_bps=tp_bidask_half_spread_bps,
+                    fee_taker_rate_applied=float(bt.fee_taker),
+                    fee_maker_rate_applied=float(bt.fee_maker),
+                    fee_paid_usd=float(total_fees),
+                    notional_usd=float(abs(qty_total * entry_fill)),
+                    risk_per_trade=float(pos.get("risk_per_trade", bt.risk_pct_per_trade)),
+                    risk_usd=float(pos.get("risk_usd", bt.initial_equity_usdt * bt.risk_pct_per_trade)),
                     # === CODEX_PATCH_END: FUNDING_AND_TP_BIDASK (2026-02-02) ===
                 ))
+                print(
+                    f"[TRADE] ts={ts} side={side} qty={qty_total:.6f} notional_usd={abs(qty_total * entry_fill):.4f} "
+                    f"fee_paid_usd={total_fees:.6f} fee_taker_rate_applied={bt.fee_taker} fee_maker_rate_applied={bt.fee_maker} "
+                    f"risk_per_trade={pos.get('risk_per_trade', bt.risk_pct_per_trade)} risk_usd={pos.get('risk_usd', bt.initial_equity_usdt * bt.risk_pct_per_trade):.6f}"
+                )
                 record_equity(ts, "MAX_STOPS_KILL")
                 pos = None
                 pending = None
@@ -2267,8 +2339,19 @@ def backtest_from_signals(
                     holding_hours=holding_hours,
                     tp_fill_price=tp_fill_price,
                     tp_bidask_half_spread_bps=tp_bidask_half_spread_bps,
+                    fee_taker_rate_applied=float(bt.fee_taker),
+                    fee_maker_rate_applied=float(bt.fee_maker),
+                    fee_paid_usd=float(total_fees),
+                    notional_usd=float(abs(qty_total * entry_fill)),
+                    risk_per_trade=float(pos.get("risk_per_trade", bt.risk_pct_per_trade)),
+                    risk_usd=float(pos.get("risk_usd", bt.initial_equity_usdt * bt.risk_pct_per_trade)),
                     # === CODEX_PATCH_END: FUNDING_AND_TP_BIDASK (2026-02-02) ===
                 ))
+                print(
+                    f"[TRADE] ts={ts} side={side} qty={qty_total:.6f} notional_usd={abs(qty_total * entry_fill):.4f} "
+                    f"fee_paid_usd={total_fees:.6f} fee_taker_rate_applied={bt.fee_taker} fee_maker_rate_applied={bt.fee_maker} "
+                    f"risk_per_trade={pos.get('risk_per_trade', bt.risk_pct_per_trade)} risk_usd={pos.get('risk_usd', bt.initial_equity_usdt * bt.risk_pct_per_trade):.6f}"
+                )
                 # === CODEX_PATCH_BEGIN: MAX_STOPS_PER_DAY_KILL (2026-02-02) ===
                 if strat_cfg.enable_max_stops_kill:
                     stops_today += 1
@@ -2411,8 +2494,19 @@ def backtest_from_signals(
                         holding_hours=holding_hours,
                         tp_fill_price=tp_fill_price,
                         tp_bidask_half_spread_bps=tp_bidask_half_spread_bps,
+                        fee_taker_rate_applied=float(bt.fee_taker),
+                        fee_maker_rate_applied=float(bt.fee_maker),
+                        fee_paid_usd=float(total_fees),
+                        notional_usd=float(abs(qty_total * entry_fill)),
+                        risk_per_trade=float(pos.get("risk_per_trade", bt.risk_pct_per_trade)),
+                        risk_usd=float(pos.get("risk_usd", bt.initial_equity_usdt * bt.risk_pct_per_trade)),
                         # === CODEX_PATCH_END: FUNDING_AND_TP_BIDASK (2026-02-02) ===
                     ))
+                    print(
+                        f"[TRADE] ts={ts} side={side} qty={qty_total:.6f} notional_usd={abs(qty_total * entry_fill):.4f} "
+                        f"fee_paid_usd={total_fees:.6f} fee_taker_rate_applied={bt.fee_taker} fee_maker_rate_applied={bt.fee_maker} "
+                        f"risk_per_trade={pos.get('risk_per_trade', bt.risk_pct_per_trade)} risk_usd={pos.get('risk_usd', bt.initial_equity_usdt * bt.risk_pct_per_trade):.6f}"
+                    )
                     record_equity(ts, "TP2")
                     pos = None
                     continue
@@ -2631,6 +2725,7 @@ def run_backtest(
     risk_pct: float,
     # === CODEX_PATCH_BEGIN: MAX_NOTIONAL_CAP (2026-02-02) ===
     max_notional_usdt: float,
+    max_notional_mult: float,
     # === CODEX_PATCH_END: MAX_NOTIONAL_CAP (2026-02-02) ===
     outdir: str,
     strict: bool,
@@ -2725,6 +2820,7 @@ def run_backtest(
         risk_pct_per_trade=risk_pct,
         # === CODEX_PATCH_BEGIN: MAX_NOTIONAL_CAP (2026-02-02) ===
         max_notional_usdt=max_notional_usdt,
+        max_notional_mult=max_notional_mult,
         # === CODEX_PATCH_END: MAX_NOTIONAL_CAP (2026-02-02) ===
         entry_timeout_bars=strat_cfg.entry_timeout_bars,
         conservative_intrabar=True,
@@ -2772,6 +2868,12 @@ def run_backtest(
     else:
         total_funding_cost_usdt = 0.0
         avg_funding_cost_per_trade = 0.0
+    if trades_df is not None and not trades_df.empty and "fees_usdt" in trades_df.columns:
+        total_fee_paid_usd = float(trades_df["fees_usdt"].sum())
+        avg_fee_per_trade_usd = float(trades_df["fees_usdt"].mean())
+    else:
+        total_fee_paid_usd = 0.0
+        avg_fee_per_trade_usd = 0.0
     # === CODEX_PATCH_END: FUNDING_AND_TP_BIDASK (2026-02-02) ===
     # === CODEX_PATCH_BEGIN: VOL_FILTER_MONTHLY_ATR (2026-02-02) ===
     if "vol_ok" in sigdf.columns and len(sigdf) > 0:
@@ -2800,8 +2902,10 @@ def run_backtest(
         avg_position_notional = 0.0
     # === CODEX_PATCH_END: MAX_NOTIONAL_CAP (2026-02-02) ===
     metrics.update({
-        "fee_taker": float(fee_taker),
-        "fee_maker": float(fee_maker),
+        "fee_taker_rate_applied": float(fee_taker),
+        "fee_maker_rate_applied": float(fee_maker),
+        "total_fee_paid_usd": float(total_fee_paid_usd),
+        "avg_fee_per_trade_usd": float(avg_fee_per_trade_usd),
         "slip_bps": float(slip_bps),
         "slip_bps_entry": float(slip_bps_entry),
         "slip_bps_tp": float(slip_bps_tp_effective),
@@ -2820,18 +2924,19 @@ def run_backtest(
         "max_slip_bps_entry": float(slip_stats.get("max_slip_bps_entry", 0.0)),
         "max_slip_bps_stop": float(slip_stats.get("max_slip_bps_stop", 0.0)),
         # === CODEX_PATCH_END: DYNAMIC_SLIPPAGE_MODEL (2026-02-02) ===
-        "risk": float(risk_pct),
+        "risk_per_trade": float(risk_pct),
         "equity0": float(equity0),
         "outdir": outdir,
         # === CODEX_PATCH_BEGIN: MAX_NOTIONAL_CAP (2026-02-02) ===
         "max_notional_usdt": float(max_notional_usdt),
+        "max_notional_mult": float(max_notional_mult),
         "max_position_notional_observed": float(max_position_notional_observed),
         "avg_position_notional": float(avg_position_notional),
         # === CODEX_PATCH_END: MAX_NOTIONAL_CAP (2026-02-02) ===
         # === CODEX_PATCH_BEGIN: FUNDING_AND_TP_BIDASK (2026-02-02) ===
         "enable_funding_cost": bool(enable_funding_cost),
         "funding_rate_8h": float(funding_rate_8h),
-        "total_funding_cost_usdt": float(total_funding_cost_usdt),
+        "total_funding_paid_usd": float(total_funding_cost_usdt),
         "avg_funding_cost_per_trade": float(avg_funding_cost_per_trade),
         "enable_tp_bidask_model": bool(enable_tp_bidask_model),
         "tp_bidask_half_spread_bps": float(tp_bidask_half_spread_bps),
@@ -2912,9 +3017,10 @@ if __name__ == "__main__":
     ap.add_argument("--csv", type=str, default="")
     ap.add_argument("--live", action="store_true")
     ap.add_argument("--bt", action="store_true")
-    ap.add_argument("--fee", type=float, default=0.0004)
-    ap.add_argument("--fee_taker", type=float, default=None)
-    ap.add_argument("--fee_maker", type=float, default=None)
+    ap.add_argument("--fee", type=str, default=None)
+    ap.add_argument("--fee_taker", type=str, default="0.0002")
+    ap.add_argument("--fee_maker", type=str, default="0.0")
+    ap.add_argument("--fee_units", type=str, default="rate", choices=["rate", "percent", "string"])
     ap.add_argument("--slip_bps", type=float, default=1.0)
     ap.add_argument("--slip_bps_entry", type=float, default=None)
     ap.add_argument("--slip_bps_tp", type=float, default=None)
@@ -2928,10 +3034,11 @@ if __name__ == "__main__":
     ap.add_argument("--slip_k_atr_stop", type=float, default=1.5)
     ap.add_argument("--slip_k_atr_tp", type=float, default=0.25)
     # === CODEX_PATCH_END: DYNAMIC_SLIPPAGE_MODEL (2026-02-02) ===
-    ap.add_argument("--equity", type=float, default=1000.0)
-    ap.add_argument("--risk", type=float, default=0.0025)
+    ap.add_argument("--equity", "--start_equity", dest="equity", type=float, default=1000.0)
+    ap.add_argument("--risk_per_trade", "--risk_pertrade", "--risk_pct", "--risk", dest="risk_per_trade", type=float, default=0.03)
     # === CODEX_PATCH_BEGIN: MAX_NOTIONAL_CAP (2026-02-02) ===
     ap.add_argument("--max_notional_usdt", type=float, default=0.0)
+    ap.add_argument("--max_notional_mult", type=float, default=0.0)
     # === CODEX_PATCH_END: MAX_NOTIONAL_CAP (2026-02-02) ===
     ap.add_argument("--outdir", type=str, default="./results")
     ap.add_argument("--strict", action="store_true")
@@ -2976,8 +3083,18 @@ if __name__ == "__main__":
     slip_bps_entry = args.slip_bps if args.slip_bps_entry is None else args.slip_bps_entry
     slip_bps_tp = slip_bps_entry if args.slip_bps_tp is None else args.slip_bps_tp
     slip_bps_stop = (args.slip_bps * 2.0) if args.slip_bps_stop is None else args.slip_bps_stop
-    fee_taker = args.fee if args.fee_taker is None else args.fee_taker
-    fee_maker = args.fee if args.fee_maker is None else args.fee_maker
+
+    fee_taker_raw = args.fee_taker if args.fee_taker is not None else args.fee
+    fee_maker_raw = args.fee_maker if args.fee_maker is not None else (args.fee if args.fee is not None else "0.0")
+    fee_taker = parse_fee_rate(fee_taker_raw, args.fee_units, "fee_taker")
+    fee_maker = parse_fee_rate(fee_maker_raw, args.fee_units, "fee_maker")
+
+    print(
+        "[CONFIG] "
+        f"fee_taker_rate={fee_taker} fee_maker_rate={fee_maker} fee_units={args.fee_units} "
+        f"risk_per_trade={args.risk_per_trade} max_notional_usdt={args.max_notional_usdt} "
+        f"max_notional_mult={args.max_notional_mult}"
+    )
 
     if args.live:
         # === CODEX_PATCH_BEGIN: DAILY_DD_KILL_SWITCH (2026-02-02) ===
@@ -3011,9 +3128,10 @@ if __name__ == "__main__":
             args.slip_k_atr_tp,
             # === CODEX_PATCH_END: DYNAMIC_SLIPPAGE_MODEL (2026-02-02) ===
             args.equity,
-            args.risk,
+            args.risk_per_trade,
             # === CODEX_PATCH_BEGIN: MAX_NOTIONAL_CAP (2026-02-02) ===
             args.max_notional_usdt,
+            args.max_notional_mult,
             # === CODEX_PATCH_END: MAX_NOTIONAL_CAP (2026-02-02) ===
             args.outdir,
             args.strict,
