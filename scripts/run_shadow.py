@@ -60,6 +60,10 @@ class RunConfig:
     samples_limit: int = 50
     start_equity: float = 5000.0
     strategy_module: str = "scripts.strategies.demo_crossover_5m"
+    fee_taker: float = 0.0002
+    fee_maker: float = 0.0
+    fee_units: str = "rate"
+    risk_per_trade: float = 0.03
     prefill_bars: int = 0
     prefill_write_candles: int = 1
     prefill_seed_paper: int = 0
@@ -158,6 +162,10 @@ async def run_shadow(cfg: RunConfig) -> None:
     paper_engine: Optional[PaperEngine] = None
     strategy = None
     if cfg.mode == "paper":
+        os.environ["FEE_TAKER"] = str(getattr(cfg, "fee_taker", os.getenv("FEE_TAKER", "0.0002")))
+        os.environ["FEE_MAKER"] = str(getattr(cfg, "fee_maker", os.getenv("FEE_MAKER", "0.0")))
+        os.environ["FEE_UNITS"] = str(getattr(cfg, "fee_units", os.getenv("FEE_UNITS", "rate")))
+        os.environ["RISK_PER_TRADE"] = str(getattr(cfg, "risk_per_trade", os.getenv("RISK_PER_TRADE", "0.03")))
         strategy = load_strategy(cfg.strategy_module)
         paper_config = PaperConfig(starting_equity=cfg.start_equity)
         telegram_enabled = os.getenv("TELEGRAM_ENABLED", "").strip() == "1"
@@ -456,6 +464,10 @@ def parse_args() -> RunConfig:
     parser.add_argument("--manifest_path", default=os.getenv("MANIFEST_PATH", "./results/shadow/run_manifest.json"))
     parser.add_argument("--pid_path", default=os.getenv("PID_PATH", ""))
     parser.add_argument("--start_equity", type=float, default=float(os.getenv("START_EQUITY", "5000")))
+    parser.add_argument("--fee_taker", type=float, default=float(os.getenv("FEE_TAKER", "0.0002")))
+    parser.add_argument("--fee_maker", type=float, default=float(os.getenv("FEE_MAKER", "0.0")))
+    parser.add_argument("--fee_units", default=os.getenv("FEE_UNITS", "rate"), choices=["rate", "percent", "string"])
+    parser.add_argument("--risk_per_trade", type=float, default=float(os.getenv("RISK_PER_TRADE", os.getenv("RISK_PCT", "0.03"))))
     parser.add_argument(
         "--strategy_module",
         default=os.getenv("STRATEGY_MODULE", "scripts.strategies.demo_crossover_5m"),
@@ -526,6 +538,10 @@ def parse_args() -> RunConfig:
             "log_dir": log_dir,
             "stop_file": stop_file,
             "start_equity": args.start_equity,
+            "fee_taker": args.fee_taker,
+            "fee_maker": args.fee_maker,
+            "fee_units": args.fee_units,
+            "risk_per_trade": args.risk_per_trade,
             "strategy_module": args.strategy_module,
             "prefill_bars": auto_prefill_bars,
             "prefill_write_candles": int(args.prefill_write_candles),
@@ -555,6 +571,10 @@ def parse_args() -> RunConfig:
         ping_log_every=int(os.getenv("PING_LOG_EVERY", "4")),
         start_equity=args.start_equity,
         strategy_module=args.strategy_module,
+        fee_taker=args.fee_taker,
+        fee_maker=args.fee_maker,
+        fee_units=args.fee_units,
+        risk_per_trade=args.risk_per_trade,
         prefill_bars=auto_prefill_bars,
         prefill_write_candles=int(args.prefill_write_candles),
         prefill_seed_paper=int(args.prefill_seed_paper),

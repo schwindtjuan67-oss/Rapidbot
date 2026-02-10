@@ -7,6 +7,10 @@ rem ---------------------------------------------
 
 rem ===== Telegram (plug and play) =====
 set "TELEGRAM_ENABLED=1"
+set "FEE_TAKER=0.0002"
+set "FEE_MAKER=0.0"
+set "FEE_UNITS=rate"
+set "RISK_PER_TRADE=0.03"
 set "TELEGRAM_BOT_TOKEN=8534978315:AAFBInntCYbcQaJYGUoMgJz73I6h9DPvdiI"
 set "TELEGRAM_CHAT_ID=-1003755847413"
 rem ====================================

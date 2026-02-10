@@ -10,6 +10,10 @@ set "MODE=paper"
 set "SYMBOL=SOLUSDT"
 set "TF=5m"
 set "START_EQUITY=5000"
+set "FEE_TAKER=0.0002"
+set "FEE_MAKER=0.0"
+set "FEE_UNITS=rate"
+set "RISK_PER_TRADE=0.03"
 set "STRATEGY_MODULE=scripts.strategies.orchestrator"
 set "ORCH_STRATEGY_LIST=scripts.solusdt_vwap_bot,scripts.strategies.vpc_retest"
 set "ORCH_POLICY=best_confidence"
@@ -78,6 +82,10 @@ echo [INFO] SYMBOL=%SYMBOL%
 echo [INFO] TF=%TF%
 echo [INFO] MODE=%MODE%
 echo [INFO] START_EQUITY=%START_EQUITY%
+echo [INFO] FEE_TAKER=%FEE_TAKER%
+echo [INFO] FEE_MAKER=%FEE_MAKER%
+echo [INFO] FEE_UNITS=%FEE_UNITS%
+echo [INFO] RISK_PER_TRADE=%RISK_PER_TRADE%
 echo [INFO] STRATEGY_MODULE=%STRATEGY_MODULE%
 echo [INFO] OUT=%OUT%
 echo [INFO] LOG=%LOG%
@@ -95,7 +103,7 @@ if errorlevel 1 (
 )
 
 echo [INFO] Ejecutando runner...
-powershell -NoProfile -ExecutionPolicy Bypass -Command "& { & '%PYTHON%' -u -m scripts.run_shadow --exchange mexc --ws_url '%WS_URL%' --symbol '%SYMBOL%' --tf '%TF%' --mode '%MODE%' --start_equity '%START_EQUITY%' --strategy_module '%STRATEGY_MODULE%' --out_dir '%OUT%' --log_dir '%ROOT%\\logs' --stop_file '%STOPFILE%' *>&1 | Tee-Object -FilePath '%LOG%' -Append; exit $LASTEXITCODE }"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& { & '%PYTHON%' -u -m scripts.run_shadow --exchange mexc --ws_url '%WS_URL%' --symbol '%SYMBOL%' --tf '%TF%' --mode '%MODE%' --start_equity '%START_EQUITY%' --strategy_module '%STRATEGY_MODULE%' --fee_taker '%FEE_TAKER%' --fee_maker '%FEE_MAKER%' --fee_units '%FEE_UNITS%' --risk_per_trade '%RISK_PER_TRADE%' --out_dir '%OUT%' --log_dir '%ROOT%\\logs' --stop_file '%STOPFILE%' *>&1 | Tee-Object -FilePath '%LOG%' -Append; exit $LASTEXITCODE }"
 
 set "RUN_EXIT=%ERRORLEVEL%"
 if not "%RUN_EXIT%"=="0" (
