@@ -1,0 +1,9 @@
+{
+  "reason": "data_stall",
+  "last_data_ts": 1770753600000,
+  "last_kline_rx_ts": null,
+  "last_rx_ts": null,
+  "rx_total": 0,
+  "kline_closed_total": 0,
+  "trade_total": 0
+}

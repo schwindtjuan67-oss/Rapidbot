@@ -1,0 +1,746 @@
+[WS] CONNECT
+[WS] SUB_SENT
+[WS] HEALTH up=15.3s rx=1 pong=0 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=30.3s rx=2 pong=1 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=45.3s rx=3 pong=2 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=60.3s rx=4 pong=3 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=75.3s rx=5 pong=4 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=90.3s rx=6 pong=5 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=105.3s rx=7 pong=6 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=120.3s rx=8 pong=7 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=135.3s rx=9 pong=8 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=150.3s rx=10 pong=9 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=165.3s rx=11 pong=10 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=180.3s rx=12 pong=11 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=195.3s rx=13 pong=12 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=210.4s rx=14 pong=13 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=225.4s rx=15 pong=14 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=240.4s rx=16 pong=15 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=255.4s rx=17 pong=16 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=270.4s rx=18 pong=17 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=285.4s rx=19 pong=18 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=300.4s rx=20 pong=19 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=315.4s rx=21 pong=20 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=330.4s rx=22 pong=21 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=345.4s rx=23 pong=22 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=360.4s rx=24 pong=23 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=375.4s rx=25 pong=24 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=390.5s rx=26 pong=25 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=405.5s rx=27 pong=26 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=420.5s rx=28 pong=27 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=435.5s rx=29 pong=28 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=450.5s rx=30 pong=29 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=465.5s rx=31 pong=30 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=480.5s rx=32 pong=31 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=495.5s rx=33 pong=32 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=510.5s rx=34 pong=33 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=525.5s rx=35 pong=34 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=540.5s rx=36 pong=35 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=555.5s rx=37 pong=36 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=570.5s rx=38 pong=37 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=585.5s rx=39 pong=38 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=600.5s rx=40 pong=39 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=615.6s rx=41 pong=40 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=630.6s rx=42 pong=41 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=645.6s rx=43 pong=42 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=660.6s rx=44 pong=43 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=675.6s rx=45 pong=44 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=690.6s rx=46 pong=45 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=705.6s rx=47 pong=46 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=720.6s rx=48 pong=47 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=735.6s rx=49 pong=48 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=750.6s rx=50 pong=49 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=765.7s rx=51 pong=50 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=780.7s rx=52 pong=51 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=795.7s rx=53 pong=52 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=810.7s rx=54 pong=53 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=825.7s rx=55 pong=54 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=840.7s rx=56 pong=55 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=0 last_close_ts=None
+[WS] PONG
+[WS] HEALTH up=840.8s rx=738 pong=55 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=683 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=855.8s rx=750 pong=56 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=694 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=870.8s rx=759 pong=57 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=702 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=885.8s rx=771 pong=58 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=713 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=900.8s rx=802 pong=59 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=743 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=915.8s rx=819 pong=60 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=759 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=930.8s rx=835 pong=61 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=774 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=945.8s rx=845 pong=62 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=783 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=960.8s rx=860 pong=63 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=797 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=975.8s rx=871 pong=64 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=807 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=990.8s rx=877 pong=65 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=812 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1005.8s rx=885 pong=66 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=819 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1020.8s rx=896 pong=67 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=829 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1035.8s rx=905 pong=68 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=837 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1050.8s rx=915 pong=69 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=846 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1065.8s rx=930 pong=70 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=860 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1080.9s rx=941 pong=71 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=870 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1095.9s rx=950 pong=72 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=878 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1110.9s rx=965 pong=73 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=892 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1125.9s rx=978 pong=74 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=904 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1321.0s rx=1220 pong=87 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1133 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1336.0s rx=1242 pong=88 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1154 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1351.0s rx=1263 pong=89 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1174 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1366.0s rx=1280 pong=90 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1190 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1381.0s rx=1299 pong=91 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1208 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1396.0s rx=1316 pong=92 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1224 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1411.0s rx=1327 pong=93 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1234 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1426.0s rx=1336 pong=94 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1242 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1441.0s rx=1352 pong=95 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1257 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1456.1s rx=1367 pong=96 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1271 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1471.1s rx=1378 pong=97 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1281 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1486.1s rx=1391 pong=98 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1293 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1501.1s rx=1413 pong=99 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1314 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1516.1s rx=1433 pong=100 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1333 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1531.1s rx=1454 pong=101 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1353 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1546.1s rx=1475 pong=102 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1373 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1561.1s rx=1490 pong=103 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1387 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1576.1s rx=1510 pong=104 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1406 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1591.1s rx=1542 pong=105 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1437 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1606.1s rx=1560 pong=106 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1454 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1621.1s rx=1577 pong=107 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1470 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1636.1s rx=1580 pong=108 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1472 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1651.1s rx=1580 pong=108 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1472 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1666.1s rx=1580 pong=108 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1472 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] IDLE_TIMEOUT
+[WS] ERROR Idle timeout
+[WS] RECONNECT in 2.64s
+[WS] CONNECT
+[WS] SUB_SENT
+[WS] IDLE_TIMEOUT
+[WS] ERROR Idle timeout
+[WS] RECONNECT in 5.22s
+[WS] CONNECT
+[WS] SUB_SENT
+[WS] IDLE_TIMEOUT
+[WS] ERROR Idle timeout
+[WS] RECONNECT in 8.44s
+[WS] CONNECT
+[WS] SUB_SENT
+[WS] IDLE_TIMEOUT
+[WS] ERROR Idle timeout
+[WS] RECONNECT in 22.10s
+[WS] CONNECT
+[WS] SUB_SENT
+[WS] IDLE_TIMEOUT
+[WS] ERROR Idle timeout
+[WS] RECONNECT in 46.81s
+[WS] CONNECT
+[WS] SUB_SENT
+[WS] IDLE_TIMEOUT
+[WS] ERROR Idle timeout
+[WS] RECONNECT in 72.53s
+[WS] CONNECT
+[WS] SUB_SENT
+[WS] IDLE_TIMEOUT
+[WS] ERROR Idle timeout
+[WS] RECONNECT in 68.38s
+[WS] START ws_url=wss://contract.mexc.com/edge symbol=SOLUSDT tf=5m out=C:\Users\PC\Documents\GitHub\Retail\results\shadow log=C:\Users\PC\Documents\GitHub\Retail\logs\shadow_ws.log stopfile=C:\Users\PC\Documents\GitHub\Retail\results\STOP_SHADOW.txt pidfile=C:\Users\PC\Documents\GitHub\Retail\results\shadow\shadow.pid
+[WS] CONNECT
+[WS] SUB_SENT
+[WS] HEALTH up=15.2s rx=13 pong=0 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] STOP_SHADOW detected, closing
+[WS] START ws_url=wss://contract.mexc.com/edge symbol=SOLUSDT tf=5m out=C:\Users\PC\Documents\GitHub\Retail\results\shadow log=C:\Users\PC\Documents\GitHub\Retail\logs\shadow_ws.log stopfile=C:\Users\PC\Documents\GitHub\Retail\results\STOP_SHADOW.txt pidfile=C:\Users\PC\Documents\GitHub\Retail\results\shadow\shadow.pid
+[WS] CONNECT
+[WS] SUB_SENT
+[WS] START ws_url=wss://contract.mexc.com/edge symbol=SOLUSDT tf=5m out=C:\Users\PC\Documents\GitHub\Retail\results\shadow log=C:\Users\PC\Documents\GitHub\Retail\logs\shadow_ws.log stopfile=C:\Users\PC\Documents\GitHub\Retail\results\STOP_SHADOW.txt pidfile=C:\Users\PC\Documents\GitHub\Retail\results\shadow\shadow.pid
+[WS] CONNECT
+[WS] SUB_SENT
+[WS] HEALTH up=15.3s rx=22 pong=0 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=22 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=30.3s rx=43 pong=1 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=42 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=45.3s rx=74 pong=2 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=72 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=60.3s rx=99 pong=3 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=96 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=75.3s rx=132 pong=4 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=128 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=90.3s rx=156 pong=5 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=151 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=105.3s rx=185 pong=6 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=179 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=120.3s rx=223 pong=7 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=216 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=135.3s rx=245 pong=8 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=237 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=150.3s rx=274 pong=9 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=265 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=165.3s rx=312 pong=10 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=302 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=180.3s rx=349 pong=11 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=338 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=195.3s rx=380 pong=12 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=368 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=210.3s rx=400 pong=13 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=387 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=225.3s rx=425 pong=14 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=411 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=240.3s rx=465 pong=15 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=450 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=255.3s rx=495 pong=16 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=479 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=270.3s rx=530 pong=17 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=513 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=285.3s rx=571 pong=18 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=553 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=300.3s rx=603 pong=19 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=584 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=315.3s rx=637 pong=20 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=617 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=330.3s rx=689 pong=21 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=668 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=345.3s rx=748 pong=22 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=726 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=360.3s rx=795 pong=23 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=772 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=375.3s rx=833 pong=24 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=809 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=390.3s rx=879 pong=25 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=854 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=405.3s rx=912 pong=26 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=886 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=420.3s rx=945 pong=27 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=918 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=435.3s rx=994 pong=28 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=966 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=450.4s rx=1050 pong=29 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1021 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=465.4s rx=1098 pong=30 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1068 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=480.4s rx=1140 pong=31 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1109 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=495.4s rx=1181 pong=32 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1149 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=510.4s rx=1214 pong=33 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1181 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=525.4s rx=1249 pong=34 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1215 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=540.4s rx=1290 pong=35 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1255 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=555.4s rx=1327 pong=36 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1291 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=570.4s rx=1361 pong=37 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1324 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=585.4s rx=1386 pong=38 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1348 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=600.4s rx=1425 pong=39 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1386 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=615.4s rx=1480 pong=40 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1440 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=630.4s rx=1541 pong=41 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1500 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=645.4s rx=1591 pong=42 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1549 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=660.4s rx=1630 pong=43 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1587 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=675.4s rx=1679 pong=44 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1635 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=690.4s rx=1719 pong=45 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1674 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=705.4s rx=1768 pong=46 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1722 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=720.4s rx=1808 pong=47 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1761 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=735.4s rx=1850 pong=48 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1802 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=750.4s rx=1891 pong=49 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1842 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=765.4s rx=1936 pong=50 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1886 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=780.4s rx=1979 pong=51 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1928 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=795.4s rx=2020 pong=52 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=1968 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=810.4s rx=2058 pong=53 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=2005 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=825.4s rx=2108 pong=54 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=2054 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=840.4s rx=2153 pong=55 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=2098 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=855.4s rx=2205 pong=56 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=2149 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=870.4s rx=2274 pong=57 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=2217 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=885.4s rx=2330 pong=58 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=2272 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=900.4s rx=2380 pong=59 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=2321 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=915.4s rx=2428 pong=60 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=2368 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=930.4s rx=2472 pong=61 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=2411 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=945.4s rx=2514 pong=62 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=2452 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=960.5s rx=2557 pong=63 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=2494 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=975.5s rx=2596 pong=64 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=2532 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=990.5s rx=2634 pong=65 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=2569 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1005.5s rx=2684 pong=66 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=2618 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1020.5s rx=2720 pong=67 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=2653 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1035.5s rx=2760 pong=68 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=2692 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1050.5s rx=2834 pong=69 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=2765 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1065.5s rx=2898 pong=70 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=2828 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1080.5s rx=2966 pong=71 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=2895 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1095.5s rx=3033 pong=72 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=2961 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1110.5s rx=3110 pong=73 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=3037 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1125.5s rx=3187 pong=74 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=3113 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1140.5s rx=3277 pong=75 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=3202 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1155.5s rx=3351 pong=76 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=3275 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1170.5s rx=3423 pong=77 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=3346 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1185.5s rx=3496 pong=78 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=3418 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1200.5s rx=3553 pong=79 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=3474 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1215.5s rx=3602 pong=80 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=3522 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1230.5s rx=3642 pong=81 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=3561 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1245.5s rx=3694 pong=82 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=3612 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1260.5s rx=3744 pong=83 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=3661 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1275.5s rx=3790 pong=84 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=3706 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1290.5s rx=3830 pong=85 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=3745 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1305.5s rx=3875 pong=86 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=3789 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1320.5s rx=3919 pong=87 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=3832 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1335.5s rx=3966 pong=88 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=3878 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1350.5s rx=4002 pong=89 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=3913 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1365.5s rx=4039 pong=90 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=3949 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1380.5s rx=4091 pong=91 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=4000 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1395.5s rx=4136 pong=92 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=4044 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1410.5s rx=4174 pong=93 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=4081 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1425.5s rx=4219 pong=94 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=4125 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1440.5s rx=4262 pong=95 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=4167 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1455.5s rx=4298 pong=96 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=4202 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1470.6s rx=4344 pong=97 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=4247 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1485.6s rx=4397 pong=98 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=4299 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1500.6s rx=4446 pong=99 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=4347 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1515.6s rx=4483 pong=100 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=4383 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1530.6s rx=4515 pong=101 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=4414 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1545.6s rx=4560 pong=102 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=4458 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1560.6s rx=4612 pong=103 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=4509 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1575.6s rx=4651 pong=104 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=4547 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1590.6s rx=4686 pong=105 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=4581 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1605.6s rx=4721 pong=106 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=4615 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1620.6s rx=4761 pong=107 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=4654 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1635.6s rx=4809 pong=108 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=4701 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1650.6s rx=4846 pong=109 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=4737 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1665.6s rx=4887 pong=110 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=4777 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1680.6s rx=4934 pong=111 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=4823 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1695.6s rx=4978 pong=112 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=4866 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1710.6s rx=5013 pong=113 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=4900 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1725.6s rx=5047 pong=114 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=4933 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1740.6s rx=5080 pong=115 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=4965 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1755.6s rx=5121 pong=116 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=5005 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1770.6s rx=5167 pong=117 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=5050 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1785.6s rx=5213 pong=118 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=5095 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1800.6s rx=5246 pong=119 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=5127 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1815.6s rx=5270 pong=120 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=5150 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1830.6s rx=5299 pong=121 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=5178 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1845.6s rx=5328 pong=122 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=5206 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1860.6s rx=5360 pong=123 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=5237 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1875.6s rx=5396 pong=124 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=5272 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1890.6s rx=5440 pong=125 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=5315 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1905.6s rx=5479 pong=126 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=5353 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1920.6s rx=5523 pong=127 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=5396 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1935.6s rx=5578 pong=128 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=5450 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1950.6s rx=5623 pong=129 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=5494 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1965.6s rx=5673 pong=130 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=5543 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1980.6s rx=5726 pong=131 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=5595 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=1995.6s rx=5790 pong=132 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=5658 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2010.6s rx=5836 pong=133 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=5703 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2025.7s rx=5881 pong=135 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=5746 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2040.7s rx=5922 pong=136 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=5786 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2055.7s rx=5960 pong=137 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=5823 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2070.7s rx=5998 pong=137 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=5861 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2085.7s rx=6035 pong=138 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=5897 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2100.7s rx=6065 pong=140 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=5925 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2115.7s rx=6094 pong=140 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=5954 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2130.7s rx=6118 pong=141 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=5977 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2145.7s rx=6156 pong=142 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6014 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2160.7s rx=6209 pong=143 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6066 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2175.7s rx=6252 pong=144 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6108 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2190.7s rx=6297 pong=146 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6151 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2205.7s rx=6334 pong=147 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6187 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2220.7s rx=6371 pong=147 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6224 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2235.7s rx=6403 pong=149 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6254 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2250.7s rx=6434 pong=150 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6284 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2265.7s rx=6477 pong=151 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6326 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2280.7s rx=6521 pong=152 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6369 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2295.7s rx=6543 pong=153 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6390 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2310.7s rx=6582 pong=154 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6428 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2325.7s rx=6618 pong=155 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6463 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2340.7s rx=6655 pong=156 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6499 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2355.7s rx=6693 pong=157 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6536 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2370.8s rx=6722 pong=158 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6564 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2385.8s rx=6758 pong=159 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6599 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2400.7s rx=6786 pong=160 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6626 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2415.7s rx=6821 pong=161 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6660 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2430.7s rx=6850 pong=162 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6688 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2445.7s rx=6874 pong=163 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6711 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2460.7s rx=6897 pong=164 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6733 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2475.7s rx=6929 pong=165 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6764 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2490.7s rx=6946 pong=166 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6780 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2505.7s rx=6962 pong=167 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6795 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2520.8s rx=6999 pong=168 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6831 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2535.8s rx=7028 pong=169 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6859 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2550.8s rx=7056 pong=170 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6886 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2565.8s rx=7090 pong=171 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6919 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2580.8s rx=7114 pong=172 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6942 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2595.8s rx=7136 pong=173 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6963 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2610.8s rx=7154 pong=174 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=6980 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2625.8s rx=7175 pong=175 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7000 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2640.8s rx=7195 pong=176 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7019 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2655.8s rx=7216 pong=177 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7039 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2670.8s rx=7242 pong=178 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7064 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2685.8s rx=7271 pong=179 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7092 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2700.8s rx=7306 pong=180 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7126 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2715.8s rx=7331 pong=181 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7150 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2730.8s rx=7356 pong=182 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7174 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2745.8s rx=7379 pong=183 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7196 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2760.8s rx=7415 pong=184 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7231 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2775.8s rx=7463 pong=185 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7278 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2790.8s rx=7510 pong=186 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7324 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2805.8s rx=7551 pong=187 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7364 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2820.8s rx=7590 pong=188 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7402 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2835.8s rx=7626 pong=189 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7437 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2850.8s rx=7654 pong=190 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7464 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2865.8s rx=7693 pong=191 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7502 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2880.8s rx=7720 pong=192 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7528 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2895.8s rx=7757 pong=193 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7564 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2910.8s rx=7795 pong=194 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7601 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2925.8s rx=7831 pong=195 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7636 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2940.8s rx=7871 pong=196 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7675 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2955.8s rx=7903 pong=197 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7706 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2970.8s rx=7940 pong=198 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7742 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=2985.8s rx=7976 pong=199 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7777 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3000.8s rx=8028 pong=200 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7828 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3015.8s rx=8067 pong=201 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7866 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3030.8s rx=8106 pong=202 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7904 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3045.8s rx=8139 pong=203 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7936 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3060.8s rx=8170 pong=204 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=7966 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3075.8s rx=8213 pong=205 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8008 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3090.8s rx=8259 pong=206 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8053 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3105.8s rx=8312 pong=207 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8105 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3120.8s rx=8361 pong=208 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8153 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3135.8s rx=8395 pong=209 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8186 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3150.8s rx=8436 pong=210 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8226 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3165.8s rx=8470 pong=211 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8259 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3180.8s rx=8510 pong=212 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8298 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3195.8s rx=8538 pong=213 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8325 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3210.8s rx=8571 pong=214 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8357 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3225.8s rx=8619 pong=215 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8404 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3240.8s rx=8649 pong=216 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8433 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3255.8s rx=8671 pong=217 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8454 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3270.8s rx=8705 pong=218 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8487 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3285.8s rx=8728 pong=219 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8509 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3300.8s rx=8755 pong=220 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8535 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3315.8s rx=8779 pong=221 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8558 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3330.8s rx=8806 pong=222 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8584 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3345.8s rx=8833 pong=223 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8610 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3360.8s rx=8879 pong=224 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8655 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3375.8s rx=8905 pong=225 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8680 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3390.8s rx=8933 pong=226 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8707 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3405.8s rx=8971 pong=227 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8744 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3420.8s rx=9018 pong=228 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8790 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3435.8s rx=9047 pong=229 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8818 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3450.8s rx=9080 pong=230 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8850 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3465.9s rx=9111 pong=231 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8880 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3480.9s rx=9157 pong=232 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8925 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3495.9s rx=9189 pong=233 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8956 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3510.9s rx=9218 pong=234 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=8984 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3525.9s rx=9250 pong=235 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9015 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3540.9s rx=9281 pong=236 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9045 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3555.9s rx=9308 pong=237 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9071 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3570.9s rx=9331 pong=238 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9093 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3585.9s rx=9355 pong=239 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9116 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3600.9s rx=9387 pong=240 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9147 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3615.9s rx=9416 pong=241 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9175 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3630.9s rx=9454 pong=242 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9212 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3645.9s rx=9477 pong=243 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9234 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3660.9s rx=9505 pong=244 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9261 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3675.9s rx=9541 pong=245 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9296 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3690.9s rx=9561 pong=246 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9315 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3705.9s rx=9584 pong=247 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9337 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3720.9s rx=9610 pong=248 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9362 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3736.0s rx=9630 pong=249 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9381 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3751.0s rx=9664 pong=250 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9414 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3766.0s rx=9683 pong=251 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9432 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3781.0s rx=9715 pong=252 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9463 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3796.0s rx=9751 pong=253 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9498 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3811.0s rx=9786 pong=254 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9532 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3826.0s rx=9819 pong=255 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9564 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3841.0s rx=9840 pong=256 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9584 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3856.0s rx=9868 pong=257 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9611 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3871.0s rx=9894 pong=258 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9636 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3886.0s rx=9918 pong=259 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9659 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3901.0s rx=9949 pong=260 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9689 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3916.0s rx=9989 pong=261 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9728 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3931.0s rx=10032 pong=262 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9770 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3946.0s rx=10075 pong=263 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9812 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3961.0s rx=10106 pong=264 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9842 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3976.0s rx=10131 pong=265 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9866 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=3991.0s rx=10162 pong=266 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9896 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4006.0s rx=10200 pong=267 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9933 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4021.0s rx=10225 pong=268 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9957 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4036.0s rx=10252 pong=269 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=9983 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4051.0s rx=10286 pong=270 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10016 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4066.0s rx=10327 pong=271 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10056 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4081.0s rx=10370 pong=272 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10098 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4096.0s rx=10407 pong=273 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10134 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4111.0s rx=10439 pong=274 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10165 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4126.0s rx=10470 pong=275 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10195 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4141.0s rx=10502 pong=276 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10226 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4156.0s rx=10530 pong=277 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10253 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4171.0s rx=10565 pong=278 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10287 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4186.0s rx=10587 pong=279 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10308 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4201.0s rx=10614 pong=280 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10334 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4216.0s rx=10634 pong=281 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10353 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4231.0s rx=10652 pong=282 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10370 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4246.0s rx=10671 pong=283 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10388 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4261.0s rx=10694 pong=284 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10410 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4276.0s rx=10740 pong=285 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10455 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4291.0s rx=10770 pong=286 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10484 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4306.0s rx=10798 pong=287 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10511 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4321.0s rx=10823 pong=288 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10535 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4336.0s rx=10844 pong=289 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10555 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4351.0s rx=10881 pong=290 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10591 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4366.0s rx=10909 pong=291 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10618 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4381.0s rx=10940 pong=292 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10648 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4396.0s rx=10968 pong=293 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10675 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4411.0s rx=10989 pong=294 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10695 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4426.0s rx=11013 pong=295 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10718 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4441.1s rx=11043 pong=296 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10747 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4456.1s rx=11076 pong=297 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10779 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4471.1s rx=11105 pong=298 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10807 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4486.1s rx=11131 pong=299 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10832 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4501.1s rx=11160 pong=300 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10860 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4516.1s rx=11183 pong=301 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10882 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4531.1s rx=11205 pong=302 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10903 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4546.1s rx=11230 pong=303 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10927 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4561.1s rx=11261 pong=304 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10957 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4576.1s rx=11283 pong=305 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10978 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4591.1s rx=11299 pong=306 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=10993 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4606.1s rx=11318 pong=307 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11011 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4621.1s rx=11361 pong=308 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11053 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4636.1s rx=11388 pong=309 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11079 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4651.1s rx=11411 pong=310 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11101 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4666.1s rx=11451 pong=311 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11140 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4681.1s rx=11479 pong=312 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11167 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4696.1s rx=11504 pong=313 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11191 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4711.1s rx=11529 pong=314 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11215 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4726.1s rx=11546 pong=315 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11231 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4741.1s rx=11580 pong=316 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11264 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4756.1s rx=11599 pong=317 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11282 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4771.1s rx=11619 pong=318 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11301 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4786.1s rx=11645 pong=319 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11326 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4801.1s rx=11685 pong=320 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11365 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4816.1s rx=11719 pong=321 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11398 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4831.1s rx=11746 pong=322 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11424 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4846.1s rx=11767 pong=323 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11444 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4861.1s rx=11794 pong=324 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11470 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4876.1s rx=11821 pong=325 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11496 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4891.1s rx=11844 pong=326 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11518 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4906.1s rx=11874 pong=327 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11547 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4921.1s rx=11898 pong=328 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11570 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4936.1s rx=11933 pong=329 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11604 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4951.1s rx=11968 pong=330 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11638 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4966.1s rx=12007 pong=331 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11676 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4981.1s rx=12044 pong=332 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11712 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=4996.1s rx=12075 pong=333 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11742 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5011.1s rx=12098 pong=334 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11764 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5026.1s rx=12123 pong=335 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11788 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5041.1s rx=12159 pong=336 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11823 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5056.1s rx=12185 pong=337 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11848 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5071.1s rx=12212 pong=338 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11874 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5086.1s rx=12237 pong=339 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11898 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5101.1s rx=12262 pong=340 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11922 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5116.1s rx=12298 pong=341 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=11957 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5131.1s rx=12344 pong=342 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12002 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5146.1s rx=12375 pong=343 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12032 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5161.1s rx=12405 pong=344 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12061 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5176.2s rx=12427 pong=345 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12082 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5191.2s rx=12456 pong=346 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12110 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5206.2s rx=12492 pong=347 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12145 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5221.2s rx=12530 pong=348 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12182 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5236.2s rx=12558 pong=349 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12209 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5251.2s rx=12582 pong=350 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12232 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5266.2s rx=12606 pong=351 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12255 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5281.2s rx=12630 pong=352 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12278 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5296.2s rx=12651 pong=353 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12298 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5311.2s rx=12673 pong=354 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12319 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5326.2s rx=12695 pong=355 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12340 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5341.2s rx=12713 pong=356 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12357 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5356.2s rx=12734 pong=357 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12377 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5371.2s rx=12750 pong=358 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12392 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5386.2s rx=12767 pong=359 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12408 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5401.2s rx=12796 pong=360 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12436 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5416.2s rx=12815 pong=361 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12454 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5431.2s rx=12829 pong=362 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12467 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5446.2s rx=12843 pong=363 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12480 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5461.2s rx=12862 pong=364 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12498 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5476.2s rx=12878 pong=365 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12513 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5491.2s rx=12891 pong=366 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12525 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5506.2s rx=12908 pong=367 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12541 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5521.2s rx=12940 pong=368 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12572 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5536.2s rx=12964 pong=369 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12595 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5551.2s rx=12989 pong=370 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12619 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5566.2s rx=13024 pong=371 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12653 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5581.2s rx=13051 pong=372 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12679 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5596.2s rx=13082 pong=373 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12709 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5611.2s rx=13127 pong=374 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12753 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5626.2s rx=13164 pong=375 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12789 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5641.2s rx=13197 pong=376 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12821 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5656.2s rx=13227 pong=377 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12850 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5671.2s rx=13254 pong=378 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12876 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5686.2s rx=13279 pong=379 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12900 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5701.2s rx=13298 pong=380 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12918 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5716.2s rx=13314 pong=381 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12933 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5731.2s rx=13330 pong=382 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12948 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5746.2s rx=13349 pong=383 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12966 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5761.2s rx=13380 pong=384 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=12996 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5776.2s rx=13418 pong=385 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13033 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5791.2s rx=13446 pong=386 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13060 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5806.2s rx=13477 pong=387 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13090 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5821.2s rx=13504 pong=388 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13116 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5836.2s rx=13526 pong=389 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13137 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5851.2s rx=13546 pong=390 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13156 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5866.2s rx=13565 pong=391 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13174 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5881.2s rx=13583 pong=392 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13191 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5896.2s rx=13604 pong=393 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13211 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5911.2s rx=13625 pong=394 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13231 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5926.2s rx=13641 pong=395 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13246 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5941.2s rx=13658 pong=396 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13262 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5956.2s rx=13676 pong=397 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13279 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5971.2s rx=13687 pong=398 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13289 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=5986.2s rx=13700 pong=399 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13301 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6001.2s rx=13723 pong=400 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13323 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6016.2s rx=13739 pong=401 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13338 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6031.3s rx=13749 pong=402 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13347 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6046.3s rx=13782 pong=403 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13379 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6061.3s rx=13813 pong=404 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13409 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6076.3s rx=13848 pong=405 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13443 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6091.3s rx=13874 pong=406 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13468 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6106.3s rx=13900 pong=407 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13493 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6121.3s rx=13944 pong=408 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13536 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6136.3s rx=13980 pong=409 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13571 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6151.3s rx=13997 pong=410 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13587 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6166.3s rx=14014 pong=411 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13603 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6181.3s rx=14039 pong=412 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13627 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6196.3s rx=14058 pong=413 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13645 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6211.3s rx=14089 pong=414 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13675 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6226.3s rx=14112 pong=415 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13697 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6241.3s rx=14138 pong=416 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13722 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6256.3s rx=14154 pong=417 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13737 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6271.3s rx=14170 pong=418 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13752 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6286.3s rx=14188 pong=419 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13769 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6301.3s rx=14204 pong=420 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13784 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6316.3s rx=14213 pong=421 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13792 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6331.3s rx=14233 pong=422 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13811 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6346.3s rx=14250 pong=423 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13827 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6361.3s rx=14274 pong=424 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13850 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6376.3s rx=14285 pong=425 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13860 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6391.3s rx=14302 pong=426 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13876 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6406.3s rx=14326 pong=427 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13899 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6421.3s rx=14352 pong=428 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13924 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6436.3s rx=14367 pong=429 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13938 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6451.3s rx=14394 pong=430 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13964 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6466.3s rx=14412 pong=431 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=13981 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6481.3s rx=14432 pong=432 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14000 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6496.3s rx=14457 pong=433 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14024 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6511.3s rx=14483 pong=434 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14049 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6526.3s rx=14526 pong=435 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14091 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6541.3s rx=14570 pong=436 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14134 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6556.3s rx=14604 pong=437 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14167 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6571.3s rx=14644 pong=438 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14206 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6586.3s rx=14679 pong=439 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14240 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6601.3s rx=14723 pong=440 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14283 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6616.3s rx=14752 pong=441 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14311 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6631.3s rx=14774 pong=442 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14332 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6646.3s rx=14799 pong=443 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14356 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6661.3s rx=14823 pong=444 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14379 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6676.3s rx=14841 pong=445 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14396 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6691.3s rx=14856 pong=446 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14410 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6706.3s rx=14882 pong=447 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14435 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6721.3s rx=14911 pong=448 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14463 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6736.3s rx=14942 pong=449 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14493 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6751.3s rx=14983 pong=450 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14533 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6766.3s rx=15029 pong=451 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14578 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6781.3s rx=15060 pong=452 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14608 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6796.3s rx=15103 pong=453 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14650 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6811.3s rx=15143 pong=454 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14689 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6826.3s rx=15181 pong=455 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14726 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6841.3s rx=15227 pong=456 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14771 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6856.3s rx=15260 pong=457 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14803 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6871.3s rx=15303 pong=458 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14845 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6886.3s rx=15340 pong=459 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14881 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6901.3s rx=15382 pong=460 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14922 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6916.3s rx=15422 pong=461 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14961 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6931.3s rx=15458 pong=462 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=14996 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6946.3s rx=15494 pong=463 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15031 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6961.3s rx=15522 pong=464 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15058 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6976.3s rx=15546 pong=465 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15081 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=6991.3s rx=15587 pong=466 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15121 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7006.3s rx=15619 pong=467 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15152 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7021.3s rx=15653 pong=468 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15185 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7036.3s rx=15685 pong=469 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15216 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7051.3s rx=15718 pong=470 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15248 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7066.3s rx=15752 pong=471 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15281 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7081.3s rx=15786 pong=472 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15314 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7096.3s rx=15817 pong=473 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15344 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7111.4s rx=15844 pong=474 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15370 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7126.4s rx=15880 pong=475 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15405 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7141.4s rx=15919 pong=476 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15443 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7156.4s rx=15953 pong=477 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15476 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7171.4s rx=15990 pong=478 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15512 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7186.4s rx=16016 pong=479 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15537 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7201.4s rx=16046 pong=480 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15566 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7216.4s rx=16063 pong=481 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15582 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7231.4s rx=16091 pong=482 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15609 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7246.4s rx=16118 pong=483 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15635 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7261.4s rx=16141 pong=484 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15657 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7276.4s rx=16165 pong=485 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15680 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7291.4s rx=16185 pong=486 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15699 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7306.4s rx=16208 pong=487 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15721 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7321.4s rx=16233 pong=488 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15745 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7336.4s rx=16264 pong=489 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15775 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7351.5s rx=16285 pong=490 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15795 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7366.5s rx=16315 pong=491 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15824 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7381.5s rx=16339 pong=492 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15847 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7396.5s rx=16358 pong=493 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15865 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7411.5s rx=16391 pong=494 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15897 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7426.5s rx=16425 pong=495 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15930 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7441.5s rx=16454 pong=496 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15958 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7456.5s rx=16471 pong=497 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15974 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7471.5s rx=16486 pong=498 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=15988 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7486.5s rx=16523 pong=499 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16024 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7501.5s rx=16558 pong=500 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16058 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7516.5s rx=16591 pong=501 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16090 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7531.5s rx=16621 pong=502 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16119 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7546.5s rx=16658 pong=503 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16155 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7561.5s rx=16683 pong=504 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16179 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7576.5s rx=16713 pong=505 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16208 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7591.5s rx=16745 pong=506 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16239 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7606.5s rx=16771 pong=507 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16264 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7621.5s rx=16801 pong=508 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16293 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7636.5s rx=16856 pong=509 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16347 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7651.5s rx=16894 pong=510 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16384 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7666.5s rx=16929 pong=511 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16418 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7681.5s rx=16969 pong=512 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16457 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7696.5s rx=17004 pong=513 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16491 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7711.5s rx=17026 pong=514 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16512 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7726.5s rx=17054 pong=515 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16539 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7741.5s rx=17082 pong=516 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16566 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7756.5s rx=17108 pong=517 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16591 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7771.5s rx=17130 pong=518 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16612 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7786.5s rx=17145 pong=519 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16626 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7801.5s rx=17169 pong=520 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16649 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7816.5s rx=17202 pong=521 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16681 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7831.5s rx=17226 pong=522 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16704 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7846.5s rx=17253 pong=523 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16730 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7861.5s rx=17277 pong=524 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16753 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7876.5s rx=17295 pong=525 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16770 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7891.5s rx=17307 pong=526 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16781 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7906.5s rx=17336 pong=527 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16809 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7921.5s rx=17362 pong=528 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16834 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7936.5s rx=17394 pong=529 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16865 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7951.5s rx=17427 pong=530 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16897 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7966.5s rx=17458 pong=531 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16927 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7981.5s rx=17487 pong=532 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16955 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=7996.5s rx=17505 pong=533 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16972 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=8011.5s rx=17526 pong=534 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=16992 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=8026.5s rx=17548 pong=535 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=17013 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=8041.5s rx=17566 pong=536 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=17030 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=8056.5s rx=17584 pong=537 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=17047 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=8071.5s rx=17605 pong=538 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=17067 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=8086.6s rx=17622 pong=539 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=17083 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=8101.6s rx=17651 pong=540 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=17111 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=8116.6s rx=17673 pong=541 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=17132 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=8131.6s rx=17687 pong=542 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=17145 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=8146.6s rx=17728 pong=543 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=17185 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None
+[WS] HEALTH up=8161.6s rx=17753 pong=544 kline=0 closed=0 intrabar_skip=0 dedupe=0 parse_fail=17209 last_close_ts=None eq=5000.0/5000.0 open_pos=0 trades_closed=0 last_pnl_net=None last_R=None

@@ -1,0 +1,1 @@
+{"ts_ms": 1770753765676, "prefill_enabled": true, "prefill_ok": true, "prefill_rows": 2000, "warmup_bars": 300, "warmup_ready": true, "symbol_env": "SOLUSDT", "tf_env": "5m", "mexc_symbol": "SOL_USDT", "interval": "Min5", "last_ts": "2026-02-10T20:00:00+00:00"}

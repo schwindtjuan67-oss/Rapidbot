@@ -1,0 +1,16 @@
+{
+  "exchange": "mexc",
+  "ws_url": "wss://contract.mexc.com/edge",
+  "symbol": "SOLUSDT",
+  "interval": "5m",
+  "mode": "paper",
+  "out_dir": "C:\\Users\\PC\\Documents\\GitHub\\Retail 2\\results\\shadow",
+  "log_dir": "C:\\Users\\PC\\Documents\\GitHub\\Retail 2\\logs",
+  "stop_file": "C:\\Users\\PC\\Documents\\GitHub\\Retail 2\\results\\STOP_SHADOW.txt",
+  "start_equity": 5000.0,
+  "strategy_module": "scripts.strategies.orchestrator",
+  "prefill_bars": 300,
+  "prefill_write_candles": 1,
+  "prefill_seed_paper": 0,
+  "repo_root": "C:\\Users\\PC\\Documents\\GitHub\\Retail 2"
+}

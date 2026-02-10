@@ -1,0 +1,6 @@
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+# If adapters/__pycache__/mexc_ws.cpython-311.pyc is tracked, remove from index:
+# git rm --cached adapters/__pycache__/mexc_ws.cpython-311.pyc

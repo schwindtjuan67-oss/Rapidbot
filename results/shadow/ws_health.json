@@ -1,0 +1,11 @@
+{
+  "connected": true,
+  "rx_total": 336,
+  "kline_total": 318,
+  "kline_closed_total": 1,
+  "parse_fail_total": 0,
+  "unknown_total": 0,
+  "last_close_ts": 1770421799999,
+  "pong_total": 16,
+  "last_pong_ts": 1770421798147
+}

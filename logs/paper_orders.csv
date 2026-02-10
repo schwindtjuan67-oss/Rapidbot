@@ -1,0 +1,4 @@
+order_id,ts,action,side,qty,price,reason
+1,1770268499999,ENTRY,long,12.97738227660362,91.43,signal_entry
+2,1770269099999,EXIT,long,12.97738227660362,90.21,signal_exit
+1,1770331799999,ENTRY,long,7.8090138331102,80.04,signal_entry
