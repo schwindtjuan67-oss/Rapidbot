@@ -540,9 +540,16 @@ def generate_signals(df5m: pd.DataFrame, cfg: StrategyConfig) -> pd.DataFrame:
     df["prev_high"] = df["high"].shift(1)
     df["prev_low"] = df["low"].shift(1)
     df["prev_close"] = df["close"].shift(1)
-    # SPOT: confirmación mínima (vela verde o micro-momentum) además del breakout clásico.
+    # SPOT: confirmación mínima (vela verde o micro-momentum).
     long_confirm_min = (df["close"] > df["open"]) | (df["close"] > df["prev_close"])
-    df["long_trigger"] = df["touch_value"] & ((df["close"] > df["prev_high"]) | long_confirm_min)
+    # TREND: conservar breakout sobre máximo previo.
+    trend_long_trigger = df["touch_value"] & (df["close"] > df["prev_high"])
+    # MEAN_REVERSION: trigger principal por regreso a VWAP + confirmación mínima.
+    meanrev_long_trigger = touch_vwap & long_confirm_min
+    df["trend_long_trigger"] = trend_long_trigger
+    df["meanrev_long_trigger"] = meanrev_long_trigger
+    # compat: columna histórica usada por métricas/debugs.
+    df["long_trigger"] = trend_long_trigger | meanrev_long_trigger
     df["short_trigger"] = df["touch_value"] & (df["close"] < df["prev_low"])
     # === CODEX_PATCH_END: RELAXED_SPOT_LOGIC (2026-02-10) ===
 
@@ -594,19 +601,39 @@ def generate_signals(df5m: pd.DataFrame, cfg: StrategyConfig) -> pd.DataFrame:
     df["tp2_short"] = df["entry_short"] - cfg.tp2_R * df["R_short"]
 
     # === CODEX_PATCH_BEGIN: VOL_FILTER_MONTHLY_ATR (2026-02-02) ===
-    # final gating (base logic unchanged)
-    # === CODEX_PATCH_BEGIN: RELAXED_SPOT_LOGIC (2026-02-10) ===
-    # SPOT: permitir LONG con bias neutral si el score HTF acompaña.
-    bias_long_ok = (df["bias_1h"] == "LONG") | (
-        (df["bias_1h"] == "NO_TRADE") & (df["bias_score_1h"] >= float(cfg.spot_bias_score_threshold))
+    # final gating (SPOT semantics)
+    # Bias 1H ahora es CONTEXTO: LONG y NEUTRAL permiten operar.
+    # NO_TRADE sólo habilita entradas si el mercado está en rango/volatilidad baja.
+    low_volatility = df["atr_pct"] <= cfg.min_atr_pct_5m
+    range_width_60m = (df["high"].rolling(12).max() - df["low"].rolling(12).min()) / df["close"].replace(0, np.nan)
+    range_compressed = range_width_60m <= (cfg.min_atr_pct_5m * 8.0)
+    range_allowed = low_volatility | range_compressed
+    df["range_allowed"] = range_allowed.fillna(False)
+
+    bias_is_neutral = (df["bias_1h"] == "NEUTRAL") | (
+        (df["bias_1h"] == "NO_TRADE") & (df["bias_score_1h"].abs() <= float(cfg.spot_bias_score_threshold))
     )
-    long_ok = (
-        bias_long_ok &
+    bias_trade_allowed = (df["bias_1h"] == "LONG") | bias_is_neutral
+    bias_range_override = (df["bias_1h"] == "NO_TRADE") & df["range_allowed"]
+
+    trend_ok = (
+        (df["bias_1h"] == "LONG") &
         (df["struct_15m"] == "LONG_OK") &
-        df["long_trigger"] &
+        df["trend_long_trigger"] &
         df["ok_vol"] & df["ok_chop"]
     )
-    # === CODEX_PATCH_END: RELAXED_SPOT_LOGIC (2026-02-10) ===
+    meanrev_ok = (
+        (bias_trade_allowed | bias_range_override) &
+        (df["struct_15m"] == "NONE") &
+        df["meanrev_long_trigger"] &
+        df["ok_chop"]
+    )
+    long_ok = trend_ok | meanrev_ok
+
+    df["entry_mode"] = ""
+    df.loc[trend_ok, "entry_mode"] = "TREND"
+    df.loc[meanrev_ok, "entry_mode"] = "MEAN_REVERSION"
+    df["range_override_allowed"] = bias_range_override.astype(bool)
     short_ok = (
         (df["bias_1h"] == "SHORT") &
         (df["struct_15m"] == "SHORT_OK") &
@@ -1999,6 +2026,8 @@ def backtest_from_signals(
             "risk_usd": float(risk_usd),
             "risk_per_trade": float(bt.risk_pct_per_trade),
             "notional_usd": float(notional_usd),
+            "entry_mode": str(row.get("entry_mode", "")),
+            "range_override_allowed": bool(row.get("range_override_allowed", False)),
             "realized_pnl": 0.0,
             "fees_usdt": 0.0,
             "tp1_fee_usdt": 0.0,
@@ -2237,18 +2266,23 @@ def backtest_from_signals(
                 debug_reasons: List[str] = []
                 bias_value = str(prev.get("bias_1h", ""))
                 bias_score = float(prev.get("bias_score_1h", 0.0) or 0.0)
-                bias_ok = (
-                    bias_value == "LONG"
-                    or (bias_value == "NO_TRADE" and bias_score >= float(strat_cfg.spot_bias_score_threshold))
-                )
-                if not bias_ok:
+                entry_mode = str(prev.get("entry_mode", "")).upper()
+                if bias_value not in {"LONG", "NEUTRAL", "NO_TRADE"}:
                     debug_reasons.append(
-                        f"bias_1h={bias_value} bias_score_1h={bias_score:.3f} threshold={float(strat_cfg.spot_bias_score_threshold):.3f}"
+                        f"bias_1h={bias_value} bias_score_1h={bias_score:.3f}"
                     )
-                if str(prev.get("struct_15m", "")) != "LONG_OK":
-                    debug_reasons.append(f"struct_15m={prev.get('struct_15m')}")
-                if not bool(prev.get("ok_vol", False)):
-                    debug_reasons.append("ok_vol=0")
+                if entry_mode == "TREND":
+                    if str(prev.get("struct_15m", "")) != "LONG_OK":
+                        debug_reasons.append(f"struct_15m={prev.get('struct_15m')}")
+                    if not bool(prev.get("ok_vol", False)):
+                        debug_reasons.append("ok_vol=0")
+                elif entry_mode == "MEAN_REVERSION":
+                    if str(prev.get("struct_15m", "")) != "NONE":
+                        debug_reasons.append(f"struct_15m={prev.get('struct_15m')}")
+                else:
+                    debug_reasons.append(
+                        f"entry_mode={entry_mode or 'NONE'} bias_1h={bias_value} range_allowed={bool(prev.get('range_allowed', False))}"
+                    )
                 if not bool(prev.get("ok_chop", False)):
                     debug_reasons.append("ok_chop=0")
                 if strat_cfg.enable_monthly_vol_filter and not bool(prev.get("vol_ok", False)):
@@ -2260,6 +2294,16 @@ def backtest_from_signals(
 
             p = build_pending(prev)
             if p is not None:
+                print(
+                    f"[SIGNAL_ALLOWED] MODE=SPOT ENTRY_MODE={p.get('entry_mode', '')} ts={prev['ts']} "
+                    f"bias_1h={prev.get('bias_1h')} struct_15m={prev.get('struct_15m')}"
+                )
+                if bool(p.get("range_override_allowed", False)):
+                    print(
+                        f"[SIGNAL_ALLOWED_RANGE] MODE=SPOT ENTRY_MODE={p.get('entry_mode', '')} ts={prev['ts']} "
+                        f"reason=bias_no_trade_with_range atr_pct={float(prev.get('atr_pct', np.nan)):.6f} "
+                        f"range_allowed={bool(prev.get('range_allowed', False))}"
+                    )
                 pending = p
                 pending_age = 0
 
@@ -2844,7 +2888,7 @@ def run_backtest(
         # === CODEX_PATCH_END: MAX_STOPS_PER_DAY_KILL (2026-02-02) ===
     )
     apply_overrides(strat_cfg, params or {})
-    print("MODE: SPOT")
+    print("MODE=SPOT")
     print(f"LOGIC PROFILE: {strat_cfg.spot_logic_profile}")
     print(f"rr_min: {float(strat_cfg.rr_min):.4f}")
     print(f"bias_threshold: {float(strat_cfg.spot_bias_score_threshold):.4f}")
@@ -3168,7 +3212,7 @@ if __name__ == "__main__":
     if args.leverage is not None or args.margin_mode is not None or args.reduce_only is not None:
         print("[INFO] Ignoring futures-only flags in SPOT mode (leverage/margin/reduce_only).")
 
-    print("MODE: SPOT")
+    print("MODE=SPOT")
     print(f"LOGIC PROFILE: {effective_cfg.spot_logic_profile}")
     print(f"rr_min: {float(effective_cfg.rr_min):.4f}")
     print(f"bias_threshold: {float(effective_cfg.spot_bias_score_threshold):.4f}")
