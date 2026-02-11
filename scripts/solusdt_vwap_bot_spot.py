@@ -1698,6 +1698,33 @@ def _handle_issue(msg: str, strict: bool) -> None:
     print(f"WARNING: {msg}")
 
 
+# === CODEX_PATCH_BEGIN: CSV_TS_UNIT_AUTO_DETECT_SPOT (2026-02-11) ===
+def _parse_csv_ts_utc(ts_raw: pd.Series) -> pd.Series:
+    """Parse CSV timestamps to UTC with automatic unit detection (s/ms/us)."""
+    ts_num = pd.to_numeric(ts_raw, errors="coerce")
+    ts_num_valid = ts_num.dropna()
+
+    if ts_num_valid.empty:
+        # Fallback for ISO-like string timestamps; keep UTC normalization.
+        print("[CSV] timestamp_parse mode=strings->utc")
+        return pd.to_datetime(ts_raw, utc=True, errors="coerce")
+
+    ts_max = float(ts_num_valid.abs().max())
+    if ts_max > 1e14:
+        unit = "us"
+        unit_name = "microseconds"
+    elif ts_max > 1e11:
+        unit = "ms"
+        unit_name = "milliseconds"
+    else:
+        unit = "s"
+        unit_name = "seconds"
+
+    print(f"[CSV] timestamp_parse detected_unit={unit_name} max_abs={ts_max:.3f}")
+    return pd.to_datetime(ts_num, unit=unit, utc=True, errors="coerce")
+# === CODEX_PATCH_END: CSV_TS_UNIT_AUTO_DETECT_SPOT (2026-02-11) ===
+
+
 def load_ohlcv_csv(csv_path: str, strict: bool) -> pd.DataFrame:
     df = pd.read_csv(csv_path)
     required = {"ts", "open", "high", "low", "close", "volume"}
@@ -1710,7 +1737,10 @@ def load_ohlcv_csv(csv_path: str, strict: bool) -> pd.DataFrame:
         return pd.DataFrame(columns=list(required))
 
     df = df[list(required)].copy()
-    df["ts"] = pd.to_datetime(df["ts"], utc=True, errors="coerce")
+    # === CODEX_PATCH_BEGIN: CSV_TS_UNIT_AUTO_DETECT_SPOT (2026-02-11) ===
+    # Spot fix: detect CSV timestamp units (s/ms/us) to avoid 1970 parsing drift.
+    df["ts"] = _parse_csv_ts_utc(df["ts"])
+    # === CODEX_PATCH_END: CSV_TS_UNIT_AUTO_DETECT_SPOT (2026-02-11) ===
     if df["ts"].isna().any():
         bad = int(df["ts"].isna().sum())
         _handle_issue(f"Found {bad} rows with invalid ts; dropping.", strict)
@@ -1882,12 +1912,32 @@ def backtest_from_signals(
         if not np.isfinite(dist) or dist <= 0:
             return 0.0, risk_usd, dist, 0.0
         qty = risk_usd / dist
+
+        # === CODEX_PATCH_BEGIN: SPOT_EQUITY_SIZING_GUARD (2026-02-11) ===
+        # Spot sizing fix: size from available equity and cap notional to equity.
+        is_spot = True
+        if is_spot:
+            qty = (equity * bt.risk_pct_per_trade) / entry if entry > 0 else 0.0
+            notional = qty * entry
+            if notional > equity and entry > 0:
+                capped_qty = equity / entry
+                print(
+                    f"[DEBUG][SPOT_SIZING_CAP] reason=equity_cap equity={equity:.6f} "
+                    f"notional_before={notional:.6f} notional_after={equity:.6f} qty_before={qty:.6f} qty_after={capped_qty:.6f}"
+                )
+                qty = capped_qty
+        # === CODEX_PATCH_END: SPOT_EQUITY_SIZING_GUARD (2026-02-11) ===
+
         # === CODEX_PATCH_BEGIN: MAX_NOTIONAL_CAP (2026-02-02) ===
         notional_cap = float(bt.max_notional_usdt)
         if bt.max_notional_mult > 0:
             notional_cap = max(notional_cap, float(equity) * float(bt.max_notional_mult))
         notional = qty * entry
         if notional_cap > 0 and notional > notional_cap:
+            print(
+                f"[DEBUG][SPOT_SIZING_CAP] reason=config_notional_cap cap={notional_cap:.6f} "
+                f"notional_before={notional:.6f} equity={equity:.6f}"
+            )
             qty = notional_cap / entry
         notional = qty * entry
         # === CODEX_PATCH_END: MAX_NOTIONAL_CAP (2026-02-02) ===
