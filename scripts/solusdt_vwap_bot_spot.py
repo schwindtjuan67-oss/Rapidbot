@@ -1721,8 +1721,10 @@ TRADE_COLUMNS: List[str] = [
     "portfolio_risk_budget_hit",
     "entry_fill_type",
     "entry_slippage_bps_applied",
+    "entry_slip_bps_implied",
     "exit_fill_type",
     "exit_slippage_bps_applied",
+    "exit_slip_bps_implied",
     "spread_half_bps_used",
     "time_to_fill_steps_entry",
     "time_to_fill_steps_exit",
@@ -1734,6 +1736,103 @@ EQUITY_COLUMNS: List[str] = ["ts", "equity_usdt", "note"]
 def trade_rec_to_dict(trade: TradeRec) -> Dict[str, Any]:
     data = asdict(trade)
     return {col: data.get(col) for col in TRADE_COLUMNS}
+
+
+def _recompute_implied_slippage_bps(trades_df: pd.DataFrame, bars_df: pd.DataFrame, bt: BTConfig) -> pd.DataFrame:
+    """Recompute canonical slippage bps from realized fills using bar-close synthetic mids."""
+    if trades_df is None or trades_df.empty:
+        return trades_df
+
+    trades = trades_df.copy()
+    if "ts" not in bars_df.columns or "close" not in bars_df.columns:
+        return trades
+
+    bars = bars_df[["ts", "close"]].copy()
+    bars["ts"] = pd.to_datetime(bars["ts"], utc=True)
+    bars["close"] = pd.to_numeric(bars["close"], errors="coerce")
+    bars = bars.dropna(subset=["ts", "close"]).drop_duplicates(subset=["ts"], keep="last")
+    close_map = bars.set_index("ts")["close"].to_dict()
+
+    trades["entry_ts"] = pd.to_datetime(trades["entry_ts"], utc=True, errors="coerce")
+    trades["exit_ts"] = pd.to_datetime(trades["exit_ts"], utc=True, errors="coerce")
+
+    trades["mid_entry"] = trades["entry_ts"].map(close_map).astype(float)
+    trades["mid_exit"] = trades["exit_ts"].map(close_map).astype(float)
+
+    use_bidask_model = bool(getattr(bt, "enable_tp_bidask_model", False))
+    half_spread_bps = float(getattr(bt, "tp_bidask_half_spread_bps", 0.0)) if use_bidask_model else 0.0
+    spread_mult = half_spread_bps / 10000.0
+    trades["entry_bid"] = trades["mid_entry"] * (1.0 - spread_mult)
+    trades["entry_ask"] = trades["mid_entry"] * (1.0 + spread_mult)
+    trades["exit_bid"] = trades["mid_exit"] * (1.0 - spread_mult)
+    trades["exit_ask"] = trades["mid_exit"] * (1.0 + spread_mult)
+
+    entry_mid = pd.to_numeric(trades["mid_entry"], errors="coerce")
+    exit_mid = pd.to_numeric(trades["mid_exit"], errors="coerce")
+    entry_px = pd.to_numeric(trades["entry"], errors="coerce")
+    exit_px = pd.to_numeric(trades["exit"], errors="coerce")
+
+    entry_implied = ((entry_px - entry_mid) / entry_mid) * 10000.0
+    exit_implied = ((exit_mid - exit_px) / exit_mid) * 10000.0
+    entry_implied = entry_implied.where(entry_mid > 0)
+    exit_implied = exit_implied.where(exit_mid > 0)
+
+    old_entry = pd.to_numeric(trades.get("entry_slippage_bps_applied", pd.Series(dtype=float)), errors="coerce")
+    old_exit = pd.to_numeric(trades.get("exit_slippage_bps_applied", pd.Series(dtype=float)), errors="coerce")
+
+    trades["entry_slip_bps_implied"] = entry_implied
+    trades["exit_slip_bps_implied"] = exit_implied
+
+    # Canonical applied slippage becomes implied from actual fills.
+    trades["entry_slippage_bps_applied"] = entry_implied
+    trades["exit_slippage_bps_applied"] = exit_implied
+
+    diag_rows: List[Dict[str, Any]] = []
+    for idx, row in trades.iterrows():
+        row_reason = str(row.get("exit_reason", ""))
+        fill_type_entry = str(row.get("entry_fill_type", ""))
+        fill_type_exit = str(row.get("exit_fill_type", ""))
+        ts_entry = row.get("entry_ts")
+        ts_exit = row.get("exit_ts")
+        if idx < len(old_entry) and pd.notna(old_entry.iloc[idx]) and pd.notna(entry_implied.iloc[idx]):
+            mismatch = float(abs(old_entry.iloc[idx] - entry_implied.iloc[idx]))
+            diag_rows.append({
+                "ts": ts_entry,
+                "reason": row_reason,
+                "fill_type": fill_type_entry,
+                "leg": "entry",
+                "mid": row.get("mid_entry"),
+                "old_bps": float(old_entry.iloc[idx]),
+                "implied_bps": float(entry_implied.iloc[idx]),
+                "abs_mismatch_bps": mismatch,
+            })
+        if idx < len(old_exit) and pd.notna(old_exit.iloc[idx]) and pd.notna(exit_implied.iloc[idx]):
+            mismatch = float(abs(old_exit.iloc[idx] - exit_implied.iloc[idx]))
+            diag_rows.append({
+                "ts": ts_exit,
+                "reason": row_reason,
+                "fill_type": fill_type_exit,
+                "leg": "exit",
+                "mid": row.get("mid_exit"),
+                "old_bps": float(old_exit.iloc[idx]),
+                "implied_bps": float(exit_implied.iloc[idx]),
+                "abs_mismatch_bps": mismatch,
+            })
+
+    if diag_rows:
+        diag_df = pd.DataFrame(diag_rows).sort_values("abs_mismatch_bps", ascending=False)
+        print("[SLIPPAGE_DIAG] Top 20 absolute mismatch old_bps vs implied_bps")
+        print(diag_df.head(20).to_string(index=False))
+        warn_df = diag_df[diag_df["abs_mismatch_bps"] > 1.0]
+        for _, warn in warn_df.iterrows():
+            print(
+                "[SLIPPAGE_WARN] "
+                f"ts={warn['ts']} reason={warn['reason']} fill_type={warn['fill_type']} leg={warn['leg']} "
+                f"mid={float(warn['mid']):.8f} old_bps={float(warn['old_bps']):.6f} "
+                f"implied_bps={float(warn['implied_bps']):.6f}"
+            )
+
+    return trades
 
 
 def _handle_issue(msg: str, strict: bool) -> None:
@@ -2949,6 +3048,7 @@ def backtest_from_signals(
             record_equity(ts, "")
 
     trades_df = pd.DataFrame([trade_rec_to_dict(t) for t in trades], columns=TRADE_COLUMNS)
+    trades_df = _recompute_implied_slippage_bps(trades_df, df, bt)
     eq_df = pd.DataFrame(equity_curve, columns=EQUITY_COLUMNS)
     if not eq_df.empty:
         eq_df = eq_df.sort_values("ts").reset_index(drop=True)
