@@ -28,6 +28,7 @@ from collections import deque
 from dataclasses import dataclass, asdict
 from typing import Optional, Dict, Any, Literal, List, Tuple
 import os
+import sys
 import time
 import math
 import uuid
@@ -37,6 +38,11 @@ import urllib.request
 
 import numpy as np
 import pandas as pd
+
+# Permite ejecutar tanto como módulo (`python -m scripts.solusdt_vwap_bot_spot`)
+# como script directo (`python ./scripts/solusdt_vwap_bot_spot.py`).
+if __package__ in (None, ""):
+    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from scripts.time_utils import ensure_utc
 
