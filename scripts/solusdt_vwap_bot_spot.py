@@ -1588,6 +1588,12 @@ class BTConfig:
     max_notional_usdt: float = 0.0
     max_notional_mult: float = 0.0
     # === CODEX_PATCH_END: MAX_NOTIONAL_CAP (2026-02-02) ===
+    legacy_fixed_notional_usd: float = 0.0
+    max_positions: int = 1
+    max_portfolio_risk_pct: float = 0.06
+    max_single_trade_risk_pct: float = 0.0
+    max_notional_pct_equity: float = 1.0
+    min_notional_usd: float = 10.0
 
     # comportamiento:
     entry_timeout_bars: int = 3       # si no activa entrada en N barras, cancel
@@ -1664,6 +1670,11 @@ class TradeRec:
     notional_usd: float
     risk_per_trade: float
     risk_usd: float
+    intended_risk_usd: float = 0.0
+    effective_risk_usd: float = 0.0
+    effective_risk_pct: float = 0.0
+    position_notional: float = 0.0
+    portfolio_risk_budget_hit: int = 0
     entry_fill_type: str = "market"
     entry_slippage_bps_applied: float = 0.0
     exit_fill_type: str = "market"
@@ -1703,6 +1714,11 @@ TRADE_COLUMNS: List[str] = [
     "notional_usd",
     "risk_per_trade",
     "risk_usd",
+    "intended_risk_usd",
+    "effective_risk_usd",
+    "effective_risk_pct",
+    "position_notional",
+    "portfolio_risk_budget_hit",
     "entry_fill_type",
     "entry_slippage_bps_applied",
     "exit_fill_type",
@@ -1947,43 +1963,89 @@ def backtest_from_signals(
     tp_half_spread_count = 0
     # === CODEX_PATCH_END: DYNAMIC_SLIPPAGE_MODEL (2026-02-02) ===
 
-    def size_qty(entry: float, stop: float) -> Tuple[float, float, float, float]:
+    portfolio_risk_budget_hits_count = 0
+    min_size_forced_count = 0
+
+    def _open_risk_usd() -> float:
+        if pos is None:
+            return 0.0
+        try:
+            qty_rem = float(pos.get("qty_remaining", 0.0))
+            if qty_rem <= 0:
+                return 0.0
+            entry_px = float(pos.get("entry_fill") or pos.get("entry") or 0.0)
+            stop_px = float(pos.get("stop_active") or pos.get("stop") or 0.0)
+            return max(0.0, (entry_px - stop_px) * qty_rem)
+        except Exception:
+            return 0.0
+
+    def size_qty(entry: float, stop: float) -> Dict[str, float]:
         nonlocal equity
-        risk_usd = compute_risk_usd(equity, bt.risk_pct_per_trade)
+        nonlocal portfolio_risk_budget_hits_count, min_size_forced_count
+        intended_risk_usd = compute_risk_usd(equity, bt.risk_pct_per_trade)
         dist = abs(entry - stop)
         if not np.isfinite(dist) or dist <= 0:
-            return 0.0, risk_usd, dist, 0.0
-        qty = risk_usd / dist
+            return {
+                "qty": 0.0,
+                "stop_distance": dist,
+                "notional": 0.0,
+                "intended_risk_usd": float(intended_risk_usd),
+                "effective_risk_usd": 0.0,
+                "effective_risk_pct": 0.0,
+                "portfolio_risk_budget_hit": 0,
+                "min_size_forced": 0,
+            }
 
-        # === CODEX_PATCH_BEGIN: SPOT_EQUITY_SIZING_GUARD (2026-02-11) ===
-        # Spot sizing fix: size from available equity and cap notional to equity.
-        is_spot = True
-        if is_spot:
-            qty = (equity * bt.risk_pct_per_trade) / entry if entry > 0 else 0.0
-            notional = qty * entry
-            if notional > equity and entry > 0:
-                capped_qty = equity / entry
-                print(
-                    f"[DEBUG][SPOT_SIZING_CAP] reason=equity_cap equity={equity:.6f} "
-                    f"notional_before={notional:.6f} notional_after={equity:.6f} qty_before={qty:.6f} qty_after={capped_qty:.6f}"
-                )
-                qty = capped_qty
-        # === CODEX_PATCH_END: SPOT_EQUITY_SIZING_GUARD (2026-02-11) ===
+        current_open_risk_usd = _open_risk_usd()
+        risk_budget_total_usd = max(0.0, float(bt.max_portfolio_risk_pct) * float(equity))
+        remaining_risk_budget_usd = risk_budget_total_usd - current_open_risk_usd
+        effective_risk_usd = intended_risk_usd
+        single_trade_cap_pct = float(bt.max_single_trade_risk_pct)
+        if single_trade_cap_pct > 0:
+            effective_risk_usd = min(effective_risk_usd, float(equity) * single_trade_cap_pct)
+        budget_hit = 0
+        if remaining_risk_budget_usd < effective_risk_usd:
+            budget_hit = 1
+            portfolio_risk_budget_hits_count += 1
+        effective_risk_usd = min(effective_risk_usd, max(0.0, remaining_risk_budget_usd))
 
-        # === CODEX_PATCH_BEGIN: MAX_NOTIONAL_CAP (2026-02-02) ===
-        notional_cap = float(bt.max_notional_usdt)
+        qty = (effective_risk_usd / dist) if dist > 0 else 0.0
+        notional = qty * entry
+
+        notional_cap = float(bt.legacy_fixed_notional_usd) if float(bt.legacy_fixed_notional_usd) > 0 else float(bt.max_notional_usdt)
         if bt.max_notional_mult > 0:
             notional_cap = max(notional_cap, float(equity) * float(bt.max_notional_mult))
-        notional = qty * entry
+        if bt.max_notional_pct_equity > 0:
+            notional_cap = min(notional_cap, float(equity) * float(bt.max_notional_pct_equity)) if notional_cap > 0 else float(equity) * float(bt.max_notional_pct_equity)
+        notional_cap = min(notional_cap, float(equity)) if notional_cap > 0 else float(equity)
         if notional_cap > 0 and notional > notional_cap:
-            print(
-                f"[DEBUG][SPOT_SIZING_CAP] reason=config_notional_cap cap={notional_cap:.6f} "
-                f"notional_before={notional:.6f} equity={equity:.6f}"
-            )
             qty = notional_cap / entry
+            notional = qty * entry
+
+        min_size_forced = 0
+        if effective_risk_usd <= 0 and float(bt.min_notional_usd) > 0 and entry > 0:
+            forced_notional = min(float(bt.min_notional_usd), float(equity))
+            qty = forced_notional / entry if forced_notional > 0 else 0.0
+            notional = qty * entry
+            min_size_forced = 1 if qty > 0 else 0
+            if min_size_forced:
+                min_size_forced_count += 1
+                budget_hit = 1
+
+        effective_risk_usd_final = abs(entry - stop) * qty
+        effective_risk_pct = (effective_risk_usd_final / equity) if equity > 0 else 0.0
+
         notional = qty * entry
-        # === CODEX_PATCH_END: MAX_NOTIONAL_CAP (2026-02-02) ===
-        return qty, risk_usd, dist, notional
+        return {
+            "qty": float(qty),
+            "stop_distance": float(dist),
+            "notional": float(notional),
+            "intended_risk_usd": float(intended_risk_usd),
+            "effective_risk_usd": float(effective_risk_usd_final),
+            "effective_risk_pct": float(effective_risk_pct),
+            "portfolio_risk_budget_hit": int(budget_hit),
+            "min_size_forced": int(min_size_forced),
+        }
 
     def record_equity(ts: pd.Timestamp, note: str = ""):
         equity_curve.append({"ts": ts, "equity_usdt": equity, "note": note})
@@ -2190,12 +2252,15 @@ def backtest_from_signals(
         if any(np.isnan([entry, stop, tp1, tp2])):
             return None
 
-        qty, risk_usd, stop_distance, notional_usd = size_qty(entry, stop)
+        sizing = size_qty(entry, stop)
+        qty = float(sizing["qty"])
+        stop_distance = float(sizing["stop_distance"])
+        notional_usd = float(sizing["notional"])
         if (not np.isfinite(stop_distance)) or stop_distance <= 0:
             print(f"[NO_TRADE] reason=invalid_stop_distance ts={row['ts']} signal={sig} stop_distance={stop_distance}")
             return None
         if qty <= 0:
-            print(f"[NO_TRADE] reason=zero_qty ts={row['ts']} signal={sig} risk_usd={risk_usd}")
+            print(f"[NO_TRADE] reason=zero_qty ts={row['ts']} signal={sig} intended_risk_usd={sizing['intended_risk_usd']}")
             return None
         if (qty * entry) > equity:
             print(f"[NO_TRADE] reason=insufficient_equity ts={row['ts']} signal={sig} notional={qty * entry:.6f} equity={equity:.6f}")
@@ -2222,7 +2287,12 @@ def backtest_from_signals(
             "entry_ts": None,
             "entry_fill": None,
             "stop_active": stop,
-            "risk_usd": float(risk_usd),
+            "risk_usd": float(sizing["effective_risk_usd"]),
+            "intended_risk_usd": float(sizing["intended_risk_usd"]),
+            "effective_risk_usd": float(sizing["effective_risk_usd"]),
+            "effective_risk_pct": float(sizing["effective_risk_pct"]),
+            "position_notional": float(notional_usd),
+            "portfolio_risk_budget_hit": int(sizing["portfolio_risk_budget_hit"]),
             "risk_per_trade": float(bt.risk_pct_per_trade),
             "notional_usd": float(notional_usd),
             "entry_mode": str(row.get("entry_mode", "")),
@@ -2342,6 +2412,11 @@ def backtest_from_signals(
                         notional_usd=float(abs(qty_total * entry_fill)),
                         risk_per_trade=float(pos.get("risk_per_trade", bt.risk_pct_per_trade)),
                         risk_usd=float(pos.get("risk_usd", bt.initial_equity_usdt * bt.risk_pct_per_trade)),
+                        intended_risk_usd=float(pos.get("intended_risk_usd", pos.get("risk_usd", 0.0))),
+                        effective_risk_usd=float(pos.get("effective_risk_usd", pos.get("risk_usd", 0.0))),
+                        effective_risk_pct=float(pos.get("effective_risk_pct", 0.0)),
+                        position_notional=float(pos.get("position_notional", abs(qty_total * entry_fill))),
+                        portfolio_risk_budget_hit=int(pos.get("portfolio_risk_budget_hit", 0)),
                         entry_fill_type=str(pos.get("entry_fill_type", "market")),
                         entry_slippage_bps_applied=float(pos.get("entry_slippage_bps_applied", 0.0)),
                         exit_fill_type=str(pos.get("exit_fill_type", "market")),
@@ -2446,6 +2521,11 @@ def backtest_from_signals(
                     notional_usd=float(abs(qty_total * entry_fill)),
                     risk_per_trade=float(pos.get("risk_per_trade", bt.risk_pct_per_trade)),
                     risk_usd=float(pos.get("risk_usd", bt.initial_equity_usdt * bt.risk_pct_per_trade)),
+                    intended_risk_usd=float(pos.get("intended_risk_usd", pos.get("risk_usd", 0.0))),
+                    effective_risk_usd=float(pos.get("effective_risk_usd", pos.get("risk_usd", 0.0))),
+                    effective_risk_pct=float(pos.get("effective_risk_pct", 0.0)),
+                    position_notional=float(pos.get("position_notional", abs(qty_total * entry_fill))),
+                    portfolio_risk_budget_hit=int(pos.get("portfolio_risk_budget_hit", 0)),
                     entry_fill_type=str(pos.get("entry_fill_type", "market")),
                     entry_slippage_bps_applied=float(pos.get("entry_slippage_bps_applied", 0.0)),
                     exit_fill_type=str(pos.get("exit_fill_type", "market")),
@@ -2678,6 +2758,11 @@ def backtest_from_signals(
                     notional_usd=float(abs(qty_total * entry_fill)),
                     risk_per_trade=float(pos.get("risk_per_trade", bt.risk_pct_per_trade)),
                     risk_usd=float(pos.get("risk_usd", bt.initial_equity_usdt * bt.risk_pct_per_trade)),
+                    intended_risk_usd=float(pos.get("intended_risk_usd", pos.get("risk_usd", 0.0))),
+                    effective_risk_usd=float(pos.get("effective_risk_usd", pos.get("risk_usd", 0.0))),
+                    effective_risk_pct=float(pos.get("effective_risk_pct", 0.0)),
+                    position_notional=float(pos.get("position_notional", abs(qty_total * entry_fill))),
+                    portfolio_risk_budget_hit=int(pos.get("portfolio_risk_budget_hit", 0)),
                     entry_fill_type=str(pos.get("entry_fill_type", "market")),
                     entry_slippage_bps_applied=float(pos.get("entry_slippage_bps_applied", 0.0)),
                     exit_fill_type=str(pos.get("exit_fill_type", "market")),
@@ -2830,6 +2915,11 @@ def backtest_from_signals(
                         notional_usd=float(abs(qty_total * entry_fill)),
                         risk_per_trade=float(pos.get("risk_per_trade", bt.risk_pct_per_trade)),
                         risk_usd=float(pos.get("risk_usd", bt.initial_equity_usdt * bt.risk_pct_per_trade)),
+                        intended_risk_usd=float(pos.get("intended_risk_usd", pos.get("risk_usd", 0.0))),
+                        effective_risk_usd=float(pos.get("effective_risk_usd", pos.get("risk_usd", 0.0))),
+                        effective_risk_pct=float(pos.get("effective_risk_pct", 0.0)),
+                        position_notional=float(pos.get("position_notional", abs(qty_total * entry_fill))),
+                        portfolio_risk_budget_hit=int(pos.get("portfolio_risk_budget_hit", 0)),
                         entry_fill_type=str(pos.get("entry_fill_type", "market")),
                         entry_slippage_bps_applied=float(pos.get("entry_slippage_bps_applied", 0.0)),
                         exit_fill_type=str(pos.get("exit_fill_type", "market")),
@@ -2881,6 +2971,8 @@ def backtest_from_signals(
         "max_slip_bps_entry": float(entry_slip_series.max()) if not entry_slip_series.empty else 0.0,
         "max_slip_bps_stop": float(slip_stop_max),
         "max_slip_bps_exit": float(exit_slip_series.max()) if not exit_slip_series.empty else 0.0,
+        "portfolio_risk_budget_hits_count": int(portfolio_risk_budget_hits_count),
+        "min_size_forced_count": int(min_size_forced_count),
     }
     if return_state:
         open_position = 1 if pos is not None else 0
@@ -3067,6 +3159,12 @@ def run_backtest(
     # === CODEX_PATCH_BEGIN: MAX_NOTIONAL_CAP (2026-02-02) ===
     max_notional_usdt: float,
     max_notional_mult: float,
+    legacy_fixed_notional_usd: float,
+    max_positions: int,
+    max_portfolio_risk_pct: float,
+    max_single_trade_risk_pct: float,
+    max_notional_pct_equity: float,
+    min_notional_usd: float,
     # === CODEX_PATCH_END: MAX_NOTIONAL_CAP (2026-02-02) ===
     outdir: str,
     strict: bool,
@@ -3174,6 +3272,12 @@ def run_backtest(
         # === CODEX_PATCH_BEGIN: MAX_NOTIONAL_CAP (2026-02-02) ===
         max_notional_usdt=max_notional_usdt,
         max_notional_mult=max_notional_mult,
+        legacy_fixed_notional_usd=legacy_fixed_notional_usd,
+        max_positions=max_positions,
+        max_portfolio_risk_pct=max_portfolio_risk_pct,
+        max_single_trade_risk_pct=max_single_trade_risk_pct,
+        max_notional_pct_equity=max_notional_pct_equity,
+        min_notional_usd=min_notional_usd,
         # === CODEX_PATCH_END: MAX_NOTIONAL_CAP (2026-02-02) ===
         entry_timeout_bars=strat_cfg.entry_timeout_bars,
         conservative_intrabar=True,
@@ -3214,6 +3318,8 @@ def run_backtest(
                 "max_slip_bps_entry": 0.0,
                 "max_slip_bps_stop": 0.0,
                 "max_slip_bps_exit": 0.0,
+                "portfolio_risk_budget_hits_count": 0,
+                "min_size_forced_count": 0,
             },
         )
     )
@@ -3289,9 +3395,11 @@ def run_backtest(
         notionals = (trades_df["qty"].astype(float) * trades_df["entry"].astype(float)).abs()
         max_position_notional_observed = float(notionals.max())
         avg_position_notional = float(notionals.mean())
+        avg_effective_risk_pct = float(trades_df.get("effective_risk_pct", pd.Series(dtype=float)).astype(float).mean()) if "effective_risk_pct" in trades_df.columns else 0.0
     else:
         max_position_notional_observed = 0.0
         avg_position_notional = 0.0
+        avg_effective_risk_pct = 0.0
     # === CODEX_PATCH_END: MAX_NOTIONAL_CAP (2026-02-02) ===
     metrics.update({
         "fee_taker_rate_applied": float(fee_taker),
@@ -3324,8 +3432,17 @@ def run_backtest(
         # === CODEX_PATCH_BEGIN: MAX_NOTIONAL_CAP (2026-02-02) ===
         "max_notional_usdt": float(max_notional_usdt),
         "max_notional_mult": float(max_notional_mult),
+        "legacy_fixed_notional_usd": float(legacy_fixed_notional_usd),
+        "max_positions": int(max_positions),
+        "max_portfolio_risk_pct": float(max_portfolio_risk_pct),
+        "max_single_trade_risk_pct": float(max_single_trade_risk_pct),
+        "max_notional_pct_equity": float(max_notional_pct_equity),
+        "min_notional_usd": float(min_notional_usd),
         "max_position_notional_observed": float(max_position_notional_observed),
         "avg_position_notional": float(avg_position_notional),
+        "avg_effective_risk_pct": float(avg_effective_risk_pct),
+        "portfolio_risk_budget_hits_count": int(slip_stats.get("portfolio_risk_budget_hits_count", 0)),
+        "min_size_forced_count": int(slip_stats.get("min_size_forced_count", 0)),
         # === CODEX_PATCH_END: MAX_NOTIONAL_CAP (2026-02-02) ===
         # === CODEX_PATCH_BEGIN: FUNDING_AND_TP_BIDASK (2026-02-02) ===
         "enable_funding_cost": bool(enable_funding_cost),
@@ -3446,6 +3563,12 @@ if __name__ == "__main__":
     # === CODEX_PATCH_BEGIN: MAX_NOTIONAL_CAP (2026-02-02) ===
     ap.add_argument("--max_notional_usdt", type=float, default=0.0)
     ap.add_argument("--max_notional_mult", type=float, default=0.0)
+    ap.add_argument("--legacy_fixed_notional_usd", type=float, default=0.0)
+    ap.add_argument("--max_positions", type=int, default=1)
+    ap.add_argument("--max_portfolio_risk_pct", type=float, default=0.06)
+    ap.add_argument("--max_single_trade_risk_pct", type=float, default=0.0)
+    ap.add_argument("--max_notional_pct_equity", type=float, default=1.0)
+    ap.add_argument("--min_notional_usd", type=float, default=10.0)
     # === CODEX_PATCH_END: MAX_NOTIONAL_CAP (2026-02-02) ===
     ap.add_argument("--outdir", type=str, default="./results")
     ap.add_argument("--strict", action="store_true")
@@ -3524,7 +3647,10 @@ if __name__ == "__main__":
         "[CONFIG] "
         f"fee_taker_rate={fee_taker} fee_maker_rate={fee_maker} fee_units={args.fee_units} "
         f"risk_per_trade={args.risk_per_trade} max_notional_usdt={args.max_notional_usdt} "
-        f"max_notional_mult={args.max_notional_mult} "
+        f"max_notional_mult={args.max_notional_mult} legacy_fixed_notional_usd={args.legacy_fixed_notional_usd} "
+        f"max_positions={args.max_positions} max_portfolio_risk_pct={args.max_portfolio_risk_pct} "
+        f"max_single_trade_risk_pct={args.max_single_trade_risk_pct} max_notional_pct_equity={args.max_notional_pct_equity} "
+        f"min_notional_usd={args.min_notional_usd} "
         f"slip_bps_entry={slip_bps_entry} slip_bps_stop={slip_bps_stop} "
         f"tp_bidask_half_spread_bps={args.tp_bidask_half_spread_bps} "
         f"exec_policy={args.exec_policy} maker_ttl={args.maker_try_ttl_steps}"
@@ -3566,6 +3692,12 @@ if __name__ == "__main__":
             # === CODEX_PATCH_BEGIN: MAX_NOTIONAL_CAP (2026-02-02) ===
             args.max_notional_usdt,
             args.max_notional_mult,
+            args.legacy_fixed_notional_usd,
+            args.max_positions,
+            args.max_portfolio_risk_pct,
+            args.max_single_trade_risk_pct,
+            args.max_notional_pct_equity,
+            args.min_notional_usd,
             # === CODEX_PATCH_END: MAX_NOTIONAL_CAP (2026-02-02) ===
             args.outdir,
             args.strict,
