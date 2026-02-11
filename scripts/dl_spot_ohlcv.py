@@ -13,6 +13,7 @@ from typing import Any, Iterable, Optional
 
 DEFAULT_BASE_URLS = {
     "mexc": "https://api.mexc.com",
+    "binance": "https://api.binance.com",
 }
 
 
@@ -93,6 +94,8 @@ def _fetch_klines_page(
     if end_ms is not None:
         params["endTime"] = int(end_ms)
     query = urllib.parse.urlencode(params)
+    # Binance Spot and MEXC Spot both expose /api/v3/klines.
+    # If the wrong exchange/symbol is used (e.g. MEXC BTCUSDC), historical start may appear much newer.
     url = f"{base_url.rstrip('/')}/api/v3/klines?{query}"
 
     delay = 0.8
