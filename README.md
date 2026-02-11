@@ -100,3 +100,22 @@ Editá este archivo una sola vez con tu token/chat y luego corré:
 Archivo:
 * `run_shadow_mexc_sol_5m_telegram.bat`
 
+
+### Backtest BTCUSDT (dataset BINANCE 5m) con comparación de ejecución
+Dataset esperado:
+* `Datasets/BINANCE/BTCUSDT/5m/BTCUSDT_5m_full.csv`
+
+Comando LEGACY (baseline):
+```powershell
+python -m scripts.solusdt_vwap_bot_spot --bt --csv .\Datasets\BINANCE\BTCUSDT\5m\BTCUSDT_5m_full.csv --outdir .\results\exec_compare\btcusdt_legacy --exec_policy legacy --slip_bps_entry 2 --slip_bps_stop 4 --tp_bidask_half_spread_bps 0.5
+```
+
+Comando maker_first_fast:
+```powershell
+python -m scripts.solusdt_vwap_bot_spot --bt --csv .\Datasets\BINANCE\BTCUSDT\5m\BTCUSDT_5m_full.csv --outdir .\results\exec_compare\btcusdt_maker_first_fast --exec_policy maker_first_fast --maker_try_enabled 1 --maker_try_ttl_steps 1 --fallback_limit_aggr_enabled 1 --market_last_resort_enabled 1 --market_vol_k 0.15 --aggr_extra_bps 0.1 --slip_bps_entry 2 --slip_bps_stop 4 --tp_bidask_half_spread_bps 0.5 --exec_self_check 1
+```
+
+Atajo Windows (.bat):
+```powershell
+.\run_bt_spot_btcusdt_exec_compare.bat
+```

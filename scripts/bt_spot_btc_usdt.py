@@ -23,10 +23,10 @@ def _fmt_pct(value: float) -> str:
 
 
 def _build_parser() -> argparse.ArgumentParser:
-    ap = argparse.ArgumentParser(description="Backtest SPOT ETH/USDC long-only using CSV 5m data")
+    ap = argparse.ArgumentParser(description="Backtest SPOT BTC/USDT long-only using CSV 5m data")
     ap.add_argument("--bt", action="store_true", help="Run backtest mode")
-    ap.add_argument("--csv", type=str, required=True, help="Historical 5m CSV with ts,open,high,low,close,volume (expected: ETHUSDC_5m_fixed.csv)")
-    ap.add_argument("--symbol", type=str, default="ETH/USDC")
+    ap.add_argument("--csv", type=str, required=True, help="Historical 5m CSV with ts,open,high,low,close,volume")
+    ap.add_argument("--symbol", type=str, default="BTC/USDT")
     ap.add_argument("--fee_maker", type=float, default=0.0)
     ap.add_argument("--fee_taker", type=float, default=0.0)
     ap.add_argument("--enable_funding_cost", type=int, default=0)
@@ -42,7 +42,6 @@ def _build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--aggr_extra_bps", type=float, default=0.1)
     ap.add_argument("--exec_self_check", type=int, default=0)
     ap.add_argument("--risk_per_trade", type=float, default=0.03)
-    ap.add_argument("--rr_min", type=float, default=1.0)
     ap.add_argument("--start_equity", type=float, default=5000.0)
     ap.add_argument("--outdir", type=str, default="")
     return ap
@@ -52,7 +51,7 @@ def _resolve_outdir(outdir: str) -> str:
     if outdir:
         return outdir
     stamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
-    return os.path.join("results", "bt_spot_eth_usdc", stamp)
+    return os.path.join("results", "bt_spot_btc_usdt", stamp)
 
 
 def _print_trade_logs(trades_df: pd.DataFrame, slip_entry_bps: float, slip_stop_bps: float, tp_half_spread_bps: float) -> None:
@@ -83,28 +82,28 @@ def main() -> None:
     if not args.bt:
         raise SystemExit("This entrypoint is backtest-only. Pass --bt.")
 
-    if args.symbol != "ETH/USDC":
-        raise SystemExit("Only --symbol ETH/USDC is supported by this entrypoint.")
+    if args.symbol != "BTC/USDT":
+        raise SystemExit("Only --symbol BTC/USDT is supported by this entrypoint.")
 
     outdir = _resolve_outdir(args.outdir)
     os.makedirs(outdir, exist_ok=True)
 
     print(
-        "BT SPOT ETH/USDC — fees: "
+        "BT SPOT BTC/USDT — fees: "
         f"{args.fee_maker} / {args.fee_taker} — risk_per_trade: {args.risk_per_trade} "
         f"— slip: {args.slip_bps_entry}/{args.slip_bps_stop} — tp spread: {args.tp_bidask_half_spread_bps}"
     )
 
     df = load_ohlcv_csv(args.csv, strict=True)
     strat_cfg = StrategyConfig(
-        symbol="ETHUSDC",
+        symbol="BTCUSDT",
         enable_funding_cost=bool(args.enable_funding_cost),
         enable_tp_bidask_model=True,
         tp_bidask_half_spread_bps=float(args.tp_bidask_half_spread_bps),
     )
 
     sigdf = generate_signals(df, strat_cfg)
-    # SPOT ETH/USDC entrypoint is long-only.
+    # SPOT BTC/USDT entrypoint is long-only.
     sigdf.loc[sigdf["signal"] == "SHORT", "signal"] = ""
 
     atr_pct_proxy = compute_atr_pct_proxy(df, n=strat_cfg.daily_atr_len)
