@@ -4,6 +4,9 @@ from scripts.dl_spot_ohlcv import run_download
 
 
 def main() -> None:
+    # Nota: este wrapper es para MEXC BTC/USDC (no Binance BTC/USDT).
+    # Si se usa para validar histórico largo de Binance Spot, usar scripts/dl_spot_binance.py
+    # porque este par/mercado en MEXC puede arrancar mucho más tarde.
     run_download(
         exchange="mexc",
         symbol="BTC/USDC",
