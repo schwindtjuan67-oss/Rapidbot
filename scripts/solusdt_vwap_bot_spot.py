@@ -1604,6 +1604,14 @@ class BTConfig:
     # TP bid/ask model
     enable_tp_bidask_model: bool = True
     tp_bidask_half_spread_bps: float = 1.0
+    exec_policy: str = "legacy"  # legacy | maker_first_fast
+    maker_try_enabled: bool = True
+    maker_try_ttl_steps: int = 1
+    fallback_limit_aggr_enabled: bool = True
+    market_last_resort_enabled: bool = True
+    market_vol_k: float = 0.15
+    aggr_extra_bps: float = 0.1
+    exec_self_check: bool = False
     # === CODEX_PATCH_END: FUNDING_AND_TP_BIDASK (2026-02-02) ===
 
 
@@ -1656,6 +1664,13 @@ class TradeRec:
     notional_usd: float
     risk_per_trade: float
     risk_usd: float
+    entry_fill_type: str = "market"
+    entry_slippage_bps_applied: float = 0.0
+    exit_fill_type: str = "market"
+    exit_slippage_bps_applied: float = 0.0
+    spread_half_bps_used: float = 0.0
+    time_to_fill_steps_entry: int = 0
+    time_to_fill_steps_exit: int = 0
     # === CODEX_PATCH_END: FUNDING_AND_TP_BIDASK (2026-02-02) ===
 
 
@@ -1688,6 +1703,13 @@ TRADE_COLUMNS: List[str] = [
     "notional_usd",
     "risk_per_trade",
     "risk_usd",
+    "entry_fill_type",
+    "entry_slippage_bps_applied",
+    "exit_fill_type",
+    "exit_slippage_bps_applied",
+    "spread_half_bps_used",
+    "time_to_fill_steps_entry",
+    "time_to_fill_steps_exit",
 ]
 
 EQUITY_COLUMNS: List[str] = ["ts", "equity_usdt", "note"]
@@ -1842,6 +1864,20 @@ def _tp_fill_price(
 # === CODEX_PATCH_END: FUNDING_AND_TP_BIDASK (2026-02-02) ===
 
 
+def _synthetic_quotes(close_px: float, spread_half_bps: float) -> Tuple[float, float, float]:
+    mid = float(close_px)
+    spread_ratio = float(spread_half_bps) / 10000.0
+    bid = mid * (1.0 - spread_ratio)
+    ask = mid * (1.0 + spread_ratio)
+    return mid, bid, ask
+
+
+def _sell_slippage_bps(mid: float, fill: float) -> float:
+    if mid <= 0:
+        return 0.0
+    return max(0.0, ((mid - fill) / mid) * 10000.0)
+
+
 # === CODEX_PATCH_BEGIN: DAILY_DD_KILL_SWITCH (2026-02-02) ===
 # === CODEX_PATCH_BEGIN: MAX_STOPS_PER_DAY_KILL (2026-02-02) ===
 def backtest_from_signals(
@@ -1987,6 +2023,110 @@ def backtest_from_signals(
         if val is None:
             return float(bt.tp_bidask_half_spread_bps)
         return float(val)
+
+    def _exec_entry_fill(pending_dict: Dict[str, Any], trigger_idx: int) -> Dict[str, Any]:
+        entry_lvl = float(pending_dict["entry"])
+        side = str(pending_dict["side"]) 
+        if bt.exec_policy != "maker_first_fast":
+            atr_pct = _atr_pct_for_row(df.iloc[trigger_idx])
+            notional = abs(float(pending_dict["qty"]) * entry_lvl)
+            slip_bps_entry = _slip_bps("entry", notional, atr_pct)
+            fill_px = _apply_slip(entry_lvl, side, True, slip_bps_entry)
+            return {
+                "fill": fill_px,
+                "fill_ts": df.iloc[trigger_idx]["ts"],
+                "fill_type": "market",
+                "slip_bps": float(slip_bps_entry),
+                "spread_half_bps": float(bt.tp_bidask_half_spread_bps),
+                "steps": 0,
+            }
+
+        ttl = max(0, int(bt.maker_try_ttl_steps))
+        for step in range(ttl + 1):
+            idx = min(trigger_idx + step, len(df) - 1)
+            r = df.iloc[idx]
+            spread_half_bps = float(bt.tp_bidask_half_spread_bps)
+            mid, bid, ask = _synthetic_quotes(float(r["close"]), spread_half_bps)
+            if bt.maker_try_enabled and float(r["low"]) <= bid:
+                return {
+                    "fill": bid,
+                    "fill_ts": r["ts"],
+                    "fill_type": "maker_try",
+                    "slip_bps": max(0.0, ((bid - mid) / mid) * 10000.0),
+                    "spread_half_bps": spread_half_bps,
+                    "steps": step,
+                }
+
+        base_idx = min(trigger_idx + ttl, len(df) - 1)
+        rr = df.iloc[base_idx]
+        spread_half_bps = float(bt.tp_bidask_half_spread_bps)
+        mid, bid, ask = _synthetic_quotes(float(rr["close"]), spread_half_bps)
+        if bt.fallback_limit_aggr_enabled:
+            fill = ask * (1.0 + float(bt.aggr_extra_bps) / 10000.0)
+            return {
+                "fill": fill,
+                "fill_ts": rr["ts"],
+                "fill_type": "limit_aggr",
+                "slip_bps": max(0.0, ((fill - mid) / mid) * 10000.0),
+                "spread_half_bps": spread_half_bps,
+                "steps": ttl,
+            }
+
+        range_pct = 0.0 if rr["close"] == 0 else (float(rr["high"]) - float(rr["low"])) / float(rr["close"])
+        extra_slip_bps = spread_half_bps + float(bt.market_vol_k) * (range_pct * 10000.0)
+        fill = ask * (1.0 + extra_slip_bps / 10000.0)
+        return {
+            "fill": fill,
+            "fill_ts": rr["ts"],
+            "fill_type": "market",
+            "slip_bps": max(0.0, ((fill - mid) / mid) * 10000.0),
+            "spread_half_bps": spread_half_bps,
+            "steps": ttl,
+        }
+
+    def _exec_exit_fill(kind: str, side: BTSide, row_idx: int, target_px: float, qty: float, force_market: bool = False) -> Dict[str, Any]:
+        row_now = df.iloc[row_idx]
+        if bt.exec_policy != "maker_first_fast":
+            atr_pct = _atr_pct_for_row(row_now)
+            if kind == "stop":
+                notional = abs(qty * float(target_px))
+                slip_bps_stop = _slip_bps("stop", notional, atr_pct)
+                fill = _apply_slip(float(target_px), side, False, slip_bps_stop)
+                return {"fill": fill, "fill_ts": row_now["ts"], "fill_type": "market", "slip_bps": slip_bps_stop, "spread_half_bps": float(bt.tp_bidask_half_spread_bps), "steps": 0}
+            notional = abs(qty * float(target_px))
+            tp_half_spread_bps = _slip_bps("tp_half_spread", notional, atr_pct) if bt.enable_tp_bidask_model else None
+            fill = _tp_fill_price(float(target_px), side, bt, tp_half_spread_bps=tp_half_spread_bps)
+            return {"fill": fill, "fill_ts": row_now["ts"], "fill_type": "maker_try", "slip_bps": _sell_slippage_bps(float(row_now["close"]), fill), "spread_half_bps": float(tp_half_spread_bps if tp_half_spread_bps is not None else bt.tp_bidask_half_spread_bps), "steps": 0, "tp_half_spread_bps": tp_half_spread_bps}
+
+        spread_half_bps = float(bt.tp_bidask_half_spread_bps)
+        ttl = max(0, int(bt.maker_try_ttl_steps))
+        base_row = df.iloc[row_idx]
+        mid0, bid0, ask0 = _synthetic_quotes(float(base_row["close"]), spread_half_bps)
+
+        if kind == "stop" or force_market:
+            range_pct = 0.0 if base_row["close"] == 0 else (float(base_row["high"]) - float(base_row["low"])) / float(base_row["close"])
+            extra_slip_bps = max(float(bt.slippage_bps_stop), spread_half_bps + float(bt.market_vol_k) * (range_pct * 10000.0))
+            fill = bid0 * (1.0 - extra_slip_bps / 10000.0)
+            return {"fill": fill, "fill_ts": base_row["ts"], "fill_type": "market", "slip_bps": _sell_slippage_bps(mid0, fill), "spread_half_bps": spread_half_bps, "steps": 0}
+
+        for step in range(ttl + 1):
+            idx = min(row_idx + step, len(df) - 1)
+            r = df.iloc[idx]
+            mid, bid, ask = _synthetic_quotes(float(r["close"]), spread_half_bps)
+            if bt.maker_try_enabled and float(r["high"]) >= ask:
+                return {"fill": ask, "fill_ts": r["ts"], "fill_type": "maker_try", "slip_bps": _sell_slippage_bps(mid, ask), "spread_half_bps": spread_half_bps, "steps": step}
+
+        idx = min(row_idx + ttl, len(df) - 1)
+        r = df.iloc[idx]
+        mid, bid, ask = _synthetic_quotes(float(r["close"]), spread_half_bps)
+        if bt.fallback_limit_aggr_enabled:
+            fill = bid * (1.0 - float(bt.aggr_extra_bps) / 10000.0)
+            return {"fill": fill, "fill_ts": r["ts"], "fill_type": "limit_aggr", "slip_bps": _sell_slippage_bps(mid, fill), "spread_half_bps": spread_half_bps, "steps": ttl}
+
+        range_pct = 0.0 if r["close"] == 0 else (float(r["high"]) - float(r["low"])) / float(r["close"])
+        extra_slip_bps = spread_half_bps + float(bt.market_vol_k) * (range_pct * 10000.0)
+        fill = bid * (1.0 - extra_slip_bps / 10000.0)
+        return {"fill": fill, "fill_ts": r["ts"], "fill_type": "market", "slip_bps": _sell_slippage_bps(mid, fill), "spread_half_bps": spread_half_bps, "steps": ttl}
     # === CODEX_PATCH_END: DYNAMIC_SLIPPAGE_MODEL (2026-02-02) ===
 
     # === CODEX_PATCH_BEGIN: FUNDING_AND_TP_BIDASK (2026-02-02) ===
@@ -2146,15 +2286,16 @@ def backtest_from_signals(
                     # === CODEX_PATCH_END: DYNAMIC_SLIPPAGE_MODEL (2026-02-02) ===
                     # === CODEX_PATCH_END: FUNDING_AND_TP_BIDASK (2026-02-02) ===
 
-                    # === CODEX_PATCH_BEGIN: DYNAMIC_SLIPPAGE_MODEL (2026-02-02) ===
-                    atr_pct = _atr_pct_for_row(row)
-                    notional = abs(qty_rem * float(row["close"]))
-                    slip_bps_stop = _slip_bps("stop", notional, atr_pct)
-                    exit_px = _apply_slip(float(row["close"]), side, False, slip_bps_stop)
+                    exit_meta = _exec_exit_fill("stop", side, i, float(row["close"]), qty_rem, force_market=True)
+                    exit_px = float(exit_meta["fill"])
+                    slip_bps_stop = float(exit_meta.get("slip_bps", 0.0))
+                    pos["exit_fill_type"] = str(exit_meta.get("fill_type", "market"))
+                    pos["exit_slippage_bps_applied"] = slip_bps_stop
+                    pos["time_to_fill_steps_exit"] = int(exit_meta.get("steps", 0))
+                    pos["spread_half_bps_used"] = float(exit_meta.get("spread_half_bps", bt.tp_bidask_half_spread_bps))
                     slip_stop_sum += slip_bps_stop
                     slip_stop_count += 1
                     slip_stop_max = max(slip_stop_max, slip_bps_stop)
-                    # === CODEX_PATCH_END: DYNAMIC_SLIPPAGE_MODEL (2026-02-02) ===
                     exit_fee = _fee_cost(qty_rem * exit_px, bt.fee_taker)
                     equity -= exit_fee
 
@@ -2201,6 +2342,13 @@ def backtest_from_signals(
                         notional_usd=float(abs(qty_total * entry_fill)),
                         risk_per_trade=float(pos.get("risk_per_trade", bt.risk_pct_per_trade)),
                         risk_usd=float(pos.get("risk_usd", bt.initial_equity_usdt * bt.risk_pct_per_trade)),
+                        entry_fill_type=str(pos.get("entry_fill_type", "market")),
+                        entry_slippage_bps_applied=float(pos.get("entry_slippage_bps_applied", 0.0)),
+                        exit_fill_type=str(pos.get("exit_fill_type", "market")),
+                        exit_slippage_bps_applied=float(pos.get("exit_slippage_bps_applied", 0.0)),
+                        spread_half_bps_used=float(pos.get("spread_half_bps_used", bt.tp_bidask_half_spread_bps)),
+                        time_to_fill_steps_entry=int(pos.get("time_to_fill_steps_entry", 0)),
+                        time_to_fill_steps_exit=int(pos.get("time_to_fill_steps_exit", 0)),
                         # === CODEX_PATCH_END: FUNDING_AND_TP_BIDASK (2026-02-02) ===
                     ))
                     print(
@@ -2242,15 +2390,16 @@ def backtest_from_signals(
                 # === CODEX_PATCH_END: DYNAMIC_SLIPPAGE_MODEL (2026-02-02) ===
                 # === CODEX_PATCH_END: FUNDING_AND_TP_BIDASK (2026-02-02) ===
 
-                # === CODEX_PATCH_BEGIN: DYNAMIC_SLIPPAGE_MODEL (2026-02-02) ===
-                atr_pct = _atr_pct_for_row(row)
-                notional = abs(qty_rem * float(row["close"]))
-                slip_bps_stop = _slip_bps("stop", notional, atr_pct)
-                exit_px = _apply_slip(float(row["close"]), side, False, slip_bps_stop)
+                exit_meta = _exec_exit_fill("stop", side, i, float(row["close"]), qty_rem, force_market=True)
+                exit_px = float(exit_meta["fill"])
+                slip_bps_stop = float(exit_meta.get("slip_bps", 0.0))
+                pos["exit_fill_type"] = str(exit_meta.get("fill_type", "market"))
+                pos["exit_slippage_bps_applied"] = slip_bps_stop
+                pos["time_to_fill_steps_exit"] = int(exit_meta.get("steps", 0))
+                pos["spread_half_bps_used"] = float(exit_meta.get("spread_half_bps", bt.tp_bidask_half_spread_bps))
                 slip_stop_sum += slip_bps_stop
                 slip_stop_count += 1
                 slip_stop_max = max(slip_stop_max, slip_bps_stop)
-                # === CODEX_PATCH_END: DYNAMIC_SLIPPAGE_MODEL (2026-02-02) ===
                 exit_fee = _fee_cost(qty_rem * exit_px, bt.fee_taker)
                 equity -= exit_fee
 
@@ -2297,6 +2446,13 @@ def backtest_from_signals(
                     notional_usd=float(abs(qty_total * entry_fill)),
                     risk_per_trade=float(pos.get("risk_per_trade", bt.risk_pct_per_trade)),
                     risk_usd=float(pos.get("risk_usd", bt.initial_equity_usdt * bt.risk_pct_per_trade)),
+                    entry_fill_type=str(pos.get("entry_fill_type", "market")),
+                    entry_slippage_bps_applied=float(pos.get("entry_slippage_bps_applied", 0.0)),
+                    exit_fill_type=str(pos.get("exit_fill_type", "market")),
+                    exit_slippage_bps_applied=float(pos.get("exit_slippage_bps_applied", 0.0)),
+                    spread_half_bps_used=float(pos.get("spread_half_bps_used", bt.tp_bidask_half_spread_bps)),
+                    time_to_fill_steps_entry=int(pos.get("time_to_fill_steps_entry", 0)),
+                    time_to_fill_steps_exit=int(pos.get("time_to_fill_steps_exit", 0)),
                     # === CODEX_PATCH_END: FUNDING_AND_TP_BIDASK (2026-02-02) ===
                 ))
                 print(
@@ -2390,25 +2546,29 @@ def backtest_from_signals(
                     triggered = row["low"] <= entry_lvl
 
                 if triggered:
-                    # === CODEX_PATCH_BEGIN: DYNAMIC_SLIPPAGE_MODEL (2026-02-02) ===
-                    atr_pct = _atr_pct_for_row(row)
-                    notional = abs(pending["qty"] * entry_lvl)
-                    slip_bps_entry = _slip_bps("entry", notional, atr_pct)
-                    fill = _apply_slip(entry_lvl, side, True, slip_bps_entry)
+                    fill_meta = _exec_entry_fill(pending, i)
+                    fill = float(fill_meta["fill"])
+                    slip_bps_entry = float(fill_meta.get("slip_bps", 0.0))
                     slip_entry_sum += slip_bps_entry
                     slip_entry_count += 1
                     slip_entry_max = max(slip_entry_max, slip_bps_entry)
-                    # === CODEX_PATCH_END: DYNAMIC_SLIPPAGE_MODEL (2026-02-02) ===
                     qty = pending["qty"]
                     # fee entry
                     entry_fee = _fee_cost(qty * fill, bt.fee_taker)
                     equity -= entry_fee
                     pending["fees_usdt"] = entry_fee
 
-                    pending["entry_ts"] = ts
+                    pending["entry_ts"] = fill_meta.get("fill_ts", ts)
                     pending["entry_fill"] = fill
                     pending["qty_remaining"] = qty
                     pending["stop_active"] = pending["stop"]  # inicial
+                    pending["entry_fill_type"] = str(fill_meta.get("fill_type", "market"))
+                    pending["entry_slippage_bps_applied"] = slip_bps_entry
+                    pending["spread_half_bps_used"] = float(fill_meta.get("spread_half_bps", bt.tp_bidask_half_spread_bps))
+                    pending["time_to_fill_steps_entry"] = int(fill_meta.get("steps", 0))
+                    pending["exit_fill_type"] = "market"
+                    pending["exit_slippage_bps_applied"] = 0.0
+                    pending["time_to_fill_steps_exit"] = 0
                     pos = pending
                     pending = None
                     pending_age = 0
@@ -2456,15 +2616,16 @@ def backtest_from_signals(
                 tp_bidask_half_spread_bps = _tp_half_spread_for_pos(pos)
                 # === CODEX_PATCH_END: DYNAMIC_SLIPPAGE_MODEL (2026-02-02) ===
                 # === CODEX_PATCH_END: FUNDING_AND_TP_BIDASK (2026-02-02) ===
-                # === CODEX_PATCH_BEGIN: DYNAMIC_SLIPPAGE_MODEL (2026-02-02) ===
-                atr_pct = _atr_pct_for_row(row)
-                notional = abs(qty_rem * stop_lvl)
-                slip_bps_stop = _slip_bps("stop", notional, atr_pct)
-                exit_px = _apply_slip(stop_lvl, side, False, slip_bps_stop)
+                exit_meta = _exec_exit_fill("stop", side, i, stop_lvl, qty_rem)
+                exit_px = float(exit_meta["fill"])
+                slip_bps_stop = float(exit_meta.get("slip_bps", 0.0))
+                pos["exit_fill_type"] = str(exit_meta.get("fill_type", "market"))
+                pos["exit_slippage_bps_applied"] = slip_bps_stop
+                pos["time_to_fill_steps_exit"] = int(exit_meta.get("steps", 0))
+                pos["spread_half_bps_used"] = float(exit_meta.get("spread_half_bps", bt.tp_bidask_half_spread_bps))
                 slip_stop_sum += slip_bps_stop
                 slip_stop_count += 1
                 slip_stop_max = max(slip_stop_max, slip_bps_stop)
-                # === CODEX_PATCH_END: DYNAMIC_SLIPPAGE_MODEL (2026-02-02) ===
                 # fee exit
                 exit_fee = _fee_cost(qty_rem * exit_px, bt.fee_taker)
                 equity -= exit_fee
@@ -2517,6 +2678,13 @@ def backtest_from_signals(
                     notional_usd=float(abs(qty_total * entry_fill)),
                     risk_per_trade=float(pos.get("risk_per_trade", bt.risk_pct_per_trade)),
                     risk_usd=float(pos.get("risk_usd", bt.initial_equity_usdt * bt.risk_pct_per_trade)),
+                    entry_fill_type=str(pos.get("entry_fill_type", "market")),
+                    entry_slippage_bps_applied=float(pos.get("entry_slippage_bps_applied", 0.0)),
+                    exit_fill_type=str(pos.get("exit_fill_type", "market")),
+                    exit_slippage_bps_applied=float(pos.get("exit_slippage_bps_applied", 0.0)),
+                    spread_half_bps_used=float(pos.get("spread_half_bps_used", bt.tp_bidask_half_spread_bps)),
+                    time_to_fill_steps_entry=int(pos.get("time_to_fill_steps_entry", 0)),
+                    time_to_fill_steps_exit=int(pos.get("time_to_fill_steps_exit", 0)),
                     # === CODEX_PATCH_END: FUNDING_AND_TP_BIDASK (2026-02-02) ===
                 ))
                 print(
@@ -2544,21 +2712,16 @@ def backtest_from_signals(
                 # cerrar 50% del qty_total
                 close_qty = qty_total * 0.5
                 close_qty = min(close_qty, qty_rem)
-                # === CODEX_PATCH_BEGIN: FUNDING_AND_TP_BIDASK (2026-02-02) ===
-                # === CODEX_PATCH_BEGIN: DYNAMIC_SLIPPAGE_MODEL (2026-02-02) ===
-                atr_pct = _atr_pct_for_row(row)
-                notional = abs(close_qty * tp1)
-                tp_half_spread_bps = (
-                    _slip_bps("tp_half_spread", notional, atr_pct) if bt.enable_tp_bidask_model else None
-                )
-                exit_px = _tp_fill_price(tp1, side, bt, tp_half_spread_bps=tp_half_spread_bps)
+                exit_meta_tp1 = _exec_exit_fill("tp", side, i, tp1, close_qty)
+                exit_px = float(exit_meta_tp1["fill"])
                 pos["tp1_fill_price"] = exit_px
-                pos["tp1_half_spread_bps"] = tp_half_spread_bps
-                if tp_half_spread_bps is not None:
-                    tp_half_spread_sum += float(tp_half_spread_bps)
-                    tp_half_spread_count += 1
-                # === CODEX_PATCH_END: DYNAMIC_SLIPPAGE_MODEL (2026-02-02) ===
-                # === CODEX_PATCH_END: FUNDING_AND_TP_BIDASK (2026-02-02) ===
+                pos["tp1_half_spread_bps"] = float(exit_meta_tp1.get("spread_half_bps", bt.tp_bidask_half_spread_bps))
+                pos["exit_fill_type"] = str(exit_meta_tp1.get("fill_type", "maker_try"))
+                pos["exit_slippage_bps_applied"] = float(exit_meta_tp1.get("slip_bps", 0.0))
+                pos["time_to_fill_steps_exit"] = int(exit_meta_tp1.get("steps", 0))
+                pos["spread_half_bps_used"] = float(exit_meta_tp1.get("spread_half_bps", bt.tp_bidask_half_spread_bps))
+                tp_half_spread_sum += float(exit_meta_tp1.get("spread_half_bps", bt.tp_bidask_half_spread_bps))
+                tp_half_spread_count += 1
                 tp1_fee = _fee_cost(close_qty * exit_px, bt.fee_maker)
                 equity -= tp1_fee
 
@@ -2600,21 +2763,16 @@ def backtest_from_signals(
                     hit_tp2 = row["low"] <= tp2
 
                 if hit_tp2 and qty_rem > 0:
-                    # === CODEX_PATCH_BEGIN: FUNDING_AND_TP_BIDASK (2026-02-02) ===
-                    # === CODEX_PATCH_BEGIN: DYNAMIC_SLIPPAGE_MODEL (2026-02-02) ===
-                    atr_pct = _atr_pct_for_row(row)
-                    notional = abs(qty_rem * tp2)
-                    tp_half_spread_bps = (
-                        _slip_bps("tp_half_spread", notional, atr_pct) if bt.enable_tp_bidask_model else None
-                    )
-                    exit_px = _tp_fill_price(tp2, side, bt, tp_half_spread_bps=tp_half_spread_bps)
+                    exit_meta_tp2 = _exec_exit_fill("tp", side, i, tp2, qty_rem)
+                    exit_px = float(exit_meta_tp2["fill"])
                     pos["tp2_fill_price"] = exit_px
-                    pos["tp2_half_spread_bps"] = tp_half_spread_bps
-                    if tp_half_spread_bps is not None:
-                        tp_half_spread_sum += float(tp_half_spread_bps)
-                        tp_half_spread_count += 1
-                    # === CODEX_PATCH_END: DYNAMIC_SLIPPAGE_MODEL (2026-02-02) ===
-                    # === CODEX_PATCH_END: FUNDING_AND_TP_BIDASK (2026-02-02) ===
+                    pos["tp2_half_spread_bps"] = float(exit_meta_tp2.get("spread_half_bps", bt.tp_bidask_half_spread_bps))
+                    pos["exit_fill_type"] = str(exit_meta_tp2.get("fill_type", "maker_try"))
+                    pos["exit_slippage_bps_applied"] = float(exit_meta_tp2.get("slip_bps", 0.0))
+                    pos["time_to_fill_steps_exit"] = int(exit_meta_tp2.get("steps", 0))
+                    pos["spread_half_bps_used"] = float(exit_meta_tp2.get("spread_half_bps", bt.tp_bidask_half_spread_bps))
+                    tp_half_spread_sum += float(exit_meta_tp2.get("spread_half_bps", bt.tp_bidask_half_spread_bps))
+                    tp_half_spread_count += 1
                     exit_fee = _fee_cost(qty_rem * exit_px, bt.fee_maker)
                     equity -= exit_fee
 
@@ -2672,6 +2830,13 @@ def backtest_from_signals(
                         notional_usd=float(abs(qty_total * entry_fill)),
                         risk_per_trade=float(pos.get("risk_per_trade", bt.risk_pct_per_trade)),
                         risk_usd=float(pos.get("risk_usd", bt.initial_equity_usdt * bt.risk_pct_per_trade)),
+                        entry_fill_type=str(pos.get("entry_fill_type", "market")),
+                        entry_slippage_bps_applied=float(pos.get("entry_slippage_bps_applied", 0.0)),
+                        exit_fill_type=str(pos.get("exit_fill_type", "market")),
+                        exit_slippage_bps_applied=float(pos.get("exit_slippage_bps_applied", 0.0)),
+                        spread_half_bps_used=float(pos.get("spread_half_bps_used", bt.tp_bidask_half_spread_bps)),
+                        time_to_fill_steps_entry=int(pos.get("time_to_fill_steps_entry", 0)),
+                        time_to_fill_steps_exit=int(pos.get("time_to_fill_steps_exit", 0)),
                         # === CODEX_PATCH_END: FUNDING_AND_TP_BIDASK (2026-02-02) ===
                     ))
                     print(
@@ -2704,14 +2869,18 @@ def backtest_from_signals(
         "days_stopped_by_max_stops": sorted(days_stopped_by_max_stops),
     }
     # === CODEX_PATCH_BEGIN: DYNAMIC_SLIPPAGE_MODEL (2026-02-02) ===
+    entry_slip_series = trades_df["entry_slippage_bps_applied"] if "entry_slippage_bps_applied" in trades_df.columns else pd.Series(dtype=float)
+    exit_slip_series = trades_df["exit_slippage_bps_applied"] if "exit_slippage_bps_applied" in trades_df.columns else pd.Series(dtype=float)
     slip_stats = {
-        "avg_slip_bps_entry": float(slip_entry_sum / slip_entry_count) if slip_entry_count else 0.0,
+        "avg_slip_bps_entry": float(entry_slip_series.mean()) if not entry_slip_series.empty else 0.0,
         "avg_slip_bps_stop": float(slip_stop_sum / slip_stop_count) if slip_stop_count else 0.0,
+        "avg_slip_bps_exit": float(exit_slip_series.mean()) if not exit_slip_series.empty else 0.0,
         "avg_tp_half_spread_bps": (
             float(tp_half_spread_sum / tp_half_spread_count) if tp_half_spread_count else 0.0
         ),
-        "max_slip_bps_entry": float(slip_entry_max),
+        "max_slip_bps_entry": float(entry_slip_series.max()) if not entry_slip_series.empty else 0.0,
         "max_slip_bps_stop": float(slip_stop_max),
+        "max_slip_bps_exit": float(exit_slip_series.max()) if not exit_slip_series.empty else 0.0,
     }
     if return_state:
         open_position = 1 if pos is not None else 0
@@ -2906,6 +3075,14 @@ def run_backtest(
     funding_rate_8h: float,
     enable_tp_bidask_model: bool,
     tp_bidask_half_spread_bps: float,
+    exec_policy: str,
+    maker_try_enabled: bool,
+    maker_try_ttl_steps: int,
+    fallback_limit_aggr_enabled: bool,
+    market_last_resort_enabled: bool,
+    market_vol_k: float,
+    aggr_extra_bps: float,
+    exec_self_check: bool,
     # === CODEX_PATCH_END: FUNDING_AND_TP_BIDASK (2026-02-02) ===
     # === CODEX_PATCH_BEGIN: VOL_FILTER_MONTHLY_ATR (2026-02-02) ===
     vol_filter_monthly: bool,
@@ -3006,6 +3183,14 @@ def run_backtest(
         funding_interval_hours=strat_cfg.funding_interval_hours,
         enable_tp_bidask_model=enable_tp_bidask_model,
         tp_bidask_half_spread_bps=tp_bidask_half_spread_bps,
+        exec_policy=exec_policy,
+        maker_try_enabled=maker_try_enabled,
+        maker_try_ttl_steps=maker_try_ttl_steps,
+        fallback_limit_aggr_enabled=fallback_limit_aggr_enabled,
+        market_last_resort_enabled=market_last_resort_enabled,
+        market_vol_k=market_vol_k,
+        aggr_extra_bps=aggr_extra_bps,
+        exec_self_check=exec_self_check,
         # === CODEX_PATCH_END: FUNDING_AND_TP_BIDASK (2026-02-02) ===
     )
     apply_overrides(bt, params or {})
@@ -3025,8 +3210,10 @@ def run_backtest(
                 "avg_slip_bps_entry": 0.0,
                 "avg_slip_bps_stop": 0.0,
                 "avg_tp_half_spread_bps": 0.0,
+                "avg_slip_bps_exit": 0.0,
                 "max_slip_bps_entry": 0.0,
                 "max_slip_bps_stop": 0.0,
+                "max_slip_bps_exit": 0.0,
             },
         )
     )
@@ -3036,6 +3223,35 @@ def run_backtest(
     if not max_stops_kill:
         max_stops_stats = {"max_stops_kills_count": 0, "days_stopped_by_max_stops": []}
     # === CODEX_PATCH_END: MAX_STOPS_TOGGLE_FIX (2026-02-02) ===
+    # === CODEX_PATCH_BEGIN: EXEC_POLICY_SUMMARY (2026-02-11) ===
+    legacy_trade_count = int(len(trades_df))
+    if (exec_policy == "maker_first_fast") and (not df.empty):
+        bt_legacy = BTConfig(**{**asdict(bt), "exec_policy": "legacy"})
+        legacy_trades_df, *_ = backtest_from_signals(sigdf, bt_legacy, strat_cfg, atr_pct_proxy=atr_pct_proxy)
+        legacy_trade_count = int(len(legacy_trades_df))
+    trade_count_unchanged = int(len(trades_df)) == int(legacy_trade_count)
+
+    if not trades_df.empty:
+        entry_mix = trades_df["entry_fill_type"].value_counts(normalize=True)
+        exit_mix = trades_df["exit_fill_type"].value_counts(normalize=True)
+        print(
+            "[EXEC_SUMMARY] "
+            f"total_trades={len(trades_df)} "
+            f"entry_maker_try_pct={entry_mix.get('maker_try', 0.0) * 100.0:.2f} "
+            f"entry_limit_aggr_pct={entry_mix.get('limit_aggr', 0.0) * 100.0:.2f} "
+            f"entry_market_pct={entry_mix.get('market', 0.0) * 100.0:.2f} "
+            f"exit_maker_try_pct={exit_mix.get('maker_try', 0.0) * 100.0:.2f} "
+            f"exit_limit_aggr_pct={exit_mix.get('limit_aggr', 0.0) * 100.0:.2f} "
+            f"exit_market_pct={exit_mix.get('market', 0.0) * 100.0:.2f} "
+            f"avg_entry_slip_bps={float(trades_df['entry_slippage_bps_applied'].mean()):.4f} "
+            f"avg_exit_slip_bps={float(trades_df['exit_slippage_bps_applied'].mean()):.4f} "
+            f"max_entry_slip_bps={float(trades_df['entry_slippage_bps_applied'].max()):.4f} "
+            f"max_exit_slip_bps={float(trades_df['exit_slippage_bps_applied'].max()):.4f} "
+            f"trade_count_unchanged_vs_legacy={trade_count_unchanged}"
+        )
+    else:
+        print(f"[EXEC_SUMMARY] total_trades=0 trade_count_unchanged_vs_legacy={trade_count_unchanged}")
+    # === CODEX_PATCH_END: EXEC_POLICY_SUMMARY (2026-02-11) ===
     metrics = compute_metrics(trades_df, eq_df, equity0, final_equity, start_ts, end_ts)
     # === CODEX_PATCH_BEGIN: FUNDING_AND_TP_BIDASK (2026-02-02) ===
     if trades_df is not None and not trades_df.empty and "funding_cost_usdt" in trades_df.columns:
@@ -3099,6 +3315,8 @@ def run_backtest(
         "avg_tp_half_spread_bps": float(slip_stats.get("avg_tp_half_spread_bps", 0.0)),
         "max_slip_bps_entry": float(slip_stats.get("max_slip_bps_entry", 0.0)),
         "max_slip_bps_stop": float(slip_stats.get("max_slip_bps_stop", 0.0)),
+        "avg_slip_bps_exit": float(slip_stats.get("avg_slip_bps_exit", 0.0)),
+        "max_slip_bps_exit": float(slip_stats.get("max_slip_bps_exit", 0.0)),
         # === CODEX_PATCH_END: DYNAMIC_SLIPPAGE_MODEL (2026-02-02) ===
         "risk_per_trade": float(risk_pct),
         "equity0": float(equity0),
@@ -3116,6 +3334,15 @@ def run_backtest(
         "avg_funding_cost_per_trade": float(avg_funding_cost_per_trade),
         "enable_tp_bidask_model": bool(enable_tp_bidask_model),
         "tp_bidask_half_spread_bps": float(tp_bidask_half_spread_bps),
+        "exec_policy": str(exec_policy),
+        "maker_try_enabled": bool(maker_try_enabled),
+        "maker_try_ttl_steps": int(maker_try_ttl_steps),
+        "fallback_limit_aggr_enabled": bool(fallback_limit_aggr_enabled),
+        "market_last_resort_enabled": bool(market_last_resort_enabled),
+        "market_vol_k": float(market_vol_k),
+        "aggr_extra_bps": float(aggr_extra_bps),
+        "trade_count_unchanged_vs_legacy": bool(trade_count_unchanged),
+        "legacy_trade_count": int(legacy_trade_count),
         # === CODEX_PATCH_END: FUNDING_AND_TP_BIDASK (2026-02-02) ===
         # === CODEX_PATCH_BEGIN: DAILY_DD_KILL_SWITCH (2026-02-02) ===
         "daily_dd_kill": bool(daily_dd_kill),
@@ -3228,6 +3455,14 @@ if __name__ == "__main__":
     ap.add_argument("--enable_tp_bidask", type=int, default=1)
     ap.add_argument("--tp_bidask_half_spread_bps", type=float, default=0.5)
     # === CODEX_PATCH_END: FUNDING_AND_TP_BIDASK (2026-02-02) ===
+    ap.add_argument("--exec_policy", type=str, default="legacy", choices=["legacy", "maker_first_fast"])
+    ap.add_argument("--maker_try_enabled", type=int, default=1)
+    ap.add_argument("--maker_try_ttl_steps", type=int, default=1)
+    ap.add_argument("--fallback_limit_aggr_enabled", type=int, default=1)
+    ap.add_argument("--market_last_resort_enabled", type=int, default=1)
+    ap.add_argument("--market_vol_k", type=float, default=0.15)
+    ap.add_argument("--aggr_extra_bps", type=float, default=0.1)
+    ap.add_argument("--exec_self_check", type=int, default=0)
     # === CODEX_PATCH_BEGIN: DAILY_DD_KILL_SWITCH (2026-02-02) ===
     ap.add_argument("--daily_dd_kill", type=int, default=1)
     ap.add_argument("--daily_dd_limit", type=float, default=0.02)
@@ -3291,7 +3526,8 @@ if __name__ == "__main__":
         f"risk_per_trade={args.risk_per_trade} max_notional_usdt={args.max_notional_usdt} "
         f"max_notional_mult={args.max_notional_mult} "
         f"slip_bps_entry={slip_bps_entry} slip_bps_stop={slip_bps_stop} "
-        f"tp_bidask_half_spread_bps={args.tp_bidask_half_spread_bps}"
+        f"tp_bidask_half_spread_bps={args.tp_bidask_half_spread_bps} "
+        f"exec_policy={args.exec_policy} maker_ttl={args.maker_try_ttl_steps}"
     )
 
     if args.live:
@@ -3338,6 +3574,14 @@ if __name__ == "__main__":
             args.funding_rate_8h,
             bool(args.enable_tp_bidask),
             args.tp_bidask_half_spread_bps,
+            args.exec_policy,
+            bool(args.maker_try_enabled),
+            args.maker_try_ttl_steps,
+            bool(args.fallback_limit_aggr_enabled),
+            bool(args.market_last_resort_enabled),
+            args.market_vol_k,
+            args.aggr_extra_bps,
+            bool(args.exec_self_check),
             # === CODEX_PATCH_END: FUNDING_AND_TP_BIDASK (2026-02-02) ===
             # === CODEX_PATCH_BEGIN: VOL_FILTER_MONTHLY_ATR (2026-02-02) ===
             bool(args.vol_filter_monthly),

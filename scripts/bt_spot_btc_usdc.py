@@ -33,6 +33,14 @@ def _build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--slip_bps_entry", type=float, default=2.0)
     ap.add_argument("--slip_bps_stop", type=float, default=6.0)
     ap.add_argument("--tp_bidask_half_spread_bps", type=float, default=1.0)
+    ap.add_argument("--exec_policy", type=str, default="legacy", choices=["legacy", "maker_first_fast"])
+    ap.add_argument("--maker_try_enabled", type=int, default=1)
+    ap.add_argument("--maker_try_ttl_steps", type=int, default=1)
+    ap.add_argument("--fallback_limit_aggr_enabled", type=int, default=1)
+    ap.add_argument("--market_last_resort_enabled", type=int, default=1)
+    ap.add_argument("--market_vol_k", type=float, default=0.15)
+    ap.add_argument("--aggr_extra_bps", type=float, default=0.1)
+    ap.add_argument("--exec_self_check", type=int, default=0)
     ap.add_argument("--risk_per_trade", type=float, default=0.03)
     ap.add_argument("--start_equity", type=float, default=5000.0)
     ap.add_argument("--outdir", type=str, default="")
@@ -115,6 +123,14 @@ def main() -> None:
         enable_funding_cost=bool(args.enable_funding_cost),
         enable_tp_bidask_model=True,
         tp_bidask_half_spread_bps=float(args.tp_bidask_half_spread_bps),
+        exec_policy=str(args.exec_policy),
+        maker_try_enabled=bool(args.maker_try_enabled),
+        maker_try_ttl_steps=int(args.maker_try_ttl_steps),
+        fallback_limit_aggr_enabled=bool(args.fallback_limit_aggr_enabled),
+        market_last_resort_enabled=bool(args.market_last_resort_enabled),
+        market_vol_k=float(args.market_vol_k),
+        aggr_extra_bps=float(args.aggr_extra_bps),
+        exec_self_check=bool(args.exec_self_check),
     )
 
     trades_df, eq_df, final_equity, *_ = backtest_from_signals(sigdf, bt, strat_cfg, atr_pct_proxy=atr_pct_proxy)
