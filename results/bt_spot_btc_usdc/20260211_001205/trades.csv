@@ -1,0 +1,1 @@
+side,signal_ts,entry_ts,exit_ts,entry,exit,stop,tp1,tp2,qty,pnl_gross_usdt,pnl_net_usdt,fees_usdt,tp1_pnl_gross_usdt,tp1_fee_usdt,pnl_R,exit_reason,took_tp1,funding_cost_usdt,holding_hours,tp_fill_price,tp_bidask_half_spread_bps,fee_taker_rate_applied,fee_maker_rate_applied,fee_paid_usd,notional_usd,risk_per_trade,risk_usd
