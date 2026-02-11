@@ -44,6 +44,12 @@ def _build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--risk_per_trade", type=float, default=0.03)
     ap.add_argument("--rr_min", type=float, default=1.0)
     ap.add_argument("--start_equity", type=float, default=5000.0)
+    ap.add_argument("--legacy_fixed_notional_usd", type=float, default=0.0)
+    ap.add_argument("--max_positions", type=int, default=1)
+    ap.add_argument("--max_portfolio_risk_pct", type=float, default=0.06)
+    ap.add_argument("--max_single_trade_risk_pct", type=float, default=0.0)
+    ap.add_argument("--max_notional_pct_equity", type=float, default=1.0)
+    ap.add_argument("--min_notional_usd", type=float, default=10.0)
     ap.add_argument("--outdir", type=str, default="")
     return ap
 
@@ -120,6 +126,12 @@ def main() -> None:
         risk_pct_per_trade=float(args.risk_per_trade),
         max_notional_usdt=0.0,
         max_notional_mult=0.0,
+        legacy_fixed_notional_usd=float(args.legacy_fixed_notional_usd),
+        max_positions=int(args.max_positions),
+        max_portfolio_risk_pct=float(args.max_portfolio_risk_pct),
+        max_single_trade_risk_pct=float(args.max_single_trade_risk_pct),
+        max_notional_pct_equity=float(args.max_notional_pct_equity),
+        min_notional_usd=float(args.min_notional_usd),
         conservative_intrabar=True,
         enable_funding_cost=bool(args.enable_funding_cost),
         enable_tp_bidask_model=True,
