@@ -544,12 +544,13 @@ def generate_signals(df5m: pd.DataFrame, cfg: StrategyConfig) -> pd.DataFrame:
     long_confirm_min = (df["close"] > df["open"]) | (df["close"] > df["prev_close"])
     # TREND: conservar breakout sobre máximo previo.
     trend_long_trigger = df["touch_value"] & (df["close"] > df["prev_high"])
-    # MEAN_REVERSION: trigger principal por regreso a VWAP + confirmación mínima.
-    meanrev_long_trigger = touch_vwap & long_confirm_min
+    # RANGE: VWAP como ancla principal. Solo LONG cuando precio está por debajo/tocando VWAP
+    # + confirmación mínima (vela verde o micro-momentum), sin indicadores nuevos.
+    range_long_trigger = touch_vwap & (df["close"] <= df["vwap5"]) & long_confirm_min
     df["trend_long_trigger"] = trend_long_trigger
-    df["meanrev_long_trigger"] = meanrev_long_trigger
+    df["meanrev_long_trigger"] = range_long_trigger
     # compat: columna histórica usada por métricas/debugs.
-    df["long_trigger"] = trend_long_trigger | meanrev_long_trigger
+    df["long_trigger"] = trend_long_trigger | range_long_trigger
     df["short_trigger"] = df["touch_value"] & (df["close"] < df["prev_low"])
     # === CODEX_PATCH_END: RELAXED_SPOT_LOGIC (2026-02-10) ===
 
@@ -622,17 +623,19 @@ def generate_signals(df5m: pd.DataFrame, cfg: StrategyConfig) -> pd.DataFrame:
         df["trend_long_trigger"] &
         df["ok_vol"] & df["ok_chop"]
     )
-    meanrev_ok = (
+    range_ok = (
         (bias_trade_allowed | bias_range_override) &
+        df["range_allowed"] &
         (df["struct_15m"] == "NONE") &
         df["meanrev_long_trigger"] &
         df["ok_chop"]
     )
-    long_ok = trend_ok | meanrev_ok
+    long_ok = trend_ok | range_ok
 
     df["entry_mode"] = ""
     df.loc[trend_ok, "entry_mode"] = "TREND"
-    df.loc[meanrev_ok, "entry_mode"] = "MEAN_REVERSION"
+    # Asignación explícita de modo RANGE para desbloquear entradas en contexto lateral.
+    df.loc[range_ok, "entry_mode"] = "RANGE"
     df["range_override_allowed"] = bias_range_override.astype(bool)
     short_ok = (
         (df["bias_1h"] == "SHORT") &
@@ -2276,9 +2279,11 @@ def backtest_from_signals(
                         debug_reasons.append(f"struct_15m={prev.get('struct_15m')}")
                     if not bool(prev.get("ok_vol", False)):
                         debug_reasons.append("ok_vol=0")
-                elif entry_mode == "MEAN_REVERSION":
+                elif entry_mode == "RANGE":
                     if str(prev.get("struct_15m", "")) != "NONE":
                         debug_reasons.append(f"struct_15m={prev.get('struct_15m')}")
+                    if not bool(prev.get("range_allowed", False)):
+                        debug_reasons.append("range_allowed=0")
                 else:
                     debug_reasons.append(
                         f"entry_mode={entry_mode or 'NONE'} bias_1h={bias_value} range_allowed={bool(prev.get('range_allowed', False))}"
@@ -2294,6 +2299,11 @@ def backtest_from_signals(
 
             p = build_pending(prev)
             if p is not None:
+                if str(p.get("entry_mode", "")).upper() == "RANGE":
+                    print(
+                        f"[ENTRY_MODE_ASSIGNED] MODE=SPOT entry_mode=RANGE ts={prev['ts']} "
+                        f"bias_1h={prev.get('bias_1h')} range_allowed={bool(prev.get('range_allowed', False))}"
+                    )
                 print(
                     f"[SIGNAL_ALLOWED] MODE=SPOT ENTRY_MODE={p.get('entry_mode', '')} ts={prev['ts']} "
                     f"bias_1h={prev.get('bias_1h')} struct_15m={prev.get('struct_15m')}"
