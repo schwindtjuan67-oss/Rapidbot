@@ -2062,6 +2062,12 @@ def backtest_from_signals(
         return atr_val_f if np.isfinite(atr_val_f) else 0.0
 
     def _slip_bps(kind: Literal["entry", "stop", "tp_half_spread"], notional: float, atr_pct: float) -> float:
+        if bt.exec_policy == "legacy":
+            if kind == "entry":
+                return float(bt.slippage_bps_entry)
+            if kind == "stop":
+                return float(bt.slippage_bps_stop)
+            return float(bt.tp_bidask_half_spread_bps)
         return slippage_bps(
             kind,
             notional,
@@ -3181,6 +3187,7 @@ def run_backtest(
     market_vol_k: float,
     aggr_extra_bps: float,
     exec_self_check: bool,
+    allow_trade_count_change: bool,
     # === CODEX_PATCH_END: FUNDING_AND_TP_BIDASK (2026-02-02) ===
     # === CODEX_PATCH_BEGIN: VOL_FILTER_MONTHLY_ATR (2026-02-02) ===
     vol_filter_monthly: bool,
@@ -3337,6 +3344,16 @@ def run_backtest(
         legacy_trade_count = int(len(legacy_trades_df))
     trade_count_unchanged = int(len(trades_df)) == int(legacy_trade_count)
 
+    if exec_policy != "legacy" and not trade_count_unchanged:
+        warning_msg = (
+            "[WARNING] trade_count_unchanged_vs_legacy=false "
+            f"(legacy={legacy_trade_count}, {exec_policy}={len(trades_df)}). "
+            "Pass --allow_trade_count_change=1 to bypass this safety guard."
+        )
+        print(warning_msg)
+        if not allow_trade_count_change:
+            raise SystemExit(2)
+
     if not trades_df.empty:
         entry_mix = trades_df["entry_fill_type"].value_counts(normalize=True)
         exit_mix = trades_df["exit_fill_type"].value_counts(normalize=True)
@@ -3460,6 +3477,7 @@ def run_backtest(
         "aggr_extra_bps": float(aggr_extra_bps),
         "trade_count_unchanged_vs_legacy": bool(trade_count_unchanged),
         "legacy_trade_count": int(legacy_trade_count),
+        "allow_trade_count_change": bool(allow_trade_count_change),
         # === CODEX_PATCH_END: FUNDING_AND_TP_BIDASK (2026-02-02) ===
         # === CODEX_PATCH_BEGIN: DAILY_DD_KILL_SWITCH (2026-02-02) ===
         "daily_dd_kill": bool(daily_dd_kill),
@@ -3578,7 +3596,7 @@ if __name__ == "__main__":
     ap.add_argument("--enable_tp_bidask", type=int, default=1)
     ap.add_argument("--tp_bidask_half_spread_bps", type=float, default=0.5)
     # === CODEX_PATCH_END: FUNDING_AND_TP_BIDASK (2026-02-02) ===
-    ap.add_argument("--exec_policy", type=str, default="legacy", choices=["legacy", "maker_first_fast"])
+    ap.add_argument("--exec_policy", type=str, default="legacy", choices=["legacy", "maker_first_fast"], help="Execution policy (recommended: legacy for research until alternatives are validated)")
     ap.add_argument("--maker_try_enabled", type=int, default=1)
     ap.add_argument("--maker_try_ttl_steps", type=int, default=1)
     ap.add_argument("--fallback_limit_aggr_enabled", type=int, default=1)
@@ -3586,6 +3604,7 @@ if __name__ == "__main__":
     ap.add_argument("--market_vol_k", type=float, default=0.15)
     ap.add_argument("--aggr_extra_bps", type=float, default=0.1)
     ap.add_argument("--exec_self_check", type=int, default=0)
+    ap.add_argument("--allow_trade_count_change", type=int, default=0)
     # === CODEX_PATCH_BEGIN: DAILY_DD_KILL_SWITCH (2026-02-02) ===
     ap.add_argument("--daily_dd_kill", type=int, default=1)
     ap.add_argument("--daily_dd_limit", type=float, default=0.02)
@@ -3714,6 +3733,7 @@ if __name__ == "__main__":
             args.market_vol_k,
             args.aggr_extra_bps,
             bool(args.exec_self_check),
+            bool(args.allow_trade_count_change),
             # === CODEX_PATCH_END: FUNDING_AND_TP_BIDASK (2026-02-02) ===
             # === CODEX_PATCH_BEGIN: VOL_FILTER_MONTHLY_ATR (2026-02-02) ===
             bool(args.vol_filter_monthly),

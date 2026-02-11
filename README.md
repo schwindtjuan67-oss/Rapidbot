@@ -102,6 +102,8 @@ Archivo:
 
 
 ### Backtest BTCUSDT (dataset BINANCE 5m) con comparación de ejecución
+> Recomendación: usar `--exec_policy legacy` para research hasta validar estadísticamente cualquier política alternativa de ejecución.
+
 Dataset esperado:
 * `Datasets/BINANCE/BTCUSDT/5m/BTCUSDT_5m_full.csv`
 
