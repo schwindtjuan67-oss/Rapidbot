@@ -365,4 +365,7 @@ if __name__ == "__main__":
         raise SystemExit("Use --bt")
     if ns.exec_policy != "legacy":
         raise SystemExit("portfolio_aggregator_spot supports legacy execution only")
-    run_portfolio_backtest(ns)
+    try:
+        run_portfolio_backtest(ns)
+    except ValueError as exc:
+        raise SystemExit(f"[INPUT_ERROR] {exc}")
