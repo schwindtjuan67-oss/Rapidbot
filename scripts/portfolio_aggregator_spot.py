@@ -4,7 +4,6 @@ import argparse
 import json
 import os
 from dataclasses import dataclass
-from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 import numpy as np
@@ -34,42 +33,6 @@ class SymbolState:
     pending: Optional[Dict[str, Any]] = None
     pending_age: int = 0
     pos: Optional[Dict[str, Any]] = None
-
-
-def _clean_csv_token(token: str) -> str:
-    return token.strip().strip('"').strip("'")
-
-
-def _resolve_csv_path(raw_token: str, symbol: str) -> str:
-    token = _clean_csv_token(raw_token)
-    if not token:
-        raise ValueError(f"Empty csv path for symbol={symbol}")
-    if ("<" in token) or (">" in token):
-        raise ValueError(
-            "Detected placeholder in --csvs. Replace <btc_csv>/<eth_csv>/... with real file paths. "
-            "Example: --csvs \"Datasets/BINANCE/BTCUSDT/5m/BTCUSDT_5m_full.csv,...\""
-        )
-
-    p = Path(token)
-    if p.is_file():
-        return str(p)
-    if not p.exists():
-        raise ValueError(f"CSV path does not exist for symbol={symbol}: {token}")
-    if not p.is_dir():
-        raise ValueError(f"CSV path is not a file/dir for symbol={symbol}: {token}")
-
-    candidates = sorted(
-        [x for x in p.rglob("*.csv") if x.is_file()],
-        key=lambda x: (
-            symbol not in x.name.upper(),
-            "FULL" not in x.name.upper(),
-            -x.stat().st_size,
-            x.name,
-        ),
-    )
-    if not candidates:
-        raise ValueError(f"No .csv files found inside directory for symbol={symbol}: {token}")
-    return str(candidates[0])
 
 
 def _open_risk_usd(states: Dict[str, SymbolState]) -> float:
@@ -127,12 +90,9 @@ def _size_qty(entry: float, stop: float, equity: float, bt: BTConfig, states: Di
 
 def run_portfolio_backtest(args: argparse.Namespace) -> None:
     symbols = [s.strip().upper() for s in args.symbols.split(",") if s.strip()]
-    csv_tokens = [c.strip() for c in args.csvs.split(",") if c.strip()]
-    if len(symbols) != len(csv_tokens) or not symbols:
+    csvs = [c.strip() for c in args.csvs.split(",") if c.strip()]
+    if len(symbols) != len(csvs) or not symbols:
         raise ValueError("--symbols and --csvs must have same non-zero length")
-    csvs = [_resolve_csv_path(tok, sym) for sym, tok in zip(symbols, csv_tokens)]
-
-    print("[CSV_RESOLVED]" + " | ".join([f"{s}={c}" for s, c in zip(symbols, csvs)]))
 
     strat_cfg = StrategyConfig(
         enable_tp_bidask_model=bool(args.enable_tp_bidask),
