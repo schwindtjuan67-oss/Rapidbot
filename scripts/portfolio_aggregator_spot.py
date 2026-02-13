@@ -4,6 +4,7 @@ import argparse
 import json
 import os
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 import numpy as np
@@ -33,6 +34,48 @@ class SymbolState:
     pending: Optional[Dict[str, Any]] = None
     pending_age: int = 0
     pos: Optional[Dict[str, Any]] = None
+
+
+DEFAULT_SYMBOLS = [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "XRPUSDT",
+    "BNBUSDC",
+    "LTCUSDC",
+]
+
+
+def _resolve_symbol_csv(symbol: str) -> Path:
+    symbol_dir = Path("Rapidbot") / "Datasets" / "BINANCE" / symbol
+    if not symbol_dir.exists():
+        # Repo-local fallback when cwd is already Rapidbot.
+        symbol_dir = Path("Datasets") / "BINANCE" / symbol
+    if not symbol_dir.exists():
+        raise ValueError(f"Missing dataset directory for {symbol}: {symbol_dir}")
+
+    candidates = sorted(p for p in symbol_dir.rglob("*.csv") if "5m" in p.name.lower())
+    if not candidates:
+        raise ValueError(f"No 5m CSV found for {symbol} under {symbol_dir}")
+    return candidates[0]
+
+
+def _validate_loaded_df(symbol: str, df: pd.DataFrame) -> None:
+    required_cols = {"ts", "open", "high", "low", "close", "volume"}
+    if set(df.columns) != required_cols:
+        raise ValueError(f"{symbol}: invalid columns {list(df.columns)}; expected {sorted(required_cols)}")
+
+    ohlcv = df[["open", "high", "low", "close", "volume"]]
+    if not all(pd.api.types.is_numeric_dtype(ohlcv[c]) for c in ohlcv.columns):
+        raise ValueError(f"{symbol}: OHLCV columns must be numeric")
+    if not df["ts"].is_monotonic_increasing:
+        raise ValueError(f"{symbol}: ts is not sorted ascending")
+    if df["ts"].duplicated().any():
+        raise ValueError(f"{symbol}: duplicated ts found after loading")
+
+    ts_ms = (df["ts"].astype("int64") // 1_000_000).diff().dropna()
+    if not ts_ms.empty and (ts_ms != 300000).any():
+        print(f"WARNING: {symbol}: detected non-5m delta in ts (expected 300000 ms)")
 
 
 def _open_risk_usd(states: Dict[str, SymbolState]) -> float:
@@ -90,9 +133,15 @@ def _size_qty(entry: float, stop: float, equity: float, bt: BTConfig, states: Di
 
 def run_portfolio_backtest(args: argparse.Namespace) -> None:
     symbols = [s.strip().upper() for s in args.symbols.split(",") if s.strip()]
-    csvs = [c.strip() for c in args.csvs.split(",") if c.strip()]
-    if len(symbols) != len(csvs) or not symbols:
-        raise ValueError("--symbols and --csvs must have same non-zero length")
+    if not symbols:
+        raise ValueError("No symbols configured")
+
+    if args.csvs:
+        csvs = [c.strip() for c in args.csvs.split(",") if c.strip()]
+        if len(symbols) != len(csvs):
+            raise ValueError("--symbols and --csvs must have same length")
+    else:
+        csvs = [str(_resolve_symbol_csv(symbol)) for symbol in symbols]
 
     strat_cfg = StrategyConfig(
         enable_tp_bidask_model=bool(args.enable_tp_bidask),
@@ -123,8 +172,10 @@ def run_portfolio_backtest(args: argparse.Namespace) -> None:
 
     for symbol, csv_path in zip(symbols, csvs):
         df = load_ohlcv_csv(csv_path, strict=False)
+        _validate_loaded_df(symbol, df)
         if df.empty:
             continue
+        print(f"Loaded {symbol} | rows={len(df)} | from={df['ts'].min()} | to={df['ts'].max()}")
         atr_proxy = compute_atr_pct_proxy(df, n=strat_cfg.daily_atr_len)
         if len(atr_proxy) == len(df):
             df = df.copy()
@@ -336,8 +387,8 @@ def run_portfolio_backtest(args: argparse.Namespace) -> None:
 def build_parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser()
     ap.add_argument("--bt", action="store_true")
-    ap.add_argument("--symbols", type=str, required=True)
-    ap.add_argument("--csvs", type=str, required=True)
+    ap.add_argument("--symbols", type=str, default=",".join(DEFAULT_SYMBOLS))
+    ap.add_argument("--csvs", type=str, default="")
     ap.add_argument("--outdir", type=str, default="portfolio")
     ap.add_argument("--equity", type=float, default=1000.0)
     ap.add_argument("--risk_per_trade", type=float, default=0.03)
