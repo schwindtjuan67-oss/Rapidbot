@@ -73,9 +73,32 @@ def _validate_loaded_df(symbol: str, df: pd.DataFrame) -> None:
     if df["ts"].duplicated().any():
         raise ValueError(f"{symbol}: duplicated ts found after loading")
 
-    ts_ms = (df["ts"].astype("int64") // 1_000_000).diff().dropna()
-    if not ts_ms.empty and (ts_ms != 300000).any():
-        print(f"WARNING: {symbol}: detected non-5m delta in ts (expected 300000 ms)")
+    expected_delta_ms = 300_000
+    ts_ms_i64 = (df["ts"].astype("int64") // 1_000_000).astype("int64")
+    deltas = ts_ms_i64.diff().dropna().astype("int64")
+    if deltas.empty:
+        return
+
+    deltas_np = deltas.to_numpy()
+    is_5m = np.isclose(deltas_np, expected_delta_ms, atol=1)
+    bad_mask = ~is_5m
+    bad_count = int(bad_mask.sum())
+    if bad_count == 0:
+        return
+
+    bad_ratio = bad_count / float(len(deltas_np))
+    if bad_ratio < 1e-5:  # 0.001%
+        return
+
+    bad_deltas = deltas_np[bad_mask]
+    dup_count = int(np.sum(bad_deltas == 0))
+    gaps_count = int(np.sum(bad_deltas > expected_delta_ms))
+    back_count = int(np.sum(bad_deltas < 0))
+    examples = bad_deltas[:5].astype(int).tolist()
+    print(
+        f"WARNING: {symbol}: non-5m ts deltas: bad={bad_count} ({bad_ratio * 100:.3f}%), "
+        f"dup={dup_count}, gaps={gaps_count}, back={back_count}. examples={examples}"
+    )
 
 
 def _open_risk_usd(states: Dict[str, SymbolState]) -> float:

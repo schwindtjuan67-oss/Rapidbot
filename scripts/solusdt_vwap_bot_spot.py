@@ -1864,7 +1864,14 @@ def _parse_csv_ts_utc(ts_raw: pd.Series) -> pd.Series:
         unit_name = "seconds"
 
     print(f"[CSV] timestamp_parse detected_unit={unit_name} max_abs={ts_max:.3f}")
-    return pd.to_datetime(ts_num, unit=unit, utc=True, errors="coerce")
+
+    # For millisecond CSVs parsed as float64, round first to avoid tiny floating
+    # noise propagating into datetime conversion and downstream delta checks.
+    ts_for_parse: pd.Series = ts_num
+    if unit == "ms" and pd.api.types.is_float_dtype(ts_num.dtype):
+        ts_for_parse = pd.Series(np.rint(ts_num.to_numpy()), index=ts_num.index).astype("int64")
+
+    return pd.to_datetime(ts_for_parse, unit=unit, utc=True, errors="coerce")
 # === CODEX_PATCH_END: CSV_TS_UNIT_AUTO_DETECT_SPOT (2026-02-11) ===
 
 
