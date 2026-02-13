@@ -1,0 +1,961 @@
+{
+  "trades": 13856,
+  "winrate": 0.624133949191686,
+  "profit_factor": 1.5059387426415243,
+  "avg_R": 0.2133646112246489,
+  "sum_R": 2956.380053128735,
+  "avg_pnl_usdt": 221447.9211716665,
+  "sum_pnl_usdt": 3068382395.754611,
+  "final_equity_usdt": 3078571749.1100774,
+  "return_pct": 307857074.91100776,
+  "max_drawdown_pct": 22.976812489534986,
+  "trades_per_month_avg": 134.5242718446602,
+  "dataset_start": "2017-08-17T04:00:00+00:00",
+  "dataset_end": "2026-02-13T11:25:00+00:00",
+  "by_year": {
+    "2017": {
+      "trades": 218,
+      "winrate": 0.6880733944954128,
+      "profit_factor": 2.016464829179436,
+      "sum_pnl_net_usdt": 948.681623792913,
+      "max_drawdown_pct": 5.3662964214580535,
+      "return_pct": 94.86816237929108
+    },
+    "2018": {
+      "trades": 814,
+      "winrate": 0.5958230958230958,
+      "profit_factor": 1.261776156181308,
+      "sum_pnl_net_usdt": 2152.2164694779312,
+      "max_drawdown_pct": 11.493020574665477,
+      "return_pct": 110.44474598620528
+    },
+    "2019": {
+      "trades": 1487,
+      "winrate": 0.605245460659045,
+      "profit_factor": 1.2677335470994997,
+      "sum_pnl_net_usdt": 6929.076610640295,
+      "max_drawdown_pct": 13.215124233414025,
+      "return_pct": 168.96485728358343
+    },
+    "2020": {
+      "trades": 1687,
+      "winrate": 0.6265560165975104,
+      "profit_factor": 1.452487766166881,
+      "sum_pnl_net_usdt": 71767.11429711494,
+      "max_drawdown_pct": 13.99069896747365,
+      "return_pct": 650.6552936306077
+    },
+    "2021": {
+      "trades": 1815,
+      "winrate": 0.6016528925619835,
+      "profit_factor": 1.5045838977230763,
+      "sum_pnl_net_usdt": 1266445.0409686284,
+      "max_drawdown_pct": 15.8368135499808,
+      "return_pct": 1529.5767716579223
+    },
+    "2022": {
+      "trades": 1687,
+      "winrate": 0.6212211025489034,
+      "profit_factor": 1.4469276868727257,
+      "sum_pnl_net_usdt": 6580123.391704939,
+      "max_drawdown_pct": 13.071838920003358,
+      "return_pct": 488.5550709146452
+    },
+    "2023": {
+      "trades": 1694,
+      "winrate": 0.6505312868949232,
+      "profit_factor": 1.6311395816931502,
+      "sum_pnl_net_usdt": 33941031.717750035,
+      "max_drawdown_pct": 5.067547926759924,
+      "return_pct": 427.2663817417129
+    },
+    "2024": {
+      "trades": 2145,
+      "winrate": 0.6293706293706294,
+      "profit_factor": 1.3787466745168222,
+      "sum_pnl_net_usdt": 264993899.58196127,
+      "max_drawdown_pct": 15.709251864892243,
+      "return_pct": 632.890817984517
+    },
+    "2025": {
+      "trades": 2069,
+      "winrate": 0.6341227646205897,
+      "profit_factor": 1.5430609696841795,
+      "sum_pnl_net_usdt": 2303419367.097472,
+      "max_drawdown_pct": 10.234088160394053,
+      "return_pct": 750.6312695732763
+    },
+    "2026": {
+      "trades": 240,
+      "winrate": 0.6333333333333333,
+      "profit_factor": 1.43532411540306,
+      "sum_pnl_net_usdt": 458099731.83575326,
+      "max_drawdown_pct": 5.09131451653149,
+      "return_pct": 17.94012243436287
+    }
+  },
+  "by_month": {
+    "2017-08": {
+      "trades": 27,
+      "winrate": 0.6296296296296297,
+      "profit_factor": 1.0467932523317172,
+      "sum_pnl_net_usdt": 4.53848720131973,
+      "max_drawdown_pct": 4.884341062601108,
+      "return_pct": 0.4538487201319219
+    },
+    "2017-09": {
+      "trades": 32,
+      "winrate": 0.78125,
+      "profit_factor": 3.766588632279798,
+      "sum_pnl_net_usdt": 190.54339425330727,
+      "max_drawdown_pct": 1.9273523650815556,
+      "return_pct": 18.968252255238905
+    },
+    "2017-10": {
+      "trades": 54,
+      "winrate": 0.6851851851851852,
+      "profit_factor": 1.2787792505256108,
+      "sum_pnl_net_usdt": 49.99276500738695,
+      "max_drawdown_pct": 4.002992678121327,
+      "return_pct": 4.183208346070577
+    },
+    "2017-11": {
+      "trades": 59,
+      "winrate": 0.6779661016949152,
+      "profit_factor": 1.630360474198041,
+      "sum_pnl_net_usdt": 137.33761408892622,
+      "max_drawdown_pct": 3.7090068423579288,
+      "return_pct": 11.030472307759398
+    },
+    "2017-12": {
+      "trades": 46,
+      "winrate": 0.6739130434782609,
+      "profit_factor": 2.529413913081234,
+      "sum_pnl_net_usdt": 566.2693632419729,
+      "max_drawdown_pct": 5.3662964214580535,
+      "return_pct": 40.96240892831011
+    },
+    "2018-01": {
+      "trades": 50,
+      "winrate": 0.7,
+      "profit_factor": 2.2763128610556214,
+      "sum_pnl_net_usdt": 557.6397509453011,
+      "max_drawdown_pct": 8.410377933854834,
+      "return_pct": 28.61625748078389
+    },
+    "2018-02": {
+      "trades": 48,
+      "winrate": 0.6458333333333334,
+      "profit_factor": 1.4546870845385311,
+      "sum_pnl_net_usdt": 323.61947888881406,
+      "max_drawdown_pct": 11.493020574665477,
+      "return_pct": 12.912130190112503
+    },
+    "2018-03": {
+      "trades": 33,
+      "winrate": 0.5151515151515151,
+      "profit_factor": 1.059879179051756,
+      "sum_pnl_net_usdt": 24.73016924085099,
+      "max_drawdown_pct": 5.423177050904561,
+      "return_pct": 0.8738758341594544
+    },
+    "2018-04": {
+      "trades": 67,
+      "winrate": 0.6119402985074627,
+      "profit_factor": 1.4458505713425662,
+      "sum_pnl_net_usdt": 258.4149522039781,
+      "max_drawdown_pct": 3.370253687159529,
+      "return_pct": 9.052354899527737
+    },
+    "2018-05": {
+      "trades": 60,
+      "winrate": 0.5833333333333334,
+      "profit_factor": 1.2796542212735236,
+      "sum_pnl_net_usdt": 147.5851190274409,
+      "max_drawdown_pct": 4.959552236115674,
+      "return_pct": 4.740798044423844
+    },
+    "2018-06": {
+      "trades": 75,
+      "winrate": 0.6133333333333333,
+      "profit_factor": 1.2333060071247741,
+      "sum_pnl_net_usdt": 125.1980893306613,
+      "max_drawdown_pct": 3.8799312976704865,
+      "return_pct": 4.183469270964113
+    },
+    "2018-07": {
+      "trades": 99,
+      "winrate": 0.6363636363636364,
+      "profit_factor": 1.3025085626238013,
+      "sum_pnl_net_usdt": 199.78500982259834,
+      "max_drawdown_pct": 5.990131417105502,
+      "return_pct": 5.551058881856008
+    },
+    "2018-08": {
+      "trades": 94,
+      "winrate": 0.6276595744680851,
+      "profit_factor": 1.6701353720299263,
+      "sum_pnl_net_usdt": 606.0347708307862,
+      "max_drawdown_pct": 3.7358842090730224,
+      "return_pct": 16.90165136312407
+    },
+    "2018-09": {
+      "trades": 77,
+      "winrate": 0.5194805194805194,
+      "profit_factor": 1.1549548133295697,
+      "sum_pnl_net_usdt": 131.11628747390242,
+      "max_drawdown_pct": 4.8628847109668545,
+      "return_pct": 3.1280061234834733
+    },
+    "2018-10": {
+      "trades": 85,
+      "winrate": 0.5764705882352941,
+      "profit_factor": 0.756460805813598,
+      "sum_pnl_net_usdt": -190.50740875010027,
+      "max_drawdown_pct": 6.327668737331414,
+      "return_pct": -4.407031954110674
+    },
+    "2018-11": {
+      "trades": 63,
+      "winrate": 0.5396825396825397,
+      "profit_factor": 0.9591573907436871,
+      "sum_pnl_net_usdt": -32.63056712321057,
+      "max_drawdown_pct": 4.910564794330756,
+      "return_pct": -0.7896470284688317
+    },
+    "2018-12": {
+      "trades": 63,
+      "winrate": 0.5555555555555556,
+      "profit_factor": 1.0012021414484973,
+      "sum_pnl_net_usdt": 1.2308175869080031,
+      "max_drawdown_pct": 7.154756991349282,
+      "return_pct": 0.030022377528360344
+    },
+    "2019-01": {
+      "trades": 104,
+      "winrate": 0.5961538461538461,
+      "profit_factor": 1.1093981139152882,
+      "sum_pnl_net_usdt": 87.23238873835263,
+      "max_drawdown_pct": 4.44860586585974,
+      "return_pct": 2.1271532906777635
+    },
+    "2019-02": {
+      "trades": 123,
+      "winrate": 0.6747967479674797,
+      "profit_factor": 1.574836447913062,
+      "sum_pnl_net_usdt": 614.1543808021943,
+      "max_drawdown_pct": 3.7983492097489164,
+      "return_pct": 14.664165394091523
+    },
+    "2019-03": {
+      "trades": 129,
+      "winrate": 0.5581395348837209,
+      "profit_factor": 0.9204436730078446,
+      "sum_pnl_net_usdt": -100.77608985193896,
+      "max_drawdown_pct": 7.694268897951055,
+      "return_pct": -2.0985029570474434
+    },
+    "2019-04": {
+      "trades": 134,
+      "winrate": 0.6044776119402985,
+      "profit_factor": 1.581520292218336,
+      "sum_pnl_net_usdt": 944.9653901624554,
+      "max_drawdown_pct": 4.285685994443692,
+      "return_pct": 20.09919444577848
+    },
+    "2019-05": {
+      "trades": 180,
+      "winrate": 0.6333333333333333,
+      "profit_factor": 1.3292040763112956,
+      "sum_pnl_net_usdt": 1303.3313986385017,
+      "max_drawdown_pct": 8.454581771789455,
+      "return_pct": 23.082216636193632
+    },
+    "2019-06": {
+      "trades": 155,
+      "winrate": 0.5548387096774193,
+      "profit_factor": 1.213475262151175,
+      "sum_pnl_net_usdt": 673.3880468754305,
+      "max_drawdown_pct": 4.4506275189896565,
+      "return_pct": 9.689307720788353
+    },
+    "2019-07": {
+      "trades": 103,
+      "winrate": 0.6213592233009708,
+      "profit_factor": 1.7023056011324724,
+      "sum_pnl_net_usdt": 1502.8985817253101,
+      "max_drawdown_pct": 4.367620013692923,
+      "return_pct": 19.71481584860666
+    },
+    "2019-08": {
+      "trades": 106,
+      "winrate": 0.5849056603773585,
+      "profit_factor": 1.296812590123994,
+      "sum_pnl_net_usdt": 601.9497190618846,
+      "max_drawdown_pct": 4.275865017983142,
+      "return_pct": 6.595919770541636
+    },
+    "2019-09": {
+      "trades": 122,
+      "winrate": 0.5901639344262295,
+      "profit_factor": 1.0177545080939476,
+      "sum_pnl_net_usdt": 47.98834298174526,
+      "max_drawdown_pct": 6.130741897179598,
+      "return_pct": 0.4932990978920637
+    },
+    "2019-10": {
+      "trades": 125,
+      "winrate": 0.664,
+      "profit_factor": 1.435238046559986,
+      "sum_pnl_net_usdt": 1226.0306144798615,
+      "max_drawdown_pct": 5.504660356667046,
+      "return_pct": 12.541190880401265
+    },
+    "2019-11": {
+      "trades": 88,
+      "winrate": 0.5,
+      "profit_factor": 0.6281599853204131,
+      "sum_pnl_net_usdt": -889.3967321521116,
+      "max_drawdown_pct": 8.083910304742323,
+      "return_pct": -8.083910304742325
+    },
+    "2019-12": {
+      "trades": 118,
+      "winrate": 0.652542372881356,
+      "profit_factor": 1.4753224352228975,
+      "sum_pnl_net_usdt": 917.3105691786095,
+      "max_drawdown_pct": 3.0658507623358693,
+      "return_pct": 9.07090907951793
+    },
+    "2020-01": {
+      "trades": 129,
+      "winrate": 0.627906976744186,
+      "profit_factor": 1.574504328967554,
+      "sum_pnl_net_usdt": 1969.1926472799046,
+      "max_drawdown_pct": 3.8919789992337805,
+      "return_pct": 17.85310211619646
+    },
+    "2020-02": {
+      "trades": 110,
+      "winrate": 0.6363636363636364,
+      "profit_factor": 1.6763877878899678,
+      "sum_pnl_net_usdt": 2500.6522762304808,
+      "max_drawdown_pct": 4.140420629798184,
+      "return_pct": 19.237018869530665
+    },
+    "2020-03": {
+      "trades": 108,
+      "winrate": 0.6759259259259259,
+      "profit_factor": 1.5057829666772482,
+      "sum_pnl_net_usdt": 3065.7826890784636,
+      "max_drawdown_pct": 12.376437082629046,
+      "return_pct": 19.779473327900064
+    },
+    "2020-04": {
+      "trades": 147,
+      "winrate": 0.6870748299319728,
+      "profit_factor": 2.087623633951216,
+      "sum_pnl_net_usdt": 5562.1709883515,
+      "max_drawdown_pct": 2.80648200676063,
+      "return_pct": 29.959550428418822
+    },
+    "2020-05": {
+      "trades": 135,
+      "winrate": 0.5925925925925926,
+      "profit_factor": 1.1697243710918999,
+      "sum_pnl_net_usdt": 1339.92842977409,
+      "max_drawdown_pct": 6.019996250778591,
+      "return_pct": 5.553469078328255
+    },
+    "2020-06": {
+      "trades": 131,
+      "winrate": 0.5954198473282443,
+      "profit_factor": 1.1394462239788254,
+      "sum_pnl_net_usdt": 621.6542204348402,
+      "max_drawdown_pct": 3.2024481173770596,
+      "return_pct": 2.4409513937005967
+    },
+    "2020-07": {
+      "trades": 159,
+      "winrate": 0.610062893081761,
+      "profit_factor": 1.5192489711685175,
+      "sum_pnl_net_usdt": 3654.5445146668158,
+      "max_drawdown_pct": 3.039200904009085,
+      "return_pct": 14.007798893011625
+    },
+    "2020-08": {
+      "trades": 135,
+      "winrate": 0.5111111111111111,
+      "profit_factor": 1.0588235600174827,
+      "sum_pnl_net_usdt": 804.7348677429343,
+      "max_drawdown_pct": 10.43491221873374,
+      "return_pct": 2.705545859938474
+    },
+    "2020-09": {
+      "trades": 141,
+      "winrate": 0.6453900709219859,
+      "profit_factor": 1.9598721747753673,
+      "sum_pnl_net_usdt": 10102.543144919879,
+      "max_drawdown_pct": 3.6362781343340784,
+      "return_pct": 33.07035824454096
+    },
+    "2020-10": {
+      "trades": 159,
+      "winrate": 0.6540880503144654,
+      "profit_factor": 1.6233591453876977,
+      "sum_pnl_net_usdt": 7277.3112706172815,
+      "max_drawdown_pct": 7.638411663700584,
+      "return_pct": 18.553632269341346
+    },
+    "2020-11": {
+      "trades": 190,
+      "winrate": 0.6789473684210526,
+      "profit_factor": 1.9090067569162363,
+      "sum_pnl_net_usdt": 34544.143876110174,
+      "max_drawdown_pct": 8.696318362101847,
+      "return_pct": 72.67529138630486
+    },
+    "2020-12": {
+      "trades": 143,
+      "winrate": 0.5874125874125874,
+      "profit_factor": 1.0068985003111532,
+      "sum_pnl_net_usdt": 324.4553719085819,
+      "max_drawdown_pct": 12.883349619940363,
+      "return_pct": -0.5060058957957025
+    },
+    "2021-01": {
+      "trades": 150,
+      "winrate": 0.5733333333333334,
+      "profit_factor": 1.1879264896544877,
+      "sum_pnl_net_usdt": 11875.468337011976,
+      "max_drawdown_pct": 13.416752573786331,
+      "return_pct": 14.342857315750447
+    },
+    "2021-02": {
+      "trades": 132,
+      "winrate": 0.5984848484848485,
+      "profit_factor": 1.33517787153131,
+      "sum_pnl_net_usdt": 25750.20804844069,
+      "max_drawdown_pct": 11.925244148263946,
+      "return_pct": 27.199231511721944
+    },
+    "2021-03": {
+      "trades": 148,
+      "winrate": 0.6486486486486487,
+      "profit_factor": 1.7261003180180055,
+      "sum_pnl_net_usdt": 51622.9912991299,
+      "max_drawdown_pct": 8.368725539606944,
+      "return_pct": 42.868133058938994
+    },
+    "2021-04": {
+      "trades": 167,
+      "winrate": 0.5329341317365269,
+      "profit_factor": 1.3156099335927607,
+      "sum_pnl_net_usdt": 50926.99237686451,
+      "max_drawdown_pct": 12.910637151897014,
+      "return_pct": 29.600841867856875
+    },
+    "2021-05": {
+      "trades": 120,
+      "winrate": 0.5583333333333333,
+      "profit_factor": 1.259626969153308,
+      "sum_pnl_net_usdt": 52218.991698074125,
+      "max_drawdown_pct": 15.8368135499808,
+      "return_pct": 21.744357596139775
+    },
+    "2021-06": {
+      "trades": 116,
+      "winrate": 0.603448275862069,
+      "profit_factor": 1.7311677535235004,
+      "sum_pnl_net_usdt": 90860.3526314627,
+      "max_drawdown_pct": 8.494412606518132,
+      "return_pct": 33.01710741040134
+    },
+    "2021-07": {
+      "trades": 157,
+      "winrate": 0.5668789808917197,
+      "profit_factor": 1.5611805333822961,
+      "sum_pnl_net_usdt": 88574.01197680284,
+      "max_drawdown_pct": 4.638614925335097,
+      "return_pct": 24.197105705921462
+    },
+    "2021-08": {
+      "trades": 163,
+      "winrate": 0.5828220858895705,
+      "profit_factor": 1.2875896955726591,
+      "sum_pnl_net_usdt": 79722.44406294223,
+      "max_drawdown_pct": 6.6547833378425665,
+      "return_pct": 17.535826280426203
+    },
+    "2021-09": {
+      "trades": 141,
+      "winrate": 0.6666666666666666,
+      "profit_factor": 1.741421754650795,
+      "sum_pnl_net_usdt": 132386.68314149787,
+      "max_drawdown_pct": 4.026495974143962,
+      "return_pct": 25.045950070770793
+    },
+    "2021-10": {
+      "trades": 189,
+      "winrate": 0.6296296296296297,
+      "profit_factor": 1.4963567279501058,
+      "sum_pnl_net_usdt": 167913.01267647394,
+      "max_drawdown_pct": 4.816981470531495,
+      "return_pct": 24.365875600379326
+    },
+    "2021-11": {
+      "trades": 169,
+      "winrate": 0.6331360946745562,
+      "profit_factor": 1.843574610422535,
+      "sum_pnl_net_usdt": 305726.66324213246,
+      "max_drawdown_pct": 5.338174362214047,
+      "return_pct": 36.629402264023
+    },
+    "2021-12": {
+      "trades": 163,
+      "winrate": 0.6196319018404908,
+      "profit_factor": 1.4196680012693519,
+      "sum_pnl_net_usdt": 208867.22147779504,
+      "max_drawdown_pct": 4.944928756743057,
+      "return_pct": 18.3156626757091
+    },
+    "2022-01": {
+      "trades": 148,
+      "winrate": 0.6216216216216216,
+      "profit_factor": 1.5725918264411969,
+      "sum_pnl_net_usdt": 298816.13920639124,
+      "max_drawdown_pct": 3.8584500478503045,
+      "return_pct": 22.14696180685596
+    },
+    "2022-02": {
+      "trades": 131,
+      "winrate": 0.6335877862595419,
+      "profit_factor": 1.7127417276576926,
+      "sum_pnl_net_usdt": 497279.8095213091,
+      "max_drawdown_pct": 4.791517767989294,
+      "return_pct": 31.040779508492065
+    },
+    "2022-03": {
+      "trades": 195,
+      "winrate": 0.5487179487179488,
+      "profit_factor": 1.0592966242206492,
+      "sum_pnl_net_usdt": 62804.93959889798,
+      "max_drawdown_pct": 7.673523429698004,
+      "return_pct": 2.927507800403828
+    },
+    "2022-04": {
+      "trades": 149,
+      "winrate": 0.738255033557047,
+      "profit_factor": 2.908289828514564,
+      "sum_pnl_net_usdt": 880833.3575868164,
+      "max_drawdown_pct": 1.7637621968381323,
+      "return_pct": 39.890231306958015
+    },
+    "2022-05": {
+      "trades": 141,
+      "winrate": 0.6099290780141844,
+      "profit_factor": 1.4128339416702667,
+      "sum_pnl_net_usdt": 533925.583563949,
+      "max_drawdown_pct": 9.708123922222002,
+      "return_pct": 17.284871057367912
+    },
+    "2022-06": {
+      "trades": 136,
+      "winrate": 0.5808823529411765,
+      "profit_factor": 1.1887035047561847,
+      "sum_pnl_net_usdt": 296572.60471225134,
+      "max_drawdown_pct": 10.993492642354482,
+      "return_pct": 8.186051072646805
+    },
+    "2022-07": {
+      "trades": 162,
+      "winrate": 0.6234567901234568,
+      "profit_factor": 1.3648702972050402,
+      "sum_pnl_net_usdt": 597405.9056008192,
+      "max_drawdown_pct": 5.1949061211465875,
+      "return_pct": 15.241989604006246
+    },
+    "2022-08": {
+      "trades": 142,
+      "winrate": 0.647887323943662,
+      "profit_factor": 1.6511902427124863,
+      "sum_pnl_net_usdt": 786277.3865088555,
+      "max_drawdown_pct": 1.942994495080429,
+      "return_pct": 17.40753140962832
+    },
+    "2022-09": {
+      "trades": 161,
+      "winrate": 0.6335403726708074,
+      "profit_factor": 1.3994992454708457,
+      "sum_pnl_net_usdt": 861962.537281483,
+      "max_drawdown_pct": 6.190047302067381,
+      "return_pct": 16.473769292523155
+    },
+    "2022-10": {
+      "trades": 115,
+      "winrate": 0.6,
+      "profit_factor": 1.2710411567495465,
+      "sum_pnl_net_usdt": 376164.7139623862,
+      "max_drawdown_pct": 3.8968186957716533,
+      "return_pct": 6.089973029615758
+    },
+    "2022-11": {
+      "trades": 102,
+      "winrate": 0.6372549019607843,
+      "profit_factor": 1.57317211838718,
+      "sum_pnl_net_usdt": 898165.928402786,
+      "max_drawdown_pct": 3.2748549313330946,
+      "return_pct": 13.706278507043223
+    },
+    "2022-12": {
+      "trades": 105,
+      "winrate": 0.5904761904761905,
+      "profit_factor": 1.4221483245816227,
+      "sum_pnl_net_usdt": 489914.48575899436,
+      "max_drawdown_pct": 4.968329549028656,
+      "return_pct": 6.575046236025628
+    },
+    "2023-01": {
+      "trades": 141,
+      "winrate": 0.7021276595744681,
+      "profit_factor": 2.1730963874295797,
+      "sum_pnl_net_usdt": 2451535.3960960237,
+      "max_drawdown_pct": 3.994479655185195,
+      "return_pct": 30.871744316630846
+    },
+    "2023-02": {
+      "trades": 110,
+      "winrate": 0.6181818181818182,
+      "profit_factor": 1.3557052032391768,
+      "sum_pnl_net_usdt": 840813.6270972439,
+      "max_drawdown_pct": 3.780059063910371,
+      "return_pct": 8.090527741415832
+    },
+    "2023-03": {
+      "trades": 138,
+      "winrate": 0.6884057971014492,
+      "profit_factor": 2.1316097917698635,
+      "sum_pnl_net_usdt": 3816009.966269385,
+      "max_drawdown_pct": 3.4811328471511596,
+      "return_pct": 33.86640384661006
+    },
+    "2023-04": {
+      "trades": 152,
+      "winrate": 0.5921052631578947,
+      "profit_factor": 1.2247298837402913,
+      "sum_pnl_net_usdt": 952599.9717544469,
+      "max_drawdown_pct": 3.4301293083178255,
+      "return_pct": 6.334734826728261
+    },
+    "2023-05": {
+      "trades": 144,
+      "winrate": 0.5763888888888888,
+      "profit_factor": 1.0740552233352085,
+      "sum_pnl_net_usdt": 257080.75918771466,
+      "max_drawdown_pct": 4.032948170535229,
+      "return_pct": 1.60772696928555
+    },
+    "2023-06": {
+      "trades": 153,
+      "winrate": 0.6470588235294118,
+      "profit_factor": 1.5425261525142047,
+      "sum_pnl_net_usdt": 2213805.3060906916,
+      "max_drawdown_pct": 3.488766158645663,
+      "return_pct": 13.894592185653899
+    },
+    "2023-07": {
+      "trades": 124,
+      "winrate": 0.6854838709677419,
+      "profit_factor": 1.6001074986697619,
+      "sum_pnl_net_usdt": 2014219.384185668,
+      "max_drawdown_pct": 5.067547926759924,
+      "return_pct": 10.648597364064983
+    },
+    "2023-08": {
+      "trades": 120,
+      "winrate": 0.6416666666666667,
+      "profit_factor": 1.3627115048257956,
+      "sum_pnl_net_usdt": 1076050.3008792722,
+      "max_drawdown_pct": 3.3711340565116736,
+      "return_pct": 5.255324574058773
+    },
+    "2023-09": {
+      "trades": 136,
+      "winrate": 0.6397058823529411,
+      "profit_factor": 1.3472126140210652,
+      "sum_pnl_net_usdt": 1496456.3051191163,
+      "max_drawdown_pct": 4.086731512677591,
+      "return_pct": 6.943635838114659
+    },
+    "2023-10": {
+      "trades": 167,
+      "winrate": 0.6526946107784432,
+      "profit_factor": 1.510777744079023,
+      "sum_pnl_net_usdt": 3612568.758164411,
+      "max_drawdown_pct": 3.5710557443276567,
+      "return_pct": 16.349998037964287
+    },
+    "2023-11": {
+      "trades": 155,
+      "winrate": 0.6838709677419355,
+      "profit_factor": 1.7047798616683854,
+      "sum_pnl_net_usdt": 5559271.436532004,
+      "max_drawdown_pct": 3.6206906344450016,
+      "return_pct": 20.15008901417852
+    },
+    "2023-12": {
+      "trades": 154,
+      "winrate": 0.6753246753246753,
+      "profit_factor": 2.1264832532916533,
+      "sum_pnl_net_usdt": 9650620.506374061,
+      "max_drawdown_pct": 3.240432254359895,
+      "return_pct": 29.952474799350682
+    },
+    "2024-01": {
+      "trades": 154,
+      "winrate": 0.5909090909090909,
+      "profit_factor": 1.1143122900668536,
+      "sum_pnl_net_usdt": 1674976.4878407358,
+      "max_drawdown_pct": 8.526788635811384,
+      "return_pct": 4.000383560401377
+    },
+    "2024-02": {
+      "trades": 183,
+      "winrate": 0.6229508196721312,
+      "profit_factor": 1.3066832690157237,
+      "sum_pnl_net_usdt": 5447258.704452302,
+      "max_drawdown_pct": 6.793138651747362,
+      "return_pct": 12.50938558610095
+    },
+    "2024-03": {
+      "trades": 168,
+      "winrate": 0.6607142857142857,
+      "profit_factor": 1.932497523563841,
+      "sum_pnl_net_usdt": 17331589.82478904,
+      "max_drawdown_pct": 3.0603043754771115,
+      "return_pct": 35.37591054929445
+    },
+    "2024-04": {
+      "trades": 133,
+      "winrate": 0.6466165413533834,
+      "profit_factor": 1.6507776134057521,
+      "sum_pnl_net_usdt": 9913024.025066637,
+      "max_drawdown_pct": 2.9980105165704125,
+      "return_pct": 14.946310243531101
+    },
+    "2024-05": {
+      "trades": 190,
+      "winrate": 0.6631578947368421,
+      "profit_factor": 1.8529462430615404,
+      "sum_pnl_net_usdt": 20302125.306747995,
+      "max_drawdown_pct": 3.1174503165747747,
+      "return_pct": 26.63019232326991
+    },
+    "2024-06": {
+      "trades": 149,
+      "winrate": 0.6174496644295302,
+      "profit_factor": 1.422728670439711,
+      "sum_pnl_net_usdt": 9449413.36762793,
+      "max_drawdown_pct": 3.866935228172978,
+      "return_pct": 9.788144683522226
+    },
+    "2024-07": {
+      "trades": 200,
+      "winrate": 0.67,
+      "profit_factor": 1.9260692598584417,
+      "sum_pnl_net_usdt": 35242988.555739835,
+      "max_drawdown_pct": 3.8679892199216073,
+      "return_pct": 33.251620509082635
+    },
+    "2024-08": {
+      "trades": 202,
+      "winrate": 0.6534653465346535,
+      "profit_factor": 1.2659170831563271,
+      "sum_pnl_net_usdt": 16043172.777298896,
+      "max_drawdown_pct": 8.030805919137928,
+      "return_pct": 11.359464218560579
+    },
+    "2024-09": {
+      "trades": 170,
+      "winrate": 0.6470588235294118,
+      "profit_factor": 1.8985716012170142,
+      "sum_pnl_net_usdt": 37084923.6702677,
+      "max_drawdown_pct": 2.0951000752070703,
+      "return_pct": 23.579676576156807
+    },
+    "2024-10": {
+      "trades": 190,
+      "winrate": 0.6368421052631579,
+      "profit_factor": 1.527653135026208,
+      "sum_pnl_net_usdt": 31384379.957142998,
+      "max_drawdown_pct": 3.633256894068748,
+      "return_pct": 16.14756171823042
+    },
+    "2024-11": {
+      "trades": 224,
+      "winrate": 0.6116071428571429,
+      "profit_factor": 1.6379599951331347,
+      "sum_pnl_net_usdt": 112054212.00129128,
+      "max_drawdown_pct": 6.8050904266828995,
+      "return_pct": 50.58237363170237
+    },
+    "2024-12": {
+      "trades": 182,
+      "winrate": 0.5274725274725275,
+      "profit_factor": 0.8544194123715844,
+      "sum_pnl_net_usdt": -30934165.09630408,
+      "max_drawdown_pct": 15.709251864892243,
+      "return_pct": -9.72748828131824
+    },
+    "2025-01": {
+      "trades": 170,
+      "winrate": 0.6764705882352942,
+      "profit_factor": 1.4896354178790936,
+      "sum_pnl_net_usdt": 69989157.49406262,
+      "max_drawdown_pct": 10.234088160394053,
+      "return_pct": 22.807852923600546
+    },
+    "2025-02": {
+      "trades": 148,
+      "winrate": 0.581081081081081,
+      "profit_factor": 1.3084887899016864,
+      "sum_pnl_net_usdt": 44940894.44418346,
+      "max_drawdown_pct": 8.95955348952218,
+      "return_pct": 11.925297202282126
+    },
+    "2025-03": {
+      "trades": 157,
+      "winrate": 0.6878980891719745,
+      "profit_factor": 2.069978704243208,
+      "sum_pnl_net_usdt": 139381252.01704735,
+      "max_drawdown_pct": 4.165196062062574,
+      "return_pct": 33.04483628738137
+    },
+    "2025-04": {
+      "trades": 196,
+      "winrate": 0.6479591836734694,
+      "profit_factor": 1.4996274310152704,
+      "sum_pnl_net_usdt": 119748301.72042981,
+      "max_drawdown_pct": 5.083240517826094,
+      "return_pct": 21.338828978789557
+    },
+    "2025-05": {
+      "trades": 197,
+      "winrate": 0.6700507614213198,
+      "profit_factor": 1.625926874919682,
+      "sum_pnl_net_usdt": 203018771.06411344,
+      "max_drawdown_pct": 3.919664096436086,
+      "return_pct": 29.815192317319926
+    },
+    "2025-06": {
+      "trades": 142,
+      "winrate": 0.5915492957746479,
+      "profit_factor": 1.1792566509355382,
+      "sum_pnl_net_usdt": 37143875.1197701,
+      "max_drawdown_pct": 5.0569011328241675,
+      "return_pct": 4.202068327590136
+    },
+    "2025-07": {
+      "trades": 224,
+      "winrate": 0.6160714285714286,
+      "profit_factor": 1.4676082651547162,
+      "sum_pnl_net_usdt": 239334239.73980117,
+      "max_drawdown_pct": 4.49747272598089,
+      "return_pct": 25.98390347601218
+    },
+    "2025-08": {
+      "trades": 179,
+      "winrate": 0.6480446927374302,
+      "profit_factor": 1.8507412366735012,
+      "sum_pnl_net_usdt": 317335147.9627825,
+      "max_drawdown_pct": 2.692013709685183,
+      "return_pct": 27.34655834584303
+    },
+    "2025-09": {
+      "trades": 169,
+      "winrate": 0.5857988165680473,
+      "profit_factor": 1.4552447103912174,
+      "sum_pnl_net_usdt": 194504423.82277924,
+      "max_drawdown_pct": 4.265874487527786,
+      "return_pct": 13.162148026877762
+    },
+    "2025-10": {
+      "trades": 184,
+      "winrate": 0.6086956521739131,
+      "profit_factor": 1.2782681174120993,
+      "sum_pnl_net_usdt": 178088780.0697202,
+      "max_drawdown_pct": 5.292347313632114,
+      "return_pct": 10.649584496982524
+    },
+    "2025-11": {
+      "trades": 132,
+      "winrate": 0.5909090909090909,
+      "profit_factor": 1.4487631409317854,
+      "sum_pnl_net_usdt": 262826940.3011564,
+      "max_drawdown_pct": 6.248742660629491,
+      "return_pct": 14.204180961326207
+    },
+    "2025-12": {
+      "trades": 171,
+      "winrate": 0.6842105263157895,
+      "profit_factor": 1.967742722748897,
+      "sum_pnl_net_usdt": 497107583.3416258,
+      "max_drawdown_pct": 3.659043685504068,
+      "return_pct": 23.524191283001606
+    },
+    "2026-01": {
+      "trades": 185,
+      "winrate": 0.6270270270270271,
+      "profit_factor": 1.299592758624362,
+      "sum_pnl_net_usdt": 221363742.72172374,
+      "max_drawdown_pct": 5.09131451653149,
+      "return_pct": 8.480447768246947
+    },
+    "2026-02": {
+      "trades": 55,
+      "winrate": 0.6545454545454545,
+      "profit_factor": 1.7552914590070863,
+      "sum_pnl_net_usdt": 236735989.1140295,
+      "max_drawdown_pct": 2.5680560730237127,
+      "return_pct": 8.720165578893235
+    }
+  },
+  "per_symbol": {
+    "BTCUSDT": {
+      "trades": 3124,
+      "profit_factor": 1.4889964741471127,
+      "avg_R": 0.15264883967289178,
+      "sum_PnL": 313594013.4700678
+    },
+    "ETHUSDT": {
+      "trades": 3100,
+      "profit_factor": 1.257968498394908,
+      "avg_R": 0.19766266779312608,
+      "sum_PnL": 306833781.8949939
+    },
+    "SOLUSDT": {
+      "trades": 1589,
+      "profit_factor": 1.6978557887431933,
+      "avg_R": 0.2129362471802544,
+      "sum_PnL": 769375085.9057847
+    },
+    "XRPUSDT": {
+      "trades": 2671,
+      "profit_factor": 1.3588545382104327,
+      "avg_R": 0.18948267845131295,
+      "sum_PnL": 453622722.30420876
+    },
+    "BNBUSDC": {
+      "trades": 2022,
+      "profit_factor": 1.4835025290370636,
+      "avg_R": 0.28675002745738226,
+      "sum_PnL": 437371260.2283202
+    },
+    "LTCUSDC": {
+      "trades": 1350,
+      "profit_factor": 1.8179754184986727,
+      "avg_R": 0.32776171955572037,
+      "sum_PnL": 787585531.9512359
+    }
+  }
+}
