@@ -36,6 +36,100 @@ class SymbolState:
     pos: Optional[Dict[str, Any]] = None
 
 
+@dataclass
+class ExposureConcurrencyMetrics:
+    max_positions: int
+    cap_tolerance_abs: float = 0.001
+    bars_total: int = 0
+    exposure_positive_bars: int = 0
+    cap_bind_bars: int = 0
+    cap_hit_count: int = 0
+    entry_attempts: int = 0
+    exposure_sum_pct: float = 0.0
+    exposure_max_pct: float = 0.0
+    open_positions_sum: float = 0.0
+    open_positions_max: int = 0
+    open_positions_hist: Dict[int, int] = None
+    symbol_open_bars: Dict[str, int] = None
+    symbol_exposure_sum_pct: Dict[str, float] = None
+
+    def __post_init__(self) -> None:
+        self.open_positions_hist = {}
+        self.symbol_open_bars = {}
+        self.symbol_exposure_sum_pct = {}
+
+    def note_entry_attempt(self, cap_hit: bool) -> None:
+        self.entry_attempts += 1
+        if cap_hit:
+            self.cap_hit_count += 1
+
+    def on_bar(
+        self,
+        equity: float,
+        open_positions_count: int,
+        exposure_risk_usd: float,
+        cap_pct: float,
+        symbol_exposure_risk_usd: Dict[str, float],
+    ) -> None:
+        self.bars_total += 1
+        self.open_positions_sum += float(open_positions_count)
+        self.open_positions_max = max(self.open_positions_max, int(open_positions_count))
+
+        hist_key = int(open_positions_count)
+        self.open_positions_hist[hist_key] = self.open_positions_hist.get(hist_key, 0) + 1
+
+        exposure_pct = (float(exposure_risk_usd) / float(equity)) if equity > 0 else 0.0
+        self.exposure_sum_pct += exposure_pct
+        self.exposure_max_pct = max(self.exposure_max_pct, exposure_pct)
+        if exposure_pct > 0:
+            self.exposure_positive_bars += 1
+        if cap_pct > 0 and exposure_pct >= max(0.0, cap_pct - self.cap_tolerance_abs):
+            self.cap_bind_bars += 1
+
+        for sym, sym_risk in symbol_exposure_risk_usd.items():
+            if sym_risk > 0:
+                self.symbol_open_bars[sym] = self.symbol_open_bars.get(sym, 0) + 1
+            sym_exp_pct = (float(sym_risk) / float(equity)) if equity > 0 else 0.0
+            self.symbol_exposure_sum_pct[sym] = self.symbol_exposure_sum_pct.get(sym, 0.0) + sym_exp_pct
+
+    def finalize(self, symbols: List[str], cap_pct: float) -> Dict[str, Any]:
+        bars = max(1, self.bars_total)
+        max_bucket = max(int(self.max_positions), self.open_positions_max)
+        histogram_pct = {
+            f"pct_time_positions_{k}": 100.0 * self.open_positions_hist.get(k, 0) / bars
+            for k in range(0, max_bucket + 1)
+        }
+        symbol_stats = {
+            sym: {
+                "bars_in_position": int(self.symbol_open_bars.get(sym, 0)),
+                "avg_exposure_pct": 100.0 * float(self.symbol_exposure_sum_pct.get(sym, 0.0)) / bars,
+            }
+            for sym in symbols
+        }
+        return {
+            "bars_total": int(self.bars_total),
+            "avg_open_positions": float(self.open_positions_sum / bars),
+            "max_open_positions": int(self.open_positions_max),
+            "p95_open_positions": float(np.percentile(list(self.open_positions_hist_expand()), 95)) if self.bars_total > 0 else 0.0,
+            **histogram_pct,
+            "avg_exposure_pct": 100.0 * float(self.exposure_sum_pct / bars),
+            "max_exposure_pct": 100.0 * float(self.exposure_max_pct),
+            "time_in_market_pct": 100.0 * float(self.exposure_positive_bars / bars),
+            "pct_time_exposure_ge_cap": 100.0 * float(self.cap_bind_bars / bars) if cap_pct > 0 else 0.0,
+            "cap_hit_count": int(self.cap_hit_count),
+            "entry_attempts": int(self.entry_attempts),
+            "cap_hit_rate": float(self.cap_hit_count / self.entry_attempts) if self.entry_attempts > 0 else 0.0,
+            "cap_bind_time_pct": 100.0 * float(self.cap_bind_bars / bars),
+            "symbol_concurrency_exposure": symbol_stats,
+        }
+
+    def open_positions_hist_expand(self) -> List[int]:
+        expanded: List[int] = []
+        for k, cnt in self.open_positions_hist.items():
+            expanded.extend([int(k)] * int(cnt))
+        return expanded
+
+
 DEFAULT_SYMBOLS = [
     "BTCUSDT",
     "ETHUSDT",
@@ -90,6 +184,17 @@ def _open_risk_usd(states: Dict[str, SymbolState]) -> float:
         stop = float(st.pos.get("stop_active") or st.pos.get("stop") or 0.0)
         total += max(0.0, (entry - stop) * qty)
     return float(total)
+
+
+def _position_risk_usd(pos: Optional[Dict[str, Any]]) -> float:
+    if pos is None:
+        return 0.0
+    qty = float(pos.get("qty_remaining", 0.0))
+    if qty <= 0:
+        return 0.0
+    entry = float(pos.get("entry_fill") or pos.get("entry") or 0.0)
+    stop = float(pos.get("stop_active") or pos.get("stop") or 0.0)
+    return float(max(0.0, (entry - stop) * qty))
 
 
 def _size_qty(entry: float, stop: float, equity: float, bt: BTConfig, states: Dict[str, SymbolState]) -> Dict[str, float]:
@@ -197,6 +302,7 @@ def run_portfolio_backtest(args: argparse.Namespace) -> None:
     day_start_eq = equity
     day_key: Optional[str] = None
     stops_today = 0
+    ec_metrics = ExposureConcurrencyMetrics(max_positions=int(bt.max_positions))
 
     def record_eq(ts: pd.Timestamp, note: str = "") -> None:
         eq_curve.append({"ts": ts, "equity_usdt": equity, "note": note})
@@ -227,6 +333,7 @@ def run_portfolio_backtest(args: argparse.Namespace) -> None:
                         tp2 = float(prev["tp2_long"])
                         if np.isfinite([entry, stop, tp1, tp2]).all():
                             sz = _size_qty(entry, stop, equity, bt, states)
+                            ec_metrics.note_entry_attempt(cap_hit=bool(sz["budget_hit"]))
                             if sz["qty"] > 0:
                                 st.pending = {
                                     "side": "LONG", "signal_ts": prev["ts"], "entry": entry, "stop": stop,
@@ -336,6 +443,17 @@ def run_portfolio_backtest(args: argparse.Namespace) -> None:
                     st.pos = None
                     record_eq(ts, "TP2")
 
+        symbol_exposure_risk_usd = {sym: _position_risk_usd(st.pos) for sym, st in states.items()}
+        open_positions_count = sum(1 for st in states.values() if st.pos is not None)
+        exposure_risk_usd = float(sum(symbol_exposure_risk_usd.values()))
+        ec_metrics.on_bar(
+            equity=equity,
+            open_positions_count=open_positions_count,
+            exposure_risk_usd=exposure_risk_usd,
+            cap_pct=float(bt.max_portfolio_risk_pct),
+            symbol_exposure_risk_usd=symbol_exposure_risk_usd,
+        )
+
         record_eq(ts, "")
 
     trades_df = pd.DataFrame(trades)
@@ -362,16 +480,21 @@ def run_portfolio_backtest(args: argparse.Namespace) -> None:
             "sum_PnL": float(t["pnl_net_usdt"].sum()) if not t.empty else 0.0,
         }
     metrics["per_symbol"] = per_symbol
+    exposure_metrics = ec_metrics.finalize(symbols=symbols, cap_pct=float(bt.max_portfolio_risk_pct))
+    metrics["portfolio_exposure_concurrency"] = exposure_metrics
 
     outdir = os.path.join("results", args.outdir)
     os.makedirs(outdir, exist_ok=True)
     trades_path = os.path.join(outdir, "portfolio_trades.csv")
     eq_path = os.path.join(outdir, "portfolio_equity_curve.csv")
     met_path = os.path.join(outdir, "portfolio_metrics.json")
+    exp_path = os.path.join(outdir, "portfolio_exposure_metrics.json")
     trades_df.to_csv(trades_path, index=False)
     eq_df.to_csv(eq_path, index=False)
     with open(met_path, "w", encoding="utf-8") as f:
         json.dump(metrics, f, ensure_ascii=False, indent=2)
+    with open(exp_path, "w", encoding="utf-8") as f:
+        json.dump(exposure_metrics, f, ensure_ascii=False, indent=2)
 
     print("=== PORTFOLIO SUMMARY ===")
     print(f"final_equity={metrics.get('final_equity_usdt', equity):.6f}")
@@ -381,7 +504,27 @@ def run_portfolio_backtest(args: argparse.Namespace) -> None:
     print(f"avg_R={metrics.get('avg_R', 0.0):.6f}")
     print(f"PF={metrics.get('profit_factor')}")
     print("per_symbol_trades=" + ", ".join([f"{k}:{v['trades']}" for k, v in per_symbol.items()]))
-    print(f"Saved: {trades_path}, {eq_path}, {met_path}")
+    print("=== PORTFOLIO EXPOSURE & CONCURRENCY ===")
+    print(f"time_in_market_pct={exposure_metrics.get('time_in_market_pct', 0.0):.4f}")
+    print(f"avg_open_positions={exposure_metrics.get('avg_open_positions', 0.0):.6f}")
+    print(f"max_open_positions={exposure_metrics.get('max_open_positions', 0)}")
+    print(f"p95_open_positions={exposure_metrics.get('p95_open_positions', 0.0):.4f}")
+    print(
+        "open_positions_histogram="
+        + ", ".join(
+            [
+                f"{k.replace('pct_time_positions_', 'positions_')}:{v:.4f}%"
+                for k, v in exposure_metrics.items()
+                if k.startswith("pct_time_positions_")
+            ]
+        )
+    )
+    print(f"avg_exposure_pct={exposure_metrics.get('avg_exposure_pct', 0.0):.6f}")
+    print(f"max_exposure_pct={exposure_metrics.get('max_exposure_pct', 0.0):.6f}")
+    print(f"pct_time_exposure_ge_cap={exposure_metrics.get('pct_time_exposure_ge_cap', 0.0):.4f}")
+    print(f"cap_hit_rate={exposure_metrics.get('cap_hit_rate', 0.0):.6f}")
+    print(f"cap_bind_time_pct={exposure_metrics.get('cap_bind_time_pct', 0.0):.4f}")
+    print(f"Saved: {trades_path}, {eq_path}, {met_path}, {exp_path}")
 
 
 def build_parser() -> argparse.ArgumentParser:
