@@ -74,31 +74,64 @@ def _validate_loaded_df(symbol: str, df: pd.DataFrame) -> None:
     if df["ts"].duplicated().any():
         raise ValueError(f"{symbol}: duplicated ts found after loading")
 
-    expected_delta_ms = 300_000
-    ts_ms_i64 = (df["ts"].astype("int64") // 1_000_000).astype("int64")
-    deltas = ts_ms_i64.diff().dropna().astype("int64")
-    if deltas.empty:
+
+def validate_5m_ts(df: pd.DataFrame, symbol: str, expected_minutes: int = 5, tol_ms: int = 1) -> None:
+    if "ts" not in df.columns:
         return
 
-    deltas_np = deltas.to_numpy()
-    is_5m = np.isclose(deltas_np, expected_delta_ms, atol=1)
-    bad_mask = ~is_5m
-    bad_count = int(bad_mask.sum())
-    if bad_count == 0:
+    ts = df["ts"]
+    total_deltas = max(0, len(ts) - 1)
+    if total_deltas == 0:
         return
 
-    bad_ratio = bad_count / float(len(deltas_np))
-    if bad_ratio < 1e-5:  # 0.001%
+    expected_ms = int(expected_minutes * 60 * 1000)
+    tol_ms = int(max(0, tol_ms))
+
+    if pd.api.types.is_datetime64_any_dtype(ts):
+        deltas_ns = ts.diff().dropna().astype("timedelta64[ns]").astype("int64")
+        expected_delta = expected_ms * 1_000_000
+        tol = tol_ms * 1_000_000
+        deltas_compare = deltas_ns.to_numpy(dtype=np.int64)
+        deltas_ms = deltas_ns / 1_000_000.0
+        unit_label = "datetime64[ns]"
+    else:
+        ts_num = pd.to_numeric(ts, errors="coerce")
+        if ts_num.isna().any():
+            bad_rows = int(ts_num.isna().sum())
+            raise ValueError(f"{symbol}: ts contains {bad_rows} non-numeric values")
+
+        ts_i64 = ts_num.astype("int64")
+        abs_max = int(np.max(np.abs(ts_i64.to_numpy(dtype=np.int64)))) if len(ts_i64) else 0
+        # Epoch seconds are ~1e9-1e10; epoch milliseconds are ~1e12-1e13.
+        unit_scale_to_ms = 1000 if abs_max < 100_000_000_000 else 1
+        detected_unit = "seconds" if unit_scale_to_ms == 1000 else "milliseconds"
+
+        deltas_raw = ts_i64.diff().dropna().astype("int64")
+        deltas_compare = deltas_raw.to_numpy(dtype=np.int64)
+        expected_delta = expected_ms // unit_scale_to_ms
+        tol = max(1, tol_ms // unit_scale_to_ms) if unit_scale_to_ms > 1 else tol_ms
+        deltas_ms = deltas_raw.astype("float64") * float(unit_scale_to_ms)
+        unit_label = f"numeric({detected_unit})"
+
+    if deltas_compare.size == 0:
         return
 
-    bad_deltas = deltas_np[bad_mask]
-    dup_count = int(np.sum(bad_deltas == 0))
-    gaps_count = int(np.sum(bad_deltas > expected_delta_ms))
-    back_count = int(np.sum(bad_deltas < 0))
-    examples = bad_deltas[:5].astype(int).tolist()
+    bad_mask = ~np.isclose(deltas_compare, expected_delta, atol=tol)
+    bad_count = int(np.sum(bad_mask))
+    if bad_count <= 0:
+        return
+
+    min_delta_sec = float(np.min(deltas_ms) / 1000.0)
+    max_delta_sec = float(np.max(deltas_ms) / 1000.0)
+
+    top_counts = pd.Series(deltas_ms).round(3).value_counts().head(5)
+    top_human = [f"{float(delta_ms) / 1000.0:g}s x{int(cnt)}" for delta_ms, cnt in top_counts.items()]
+
     print(
-        f"WARNING: {symbol}: non-5m ts deltas: bad={bad_count} ({bad_ratio * 100:.3f}%), "
-        f"dup={dup_count}, gaps={gaps_count}, back={back_count}. examples={examples}"
+        f"WARNING: {symbol}: detected non-{expected_minutes}m delta in ts "
+        f"(expected {expected_ms} ms, unit={unit_label}) | bad={bad_count}/{total_deltas} | "
+        f"min_delta={min_delta_sec:g}s | max_delta={max_delta_sec:g}s | "
+        f"top_deltas={top_human}"
     )
 
 
@@ -197,6 +230,8 @@ def run_portfolio_backtest(args: argparse.Namespace) -> None:
     for symbol, csv_path in zip(symbols, csvs):
         df = load_ohlcv_csv(csv_path, strict=False)
         _validate_loaded_df(symbol, df)
+        if bool(args.validate_5m):
+            validate_5m_ts(df, symbol)
         if df.empty:
             continue
         print(f"Loaded {symbol} | rows={len(df)} | from={df['ts'].min()} | to={df['ts'].max()}")
@@ -518,6 +553,7 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--exec_policy", type=str, default="legacy", choices=["legacy", "maker_first_fast"])
     ap.add_argument("--fee_taker", type=float, default=0.0)
     ap.add_argument("--fee_maker", type=float, default=0.0)
+    ap.add_argument("--validate_5m", type=int, default=1)
     return ap
 
 
