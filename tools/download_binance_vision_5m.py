@@ -66,8 +66,27 @@ def main():
                 df = pd.read_csv(f, header=None, names=RAW_COLS)
 
         # Keep only needed columns and convert ts -> UTC string
-        # open_time is ms since epoch
-        ts = pd.to_datetime(df["open_time"], unit="ms", utc=True)
+        ot = pd.to_numeric(df["open_time"], errors="coerce")
+        max_mag = ot.abs().max(skipna=True)
+        if pd.isna(max_mag):
+            raise ValueError(f"{symbol} {ym}: open_time column has no valid numeric values.")
+
+        if max_mag > 1e17:
+            unit = "ns"
+        elif max_mag > 1e14:
+            unit = "us"
+        elif max_mag > 1e11:
+            unit = "ms"
+        else:
+            unit = "s"
+
+        ts = pd.to_datetime(ot, unit=unit, utc=True, errors="coerce")
+        if ts.isna().any():
+            bad_examples = df.loc[ts.isna(), "open_time"].head(5).tolist()
+            raise ValueError(
+                f"{symbol} {ym}: invalid open_time values after conversion with unit='{unit}'. "
+                f"Examples: {bad_examples}"
+            )
         out_df = pd.DataFrame({
             "ts": ts.dt.strftime("%Y-%m-%d %H:%M:%S+00:00"),
             "open": df["open"],
