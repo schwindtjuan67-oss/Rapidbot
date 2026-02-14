@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -220,6 +221,15 @@ def run_portfolio_backtest(args: argparse.Namespace) -> None:
     day_start_eq = equity
     day_key: Optional[str] = None
     stops_today = 0
+    total_bars = 0
+    bars_in_market = 0
+    sum_open_positions_count = 0
+    open_positions_hist: defaultdict[int, int] = defaultdict(int)
+    sum_exposure_pct = 0.0
+    max_exposure_pct = 0.0
+    bars_cap_binded = 0
+    eligible_entries = 0
+    blocked_entries = 0
 
     def record_eq(ts: pd.Timestamp, note: str = "") -> None:
         eq_curve.append({"ts": ts, "equity_usdt": equity, "note": note})
@@ -242,8 +252,11 @@ def run_portfolio_backtest(args: argparse.Namespace) -> None:
 
             if st.pos is None and st.pending is None and (not dd_hit) and (not max_stops_hit):
                 if str(prev.get("signal", "")).upper().strip() == "LONG":
+                    eligible_entries += 1
                     open_positions = sum(1 for s in states.values() if s.pos is not None)
-                    if open_positions < int(bt.max_positions):
+                    blocked_by_max_positions = open_positions >= int(bt.max_positions)
+                    blocked_by_risk_cap = False
+                    if not blocked_by_max_positions:
                         entry = float(prev["entry_long"])
                         stop = float(prev["stop_long"])
                         tp1 = float(prev["tp1_long"])
@@ -260,6 +273,12 @@ def run_portfolio_backtest(args: argparse.Namespace) -> None:
                                     "portfolio_risk_budget_hit": sz["budget_hit"], "position_notional": sz["qty"] * entry,
                                 }
                                 st.pending_age = 0
+                            else:
+                                budget_total = max(0.0, float(bt.max_portfolio_risk_pct) * float(equity))
+                                rem_budget = max(0.0, budget_total - _open_risk_usd(states))
+                                blocked_by_risk_cap = rem_budget <= 0.0
+                    if blocked_by_max_positions or blocked_by_risk_cap:
+                        blocked_entries += 1
 
             if st.pending is not None and st.pos is None:
                 st.pending_age += 1
@@ -359,6 +378,27 @@ def run_portfolio_backtest(args: argparse.Namespace) -> None:
                     st.pos = None
                     record_eq(ts, "TP2")
 
+        open_positions_count = sum(1 for s in states.values() if s.pos is not None)
+        bars_in_market += int(open_positions_count > 0)
+        sum_open_positions_count += open_positions_count
+        open_positions_hist[int(open_positions_count)] += 1
+
+        total_notional = 0.0
+        for s in states.values():
+            if s.pos is None:
+                continue
+            qty_rem = float(s.pos.get("qty_remaining", 0.0))
+            entry_fill = float(s.pos.get("entry_fill", 0.0))
+            total_notional += max(0.0, qty_rem * entry_fill)
+        exposure_pct = (100.0 * total_notional / equity) if equity > 0 else 0.0
+        sum_exposure_pct += exposure_pct
+        max_exposure_pct = max(max_exposure_pct, exposure_pct)
+
+        rem_budget = max(0.0, float(bt.max_portfolio_risk_pct) * float(equity) - _open_risk_usd(states))
+        is_cap_binded = (open_positions_count >= int(bt.max_positions)) or (rem_budget <= 0.0)
+        bars_cap_binded += int(is_cap_binded)
+        total_bars += 1
+
         record_eq(ts, "")
 
     trades_df = pd.DataFrame(trades)
@@ -371,6 +411,46 @@ def run_portfolio_backtest(args: argparse.Namespace) -> None:
 
     eq_df = pd.DataFrame(eq_curve)
     metrics = compute_metrics(trades_df, eq_df, float(bt.initial_equity_usdt), float(equity), start_ts, end_ts)
+
+    time_in_market_pct = (100.0 * bars_in_market / total_bars) if total_bars > 0 else 0.0
+    avg_open_positions = (sum_open_positions_count / total_bars) if total_bars > 0 else 0.0
+    avg_exposure_pct = (sum_exposure_pct / total_bars) if total_bars > 0 else 0.0
+    cap_bind_time_pct = (100.0 * bars_cap_binded / total_bars) if total_bars > 0 else 0.0
+    cap_hit_rate = (100.0 * blocked_entries / eligible_entries) if eligible_entries > 0 else 0.0
+
+    backtest_days = 0
+    if start_ts is not None and end_ts is not None:
+        backtest_days = int((pd.Timestamp(end_ts) - pd.Timestamp(start_ts)).days + 1)
+    trades_per_day = (float(len(trades_df)) / float(backtest_days)) if backtest_days > 0 else 0.0
+
+    cagr_pct = None
+    calmar_ratio = None
+    if start_ts is not None and end_ts is not None and float(bt.initial_equity_usdt) > 0:
+        total_days = max(0.0, (pd.Timestamp(end_ts) - pd.Timestamp(start_ts)).total_seconds() / 86400.0)
+        years = total_days / 365.25
+        if years > 0:
+            cagr = (float(equity) / float(bt.initial_equity_usdt)) ** (1.0 / years) - 1.0
+            cagr_pct = float(cagr * 100.0)
+            max_dd_pct = metrics.get("max_drawdown_pct")
+            if max_dd_pct is not None and float(max_dd_pct) > 0:
+                calmar_ratio = float(cagr_pct / float(max_dd_pct))
+
+    metrics.update(
+        {
+            "time_in_market_pct": float(time_in_market_pct),
+            "avg_open_positions": float(avg_open_positions),
+            "open_positions_hist": {int(k): int(v) for k, v in sorted(open_positions_hist.items())},
+            "avg_exposure_pct": float(avg_exposure_pct),
+            "max_exposure_pct": float(max_exposure_pct),
+            "cap_hit_rate": float(cap_hit_rate),
+            "cap_bind_time_pct": float(cap_bind_time_pct),
+            "eligible_entries": int(eligible_entries),
+            "blocked_entries": int(blocked_entries),
+            "trades_per_day": float(trades_per_day),
+            "cagr_pct": cagr_pct,
+            "calmar_ratio": calmar_ratio,
+        }
+    )
 
     per_symbol: Dict[str, Any] = {}
     for sym in symbols:
@@ -403,6 +483,15 @@ def run_portfolio_backtest(args: argparse.Namespace) -> None:
     print(f"trades_total={metrics.get('trades', 0)}")
     print(f"avg_R={metrics.get('avg_R', 0.0):.6f}")
     print(f"PF={metrics.get('profit_factor')}")
+    print(f"time_in_market_pct={metrics.get('time_in_market_pct', 0.0):.4f}")
+    print(f"avg_open_positions={metrics.get('avg_open_positions', 0.0):.6f}")
+    print(f"avg_exposure_pct={metrics.get('avg_exposure_pct', 0.0):.4f}")
+    print(f"max_exposure_pct={metrics.get('max_exposure_pct', 0.0):.4f}")
+    print(f"cap_hit_rate={metrics.get('cap_hit_rate', 0.0):.4f}")
+    print(f"cap_bind_time_pct={metrics.get('cap_bind_time_pct', 0.0):.4f}")
+    print(f"trades_per_day={metrics.get('trades_per_day', 0.0):.6f}")
+    print(f"cagr_pct={metrics.get('cagr_pct')}")
+    print(f"calmar_ratio={metrics.get('calmar_ratio')}")
     print("per_symbol_trades=" + ", ".join([f"{k}:{v['trades']}" for k, v in per_symbol.items()]))
     print(f"Saved: {trades_path}, {eq_path}, {met_path}")
 
