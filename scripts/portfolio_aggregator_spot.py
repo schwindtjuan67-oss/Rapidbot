@@ -269,7 +269,7 @@ def run_portfolio_backtest(args: argparse.Namespace) -> None:
     def record_eq(ts: pd.Timestamp, note: str = "") -> None:
         eq_curve.append({"ts": ts, "equity_usdt": equity, "note": note})
 
-    for ts in sorted(all_ts):
+    for timeline_i, ts in enumerate(sorted(all_ts)):
         if day_key != _daily_key(ts, "UTC"):
             day_key = _daily_key(ts, "UTC")
             day_start_eq = equity
@@ -328,6 +328,7 @@ def run_portfolio_backtest(args: argparse.Namespace) -> None:
                     st.pending["fees_usdt"] = fee
                     st.pending["entry_fill"] = fill
                     st.pending["entry_ts"] = ts
+                    st.pending["entry_i"] = timeline_i
                     st.pending["stop_active"] = float(st.pending["stop"])
                     st.pos = st.pending
                     st.pending = None
@@ -339,6 +340,44 @@ def run_portfolio_backtest(args: argparse.Namespace) -> None:
                 stop_lvl = float(pos["stop_active"])
                 qty_total = float(pos["qty"])
                 qty_rem = float(pos["qty_remaining"])
+                entry_i = int(pos.get("entry_i", timeline_i))
+                bars_held = int(max(0, timeline_i - entry_i))
+                holding_hours = float((pd.Timestamp(ts) - pd.Timestamp(pos["entry_ts"])).total_seconds() / 3600.0)
+
+                hit_time_stop = False
+                if int(args.max_hold_bars) > 0 and bars_held >= int(args.max_hold_bars):
+                    hit_time_stop = True
+                elif float(args.max_hold_hours) > 0 and holding_hours >= float(args.max_hold_hours):
+                    hit_time_stop = True
+
+                if hit_time_stop:
+                    base_exit_px = _tp_fill_price(float(row["close"]), "LONG", bt, tp_half_spread_bps=bt.tp_bidask_half_spread_bps)
+                    exit_px = _apply_slip(base_exit_px, "LONG", False, bt.slippage_bps_stop)
+                    exit_fee = _fee_cost(qty_rem * exit_px, bt.fee_taker)
+                    equity -= exit_fee
+                    pnl = (exit_px - entry_fill) * qty_rem
+                    equity += pnl
+                    total_pnl = float(pos["realized_pnl"]) + pnl
+                    total_fees = float(pos["fees_usdt"]) + float(pos["tp1_fee_usdt"]) + exit_fee
+                    pnl_net = total_pnl - total_fees
+                    pnl_r = total_pnl / ((entry_fill - float(pos["stop"])) * qty_total) if qty_total > 0 else 0.0
+                    rec = {c: None for c in TRADE_COLUMNS}
+                    rec.update({
+                        "symbol": sym, "side": "LONG", "signal_ts": pos["signal_ts"], "entry_ts": pos["entry_ts"], "exit_ts": ts,
+                        "entry": entry_fill, "exit": exit_px, "stop": pos["stop"], "tp1": pos["tp1"], "tp2": pos["tp2"],
+                        "qty": qty_total, "pnl_gross_usdt": total_pnl, "pnl_net_usdt": pnl_net, "fees_usdt": total_fees,
+                        "tp1_pnl_gross_usdt": pos["tp1_pnl_gross_usdt"], "tp1_fee_usdt": pos["tp1_fee_usdt"], "pnl_R": pnl_r,
+                        "exit_reason": "TIME_STOP", "took_tp1": pos["took_tp1"], "risk_usd": pos["risk_usd"],
+                        "intended_risk_usd": pos["intended_risk_usd"], "effective_risk_usd": pos["effective_risk_usd"],
+                        "effective_risk_pct": pos["effective_risk_pct"], "position_notional": pos["position_notional"],
+                        "portfolio_risk_budget_hit": pos["portfolio_risk_budget_hit"],
+                        "bars_held": bars_held, "holding_hours": holding_hours,
+                    })
+                    trades.append(rec)
+                    st.pos = None
+                    record_eq(ts, "TIME_STOP")
+                    continue
+
                 hit_stop = float(row["low"]) <= stop_lvl
                 hit_tp1 = (not bool(pos["took_tp1"])) and (float(row["high"]) >= float(pos["tp1"]))
                 hit_tp2 = float(row["high"]) >= float(pos["tp2"])
@@ -366,6 +405,7 @@ def run_portfolio_backtest(args: argparse.Namespace) -> None:
                         "intended_risk_usd": pos["intended_risk_usd"], "effective_risk_usd": pos["effective_risk_usd"],
                         "effective_risk_pct": pos["effective_risk_pct"], "position_notional": pos["position_notional"],
                         "portfolio_risk_budget_hit": pos["portfolio_risk_budget_hit"],
+                        "bars_held": bars_held, "holding_hours": holding_hours,
                     })
                     trades.append(rec)
                     st.pos = None
@@ -408,6 +448,7 @@ def run_portfolio_backtest(args: argparse.Namespace) -> None:
                         "intended_risk_usd": pos["intended_risk_usd"], "effective_risk_usd": pos["effective_risk_usd"],
                         "effective_risk_pct": pos["effective_risk_pct"], "position_notional": pos["position_notional"],
                         "portfolio_risk_budget_hit": pos["portfolio_risk_budget_hit"],
+                        "bars_held": bars_held, "holding_hours": holding_hours,
                     })
                     trades.append(rec)
                     st.pos = None
@@ -438,7 +479,7 @@ def run_portfolio_backtest(args: argparse.Namespace) -> None:
 
     trades_df = pd.DataFrame(trades)
     if not trades_df.empty:
-        cols = ["symbol"] + TRADE_COLUMNS
+        cols = ["symbol"] + TRADE_COLUMNS + ["bars_held"]
         for c in cols:
             if c not in trades_df.columns:
                 trades_df[c] = np.nan
@@ -451,7 +492,8 @@ def run_portfolio_backtest(args: argparse.Namespace) -> None:
     avg_open_positions = (sum_open_positions_count / total_bars) if total_bars > 0 else 0.0
     avg_exposure_pct = (sum_exposure_pct / total_bars) if total_bars > 0 else 0.0
     cap_bind_time_pct = (100.0 * bars_cap_binded / total_bars) if total_bars > 0 else 0.0
-    cap_hit_rate = (100.0 * blocked_entries / eligible_entries) if eligible_entries > 0 else 0.0
+    cap_hit_rate = (sum(1 for k, v in open_positions_hist.items() if int(k) >= int(bt.max_positions) for _ in range(v)) / total_bars) if total_bars > 0 else 0.0
+    cap_block_rate = (blocked_entries / eligible_entries) if eligible_entries > 0 else 0.0
 
     backtest_days = 0
     if start_ts is not None and end_ts is not None:
@@ -478,12 +520,14 @@ def run_portfolio_backtest(args: argparse.Namespace) -> None:
             "avg_exposure_pct": float(avg_exposure_pct),
             "max_exposure_pct": float(max_exposure_pct),
             "cap_hit_rate": float(cap_hit_rate),
+            "cap_block_rate": float(cap_block_rate),
             "cap_bind_time_pct": float(cap_bind_time_pct),
             "eligible_entries": int(eligible_entries),
             "blocked_entries": int(blocked_entries),
             "trades_per_day": float(trades_per_day),
             "cagr_pct": cagr_pct,
             "calmar_ratio": calmar_ratio,
+            "exit_reason_counts": {str(k): int(v) for k, v in trades_df["exit_reason"].value_counts().to_dict().items()} if (not trades_df.empty and "exit_reason" in trades_df.columns) else {},
         }
     )
 
@@ -554,6 +598,8 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--fee_taker", type=float, default=0.0)
     ap.add_argument("--fee_maker", type=float, default=0.0)
     ap.add_argument("--validate_5m", type=int, default=1)
+    ap.add_argument("--max_hold_bars", type=int, default=0)
+    ap.add_argument("--max_hold_hours", type=float, default=0.0)
     return ap
 
 
